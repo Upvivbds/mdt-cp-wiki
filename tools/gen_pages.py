@@ -229,6 +229,26 @@ title: 建筑总览
 """)
 
 
+def sync_shared():
+    """把共享 JSON 从 public/data 同步到 docs/data。
+
+    VitePress 的 public/ 是原样搬运、不经 Vite 处理的，组件没法在构建期
+    import 它；所以共享数据必须在 docs/data/ 下留一份。这份副本以前没人维护，
+    一直是上次运行留下的旧值 —— 排行榜、首页目录、单位卡片读的都是它。
+    """
+    synced = []
+    for name in ('index.json', 'sprites.json', 'effects.json'):
+        src = os.path.join(PUB, name)
+        if not os.path.exists(src):
+            continue
+        with open(src, encoding='utf-8') as f:
+            data = f.read()
+        with open(os.path.join(DATA, name), 'w', encoding='utf-8') as f:
+            f.write(data)
+        synced.append(name)
+    return synced
+
+
 def main():
     units = load('units.json')
     blocks = load('buildings.json')
@@ -248,6 +268,8 @@ def main():
     print(f'单位页 {nu} 个 + 索引 -> {UNIT_PAGE_DIR}')
     print(f'建筑页 {nb} 个 + 索引 -> {BLOCK_PAGE_DIR}')
     print(f'状态效果页 {ne} 个 + 索引 -> {EFFECT_PAGE_DIR}')
+    shared = sync_shared()
+    print(f'共享数据同步 {len(shared)} 份 -> {DATA}: {", ".join(shared)}')
     print(f'数据 -> {UNIT_DATA_DIR} / {BLOCK_DATA_DIR} / {EFFECT_DATA_DIR}')
     return 0
 

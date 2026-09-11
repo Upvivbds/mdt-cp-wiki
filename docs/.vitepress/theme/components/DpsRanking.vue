@@ -1,10 +1,13 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-import { fmtNum, loadJson, unitUrl } from '../composables/useRemoteData'
+import { computed, ref } from 'vue'
+import { fmtNum, unitUrl } from '../composables/useRemoteData'
+import indexData from '../../../data/index.json'
 
-const loading = ref(true)
+// 构建期注入，不再运行时 fetch：SSR 直接出内容，首屏不空白，
+// 也不会因为静态托管上的路径问题整页空掉。
+const loading = ref(false)
 const error = ref('')
-const all = ref([])
+const all = computed(() => (Array.isArray(indexData.units) ? indexData.units : []))
 
 const star = ref('all')
 const author = ref('all')
@@ -23,17 +26,6 @@ function pickOf(u) {
   if (mode.value === 'splash') return u.splash
   return u.dps
 }
-
-onMounted(async () => {
-  try {
-    const idx = await loadJson('data/index.json')
-    all.value = Array.isArray(idx && idx.units) ? idx.units : []
-  } catch (e) {
-    error.value = e && e.message ? e.message : String(e)
-  } finally {
-    loading.value = false
-  }
-})
 
 const stars = computed(() => Array.from(new Set(all.value.map((u) => u.star).filter(Boolean))).sort())
 const authors = computed(() => Array.from(new Set(all.value.map((u) => u.author).filter(Boolean))).sort())
