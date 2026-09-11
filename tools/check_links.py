@@ -12,6 +12,7 @@ import os
 import re
 import socketserver
 import sys
+import tempfile
 import threading
 import urllib.parse
 import urllib.request
@@ -31,9 +32,28 @@ class Quiet(http.server.SimpleHTTPRequestHandler):
         pass
 
 
-def serve(directory):
-    handler = lambda *a, **kw: Quiet(*a, directory=directory, **kw)
-    httpd = socketserver.TCPServer(('127.0.0.1', 0), handler)
+def serve(directory, prefix=''):
+    """起临时服务器；prefix 形如 '/mindustry-wiki/' 时把站点挂到该路径下。
+
+    GitHub Pages 上站点挂在 /<repo>/ 下，构建产物里的链接都带这个前缀，
+    本地要验 base 就得复现它。在 translate_path 里剥掉前缀即可 —— 用符号
+    链接把目录挂过去是不行的，SimpleHTTPRequestHandler 处理不了，请求会挂死。
+    """
+    prefix = '/' + prefix.strip('/') if prefix.strip('/') else ''
+
+    class Handler(http.server.SimpleHTTPRequestHandler):
+        def __init__(self, *a, **kw):
+            super().__init__(*a, directory=directory, **kw)
+
+        def translate_path(self, path):
+            if prefix and path.startswith(prefix):
+                path = path[len(prefix):] or '/'
+            return super().translate_path(path)
+
+        def log_message(self, *a):
+            pass
+
+    httpd = socketserver.TCPServer(('127.0.0.1', 0), Handler)
     port = httpd.server_address[1]
     threading.Thread(target=httpd.serve_forever, daemon=True).start()
     return httpd, port
@@ -49,15 +69,23 @@ def collect_pages():
 
 
 def main():
+    args = sys.argv[1:]
+    prefix = ''
+    if '--base' in args:
+        i = args.index('--base')
+        prefix = args[i + 1] if i + 1 < len(args) else ''
+
     if not os.path.isdir(DIST):
         print('!! dist 不存在，先 npm run build')
         return 1
 
-    httpd, port = serve(DIST)
+    httpd, port = serve(DIST, prefix)
     base = f'http://127.0.0.1:{port}'
 
     pages = collect_pages()
     print(f'站点根: {DIST}')
+    if prefix:
+        print(f'路径前缀: {prefix}   （模拟 GitHub Pages 的 /<repo>/ 部署）')
     print(f'HTML 页数: {len(pages)}   临时服务器: {base}')
     print()
 

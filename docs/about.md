@@ -103,6 +103,7 @@ npm run build                         # 构建到 docs/.vitepress/dist
 ```bash
 python3 tools/audit_components.py   # 组件静态体检：未声明标识符、断掉的 import、未注册组件
 python3 tools/check_links.py        # 全站链接完整性（起临时服务器逐个请求）
+python3 tools/check_links.py --base /mindustry-wiki/   # 同上，但按 Pages 的 /<repo>/ 前缀验
 python3 tools/audit_dps.py          # DPS 审计：逐武器明细与可疑项
 python3 tools/audit_dps.py 天蝎 龙王  # 只看指定单位
 ```
