@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { loadBuildings, toNum, fmtAny, starLabel } from '../composables/useRemoteData'
+import spriteManifest from '../../../data/sprites.json'
+import { buildingSprite, fmtAny, loadBuildings, starLabel, toNum } from '../composables/useRemoteData'
 
 const props = defineProps({
   id: { type: String, default: '' },
@@ -25,6 +26,9 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+const BLOCK_SPRITES = new Set(spriteManifest.blocks || [])
+const hasBuildingSprite = computed(() => BLOCK_SPRITES.has((b.value && b.value.id) || ''))
 
 const buildingData = computed(() => props.building || fetched.value)
 const b = computed(() => buildingData.value || {})
@@ -153,6 +157,7 @@ const turretHint = computed(() => {
 
     <template v-else-if="buildingData">
       <header class="bp-header">
+    <img class="bp-sprite" v-if="hasBuildingSprite" :src="buildingSprite(b.id)" alt="" loading="lazy" onerror="this.style.display='none'" />
         <div class="bp-title">
           <h1>{{ nameZh }}</h1>
           <code v-if="showEn" class="bp-id">{{ b.id }}</code>
@@ -308,6 +313,8 @@ const turretHint = computed(() => {
 }
 
 .bp-header {
+  position: relative;
+  padding-right: 7rem;
   padding: 1rem 1.1rem;
   border: 1px solid var(--mz-border);
   border-radius: 14px;
@@ -619,5 +626,26 @@ const turretHint = computed(() => {
 .bp-dps-table td.strong {
   color: var(--vp-c-text-1);
   font-weight: 600;
+}
+
+.bp-sprite {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.2rem;
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 14px rgba(79, 209, 197, 0.35));
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .bp-sprite {
+    width: 64px;
+    height: 64px;
+    opacity: 0.5;
+  }
 }
 </style>

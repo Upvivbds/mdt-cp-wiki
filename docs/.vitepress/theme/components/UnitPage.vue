@@ -1,8 +1,9 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
+import spriteManifest from '../../../data/sprites.json'
 import StatCompare from './StatCompare.vue'
 import DpsPanel from './DpsPanel.vue'
-import { loadUnits, toNum, fmtAny, starLabel } from '../composables/useRemoteData'
+import { fmtAny, loadUnits, starLabel, toNum, unitSprite } from '../composables/useRemoteData'
 
 const props = defineProps({
   id: { type: String, default: '' },
@@ -27,6 +28,9 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+const UNIT_SPRITES = new Set(spriteManifest.units || [])
+const hasUnitSprite = computed(() => UNIT_SPRITES.has((u.value && u.value.id) || ''))
 
 const unit = computed(() => props.unit || fetched.value)
 
@@ -140,6 +144,7 @@ function weaponTargets(w) {
     <template v-else-if="unit">
       <!-- 头部 -->
       <header class="up-header">
+    <img class="up-sprite" v-if="hasUnitSprite" :src="unitSprite(u.id)" alt="" loading="lazy" onerror="this.style.display='none'" />
         <div class="up-title">
           <h1>{{ nameZh }}</h1>
           <code v-if="showEn" class="up-id">{{ u.id }}</code>
@@ -285,6 +290,8 @@ function weaponTargets(w) {
 }
 
 .up-header {
+  position: relative;
+  padding-right: 7rem;
   padding: 1rem 1.1rem;
   border: 1px solid var(--mz-border);
   border-radius: 14px;
@@ -513,6 +520,27 @@ function weaponTargets(w) {
 @media (max-width: 640px) {
   .up-cmp-head {
     display: none;
+  }
+}
+
+.up-sprite {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.2rem;
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 14px rgba(79, 209, 197, 0.35));
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .up-sprite {
+    width: 64px;
+    height: 64px;
+    opacity: 0.5;
   }
 }
 </style>

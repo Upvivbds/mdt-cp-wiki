@@ -1,12 +1,16 @@
 <script setup>
 import { computed } from 'vue'
-import { fmtNum, starLabel, unitUrl } from '../composables/useRemoteData'
+import spriteManifest from '../../../data/sprites.json'
+import { fmtNum, starLabel, unitSprite, unitUrl } from '../composables/useRemoteData'
 
 const props = defineProps({
   unit: { type: Object, required: true },
   /** 完整记录（可选）：有的话卡片显示更多信息 */
   detail: { type: Object, default: null }
 })
+
+const UNIT_SPRITES = new Set(spriteManifest.units || [])
+const hasUnitSprite = computed(() => UNIT_SPRITES.has(id.value))
 
 const u = computed(() => props.unit || {})
 const id = computed(() => u.value.id || '')
@@ -19,6 +23,7 @@ const health = computed(() => u.value.health)
 
 <template>
   <a class="unit-card" :href="link">
+    <img class="uc-sprite" v-if="hasUnitSprite" :src="unitSprite(id)" alt="" loading="lazy" onerror="this.style.display='none'" />
     <div class="uc-head">
       <div class="uc-names">
         <span class="uc-zh">{{ nameZh }}</span>
@@ -147,5 +152,14 @@ const health = computed(() => u.value.health)
 .uc-stat-value.accent {
   color: var(--mz-accent);
   font-weight: 700;
+}
+
+.uc-sprite {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 0.35rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+  opacity: 0.95;
 }
 </style>

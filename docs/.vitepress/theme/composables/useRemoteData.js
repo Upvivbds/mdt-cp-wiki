@@ -103,3 +103,24 @@ export function unitUrl(id) {
 export function buildingUrl(id) {
   return pageUrl('buildings/' + id)
 }
+
+/* ---------- 贴图 ----------
+ * 与 pageUrl 同理：手写的绝对路径不会自动带 base，
+ * GitHub Pages 部署在 /<仓库名>/ 下就会 404。走 BASE_URL 拼。
+ */
+export function assetUrl(path) {
+  const base =
+    (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/'
+  const b = base.endsWith('/') ? base : base + '/'
+  return b + String(path).replace(/^\/+/, '')
+}
+
+/** 单位贴图；不存在时调用方用 onerror 隐藏 */
+export function unitSprite(id) {
+  return assetUrl('sprites/units/' + id + '.png')
+}
+
+/** 建筑贴图 */
+export function buildingSprite(id) {
+  return assetUrl('sprites/blocks/' + id + '.png')
+}

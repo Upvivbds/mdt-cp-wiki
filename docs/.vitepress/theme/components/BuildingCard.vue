@@ -1,10 +1,14 @@
 <script setup>
 import { computed } from 'vue'
-import { buildingUrl, starLabel } from '../composables/useRemoteData'
+import spriteManifest from '../../../data/sprites.json'
+import { buildingSprite, buildingUrl, starLabel } from '../composables/useRemoteData'
 
 const props = defineProps({
   building: { type: Object, required: true }
 })
+
+const BLOCK_SPRITES = new Set(spriteManifest.blocks || [])
+const hasBuildingSprite = computed(() => BLOCK_SPRITES.has(id.value))
 
 const b = computed(() => props.building || {})
 const id = computed(() => b.value.id || '')
@@ -16,6 +20,7 @@ const packs = computed(() => (Array.isArray(b.value.packs) ? b.value.packs : [])
 
 <template>
   <a class="building-card" :href="link">
+    <img class="bc-sprite" v-if="hasBuildingSprite" :src="buildingSprite(id)" alt="" loading="lazy" onerror="this.style.display='none'" />
     <div class="bc-head">
       <span class="bc-zh">{{ nameZh }}</span>
       <span v-if="showEn" class="bc-en mz-mono">{{ id }}</span>
@@ -93,5 +98,14 @@ const packs = computed(() => (Array.isArray(b.value.packs) ? b.value.packs : [])
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.bc-sprite {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 0.35rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+  opacity: 0.95;
 }
 </style>

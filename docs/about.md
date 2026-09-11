@@ -59,3 +59,32 @@ DPS = damage / damageInterval × 60
 - 本站为玩家自发整理的**非官方**资料站，与 Mindustry 官方及其开发团队无关。
 - 数值由脚本从 hjson 与 Java 源码自动解析，个别字段（尤其依赖循环变量或复杂表达式的）可能无法静态求值，此时该武器只列单发伤害、不报 DPS。以游戏内实际表现为准。
 - 数值与描述版权归各自数据包作者所有；本站仅作整理与展示之用。
+## 素材来源与许可
+
+单位与建筑的图标取自 Mindustry 官方仓库：
+
+- 单位：`core/assets-raw/sprites/units/<id>.png`
+- 建筑：`core/assets-raw/sprites/blocks/`（炮塔的拼装预览图、墙体等）
+
+Mindustry 以 **GPL-3.0** 许可发布，贴图随源码一同分发。本站是数据包的非官方
+资料站，贴图仅用于标识对应游戏内容，版权归 Mindustry 开发者所有。
+
+并非每个条目都有贴图：三个 `-missile` 副单位本身是弹体，游戏中没有独立图标，
+对应页面因此不显示图片。贴图清单由 `tools/fetch_sprites.py` 生成，
+存在 `docs/data/sprites.json`，组件据此决定是否渲染 `<img>`。
+
+## 重新生成站点
+
+```bash
+python3 tools/merge_and_dps.py    # 解析数据包 + 原版源码 → 数据
+python3 tools/fetch_sprites.py    # 复制贴图 + 生成清单
+python3 tools/gen_pages.py        # 生成 59 单位页 + 57 建筑页
+npm run build                     # 构建到 docs/.vitepress/dist
+```
+
+校验工具：
+
+```bash
+python3 tools/audit_components.py   # 组件静态体检
+python3 tools/check_links.py        # 全站链接完整性
+```
