@@ -42,6 +42,7 @@
    "total": 450.0,
    "air": 450.0,
    "ground": 450.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -205,6 +206,7 @@
    "total": 38.82,
    "air": 38.82,
    "ground": 38.82,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -386,6 +388,7 @@
    "total": 30.0,
    "air": 30.0,
    "ground": 0.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -663,6 +666,7 @@
    "total": 0.0,
    "air": 0.0,
    "ground": 0.0,
+   "suicide": true,
    "targetAir": true,
    "targetGround": true
   },
@@ -853,6 +857,7 @@
    "total": 555.12,
    "air": 367.36,
    "ground": 367.36,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -1337,6 +1342,7 @@
    "total": 1555.17,
    "air": 1468.5,
    "ground": 1468.5,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -1934,6 +1940,7 @@
    "total": 101.54,
    "air": 101.54,
    "ground": 101.54,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -2149,6 +2156,7 @@
    "total": 337.5,
    "air": 337.5,
    "ground": 337.5,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -2354,6 +2362,7 @@
    "total": 149.0,
    "air": 89.0,
    "ground": 89.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -2592,6 +2601,7 @@
    "total": 301.39,
    "air": 77.54,
    "ground": 77.54,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -2831,6 +2841,7 @@
    "total": 1101.51,
    "air": 659.39,
    "ground": 889.39,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -3248,6 +3259,7 @@
    "total": 1842.06,
    "air": 1235.79,
    "ground": 1235.79,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -3914,6 +3926,7 @@
    "total": 377.71,
    "air": 216.0,
    "ground": 216.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -4207,6 +4220,7 @@
    "total": 1231.56,
    "air": 487.56,
    "ground": 487.56,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -4734,17 +4748,18 @@
   },
   "dps": {
    "direct": 0.0,
-   "splash": 1560.0,
-   "total": 1560.0,
+   "splash": 0.0,
+   "total": 0.0,
    "air": 0,
    "ground": 0,
+   "suicide": true,
    "targetAir": true,
    "targetGround": true
   },
   "vanillaDps": {
    "direct": 0.0,
-   "splash": 200.0,
-   "total": 200.0,
+   "splash": 0.0,
+   "total": 0.0,
    "air": 0,
    "ground": 0
   },
@@ -4752,7 +4767,7 @@
    {
     "name": "(未命名)",
     "weaponType": "Weapon",
-    "role": "damage",
+    "role": "warhead",
     "bulletType": "BulletType",
     "mode": "burst",
     "reload": 24.0,
@@ -4769,9 +4784,9 @@
     "fragBullets": 17,
     "fragDirect": 0.0,
     "fragSplash": 544.0,
-    "dps": 0.0,
+    "dps": null,
     "perShot": 0.0,
-    "splashDps": 1560.0,
+    "splashDps": null,
     "collidesAir": false,
     "collidesGround": false,
     "bulletRange": 25.0,
@@ -4897,6 +4912,7 @@
    "total": 218.0,
    "air": 102.0,
    "ground": 102.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -5222,6 +5238,7 @@
    "total": 41.54,
    "air": 41.54,
    "ground": 41.54,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -5368,6 +5385,7 @@
    "total": 968.65,
    "air": 406.15,
    "ground": 406.15,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -5899,6 +5917,7 @@
    "total": 0.0,
    "air": 0.0,
    "ground": 0.0,
+   "suicide": true,
    "targetAir": false,
    "targetGround": true
   },
@@ -6079,6 +6098,7 @@
    "total": 1500.53,
    "air": 998.99,
    "ground": 998.99,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -6680,6 +6700,7 @@
    "total": 96.0,
    "air": 96.0,
    "ground": 96.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -6914,6 +6935,7 @@
    "total": 0.0,
    "air": 0.0,
    "ground": 0.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -7103,6 +7125,7 @@
    "total": 0.0,
    "air": 0.0,
    "ground": 0.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -7278,6 +7301,7 @@
    "total": 33.75,
    "air": 33.75,
    "ground": 33.75,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -7476,6 +7500,7 @@
    "total": 247.71,
    "air": 0.0,
    "ground": 125.14,
+   "suicide": false,
    "targetAir": false,
    "targetGround": true
   },
@@ -7703,6 +7728,7 @@
    "total": 148.0,
    "air": 148.0,
    "ground": 148.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -7982,6 +8008,7 @@
    "total": 390.0,
    "air": 0.0,
    "ground": 130.0,
+   "suicide": false,
    "targetAir": false,
    "targetGround": true
   },
@@ -8191,6 +8218,7 @@
    "total": 0.0,
    "air": 0.0,
    "ground": 0.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -8411,6 +8439,7 @@
    "total": 165.0,
    "air": 165.0,
    "ground": 165.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -8585,6 +8614,7 @@
    "total": 201.82,
    "air": 201.82,
    "ground": 201.82,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -8783,6 +8813,7 @@
    "total": 57.0,
    "air": 57.0,
    "ground": 57.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -8999,6 +9030,7 @@
    "total": 628.29,
    "air": 114.0,
    "ground": 114.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -9186,6 +9218,7 @@
    "total": 762.0,
    "air": 116.0,
    "ground": 116.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -9451,6 +9484,7 @@
    "total": 0.0,
    "air": 0.0,
    "ground": 0.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -9551,6 +9585,7 @@
    "total": 4824.0,
    "air": 2359.38,
    "ground": 2359.38,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -10088,6 +10123,7 @@
    "total": 32.5,
    "air": 32.5,
    "ground": 32.5,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -10243,6 +10279,7 @@
    "total": 93.1,
    "air": 62.07,
    "ground": 62.07,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -10571,6 +10608,7 @@
    "total": 44.8,
    "air": 28.0,
    "ground": 28.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -10800,6 +10838,7 @@
    "total": 253.5,
    "air": 253.5,
    "ground": 253.5,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -11048,6 +11087,7 @@
    "total": 389.33,
    "air": 113.33,
    "ground": 389.33,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -11276,6 +11316,7 @@
    "total": 24.0,
    "air": 24.0,
    "ground": 24.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -11458,6 +11499,7 @@
    "total": 354.0,
    "air": 252.0,
    "ground": 252.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -11657,6 +11699,7 @@
    "total": 25.0,
    "air": 25.0,
    "ground": 25.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -11811,6 +11854,7 @@
    "total": 1047.27,
    "air": 0.0,
    "ground": 0,
+   "suicide": false,
    "targetAir": false,
    "targetGround": true
   },
@@ -12089,6 +12133,7 @@
    "total": 49.09,
    "air": 49.09,
    "ground": 49.09,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -12279,6 +12324,7 @@
    "total": 76.36,
    "air": 0.0,
    "ground": 76.36,
+   "suicide": false,
    "targetAir": false,
    "targetGround": true
   },
@@ -12495,6 +12541,7 @@
    "total": 0.0,
    "air": 0.0,
    "ground": 0.0,
+   "suicide": true,
    "targetAir": false,
    "targetGround": true
   },
@@ -12796,6 +12843,7 @@
    "total": 3546.67,
    "air": 2180.0,
    "ground": 2180.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -13122,6 +13170,7 @@
    "total": 59.4,
    "air": 32.73,
    "ground": 32.73,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -13442,6 +13491,7 @@
    "total": 188.68,
    "air": 140.68,
    "ground": 140.68,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -13659,6 +13709,7 @@
    "total": 395.15,
    "air": 395.15,
    "ground": 395.15,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -14105,6 +14156,7 @@
    "total": 1691.5,
    "air": 874.0,
    "ground": 874.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -14500,6 +14552,7 @@
    "total": 570.0,
    "air": 570.0,
    "ground": 570.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -14827,6 +14880,7 @@
    "total": 38.4,
    "air": 38.4,
    "ground": 38.4,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -14988,6 +15042,7 @@
    "total": 897.0,
    "air": 794.14,
    "ground": 794.14,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -15421,6 +15476,7 @@
    "total": 3750.42,
    "air": 2650.25,
    "ground": 2650.25,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -15907,6 +15963,7 @@
    "total": 1171.71,
    "air": 880.28,
    "ground": 880.28,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -16426,6 +16483,7 @@
    "total": 540.0,
    "air": 540.0,
    "ground": 540.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
@@ -16694,6 +16752,7 @@
    "total": 330.0,
    "air": 240.0,
    "ground": 240.0,
+   "suicide": false,
    "targetAir": true,
    "targetGround": true
   },

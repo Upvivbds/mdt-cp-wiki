@@ -381,11 +381,14 @@ def compute_weapon_dps(w, unit_is_projectile=False):
     # 死亡触发的爆炸（源码 shootOnDeath = true）与弹体战斗部一样，
     # 只该报单发伤害 —— 否则 damage*60 会算出 disrupt 8575 这种荒谬数字。
     #
-    # 判据：死亡爆炸的装填在源码里写死成 1 tick（`reload = 1f`），
-    # 而正常主炮的装填远大于 1（quell 主炮是 55）。用 1.5 做阈值即可区分，
-    # 即便 shootOnDeath 被误染到主炮上也不会误判。
-    # 注意 reload 必须先算出来，这里才能用（曾经误写成未定义的 rl）。
-    death_blast = bool(w.get('shootOnDeath')) and reload <= 1.5
+    # 判据：直接看 `shootOnDeath`。
+    #
+    # 早期这里还加了 `reload <= 1.5` 的附加条件，那是为了绕开一个解析 bug
+    # （shootOnDeath 从嵌套武器泄漏到主炮）。泄漏已在解析器侧修好
+    # （parse_weapon_body 遇嵌套 weapons.add 即截断），附加条件于是变成误判源：
+    # crawler 是 shootOnDeath 且 reload=24 的殉爆单位，因为不满足阈值
+    # 被当成持续输出，一度混进总量榜第 6 名。
+    death_blast = bool(w.get('shootOnDeath'))
     if role == 'damage' and (unit_is_projectile or death_blast):
         role = 'warhead'
 
@@ -502,7 +505,7 @@ def unit_dps(unit):
     details = [compute_weapon_dps(w) for w in ws if isinstance(w, dict)]
     if not details:
         return dict(weapons=[], direct=0.0, splash=0.0, total=0.0,
-                    air=0.0, ground=0.0, airGroundOnly=False)
+                    air=0.0, ground=0.0, suicide=False, airGroundOnly=False)
 
     target_air = unit.get('targetAir', True) is not False
     target_ground = unit.get('targetGround', True) is not False
@@ -512,6 +515,10 @@ def unit_dps(unit):
 
     def sp(d):
         return d['splashDps'] if isinstance(d['splashDps'], (int, float)) else 0.0
+
+    # 一门持续输出武器都没有、只能靠死亡爆炸造成伤害的单位（如 crawler）
+    suicide = bool(details) and all(
+        d['role'] in ('warhead', 'support', 'pointDefense') for d in details)
 
     direct = sum(v(d) for d in details)
     splash = sum(sp(d) for d in details)
@@ -532,6 +539,7 @@ def unit_dps(unit):
         total=round(direct + splash, 2),
         air=round(air, 2),
         ground=round(ground, 2),
+        suicide=suicide,
         targetAir=target_air,
         targetGround=target_ground,
         airGroundOnly=(target_air and not target_ground),
@@ -728,6 +736,7 @@ def main():
             ),
             dps=dict(direct=dps['direct'], splash=dps['splash'], total=dps['total'],
                      air=dps['air'], ground=dps['ground'],
+                     suicide=dps.get('suicide', False),
                      targetAir=dps.get('targetAir', True),
                      targetGround=dps.get('targetGround', True)),
             vanillaDps=dict(direct=vdps.get('direct', 0.0), splash=vdps.get('splash', 0.0),
@@ -775,7 +784,9 @@ def main():
     # 三份榜单：单体（直伤）、范围（溅射）、总量。
     # 副单位（-missile 战斗部）一律剔除 —— 它们的 DPS 语义是「命中即炸」，
     # 混进榜单会把真正的作战单位全挤下去。
-    ranked = [x for x in units_out if not x.get('isSubUnit')]
+    # 殉爆单位（crawler 之类）没有持续输出，值为 0 只是噪声，一并剔出榜单
+    ranked = [x for x in units_out
+              if not x.get('isSubUnit') and not x['dps'].get('suicide')]
     top_total = sorted(ranked, key=lambda x: -x['dps']['total'])[:15]
     top_direct = sorted(ranked, key=lambda x: -x['dps']['direct'])[:15]
     top_splash = sorted(ranked, key=lambda x: -x['dps']['splash'])[:15]
@@ -799,6 +810,7 @@ def main():
                     ground=u['dps']['ground'],
                     direct=u['dps']['direct'], splash=u['dps']['splash'],
                     isSubUnit=u.get('isSubUnit', False),
+                    suicide=u['dps'].get('suicide', False),
                     health=u['stats']['health']) for u in units_out],
         blocks=[dict(id=b['id'], nameZh=b['nameZh'], star=b['star'],
                      author=b['author'], category=b['category']) for b in blocks_out],

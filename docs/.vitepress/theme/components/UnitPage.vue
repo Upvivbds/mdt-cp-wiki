@@ -151,6 +151,9 @@ function weaponTargets(w) {
         </div>
 
         <div class="up-badges">
+          <span v-if="u.dps && u.dps.suicide" class="mz-badge suicide" title="伤害来自死亡时的爆炸，无持续输出">
+            殉爆单位
+          </span>
           <span :class="['mz-badge', 'star-' + (u.star || '')]">
             {{ u.star || '?' }} · {{ starLabel(u.star) }}
           </span>
@@ -542,5 +545,12 @@ function weaponTargets(w) {
     height: 64px;
     opacity: 0.5;
   }
+}
+
+.up-badges .mz-badge.suicide {
+  color: #ff7b72;
+  border-color: rgba(255, 123, 114, 0.5);
+  background: rgba(255, 123, 114, 0.12);
+  font-weight: 600;
 }
 </style>

@@ -30,6 +30,7 @@ const dirty = computed(
 /* ---------------- 数据容错 ---------------- */
 const weapons = computed(() => (Array.isArray(props.unit && props.unit.weapons) ? props.unit.weapons : []))
 const dps = computed(() => (props.unit && props.unit.dps) || {})
+const isSuicide = computed(() => !!(props.unit && props.unit.dps && props.unit.dps.suicide))
 const vanillaDps = computed(() => (props.unit && props.unit.vanillaDps) || {})
 
 const canAir = (w) =>
@@ -192,6 +193,10 @@ const bigCards = computed(() => [
 
 <template>
   <div class="dps-panel">
+    <p v-if="isSuicide" class="dps-suicide-note">
+      殉爆单位：伤害来自单位死亡时的爆炸，没有持续输出的概念，因此不计 DPS。
+      单发爆炸伤害见下方武器明细。
+    </p>
     <div class="dps-big">
       <div v-for="c in bigCards" :key="c.label" class="dps-big-card">
         <div class="dps-big-label">{{ c.label }}</div>
@@ -517,5 +522,17 @@ const bigCards = computed(() => [
   .dps-big {
     grid-template-columns: 1fr;
   }
+}
+
+.dps-suicide-note {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 123, 114, 0.4);
+  border-left: 3px solid var(--mz-bad);
+  border-radius: 8px;
+  background: rgba(255, 123, 114, 0.08);
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: var(--vp-c-text-2);
 }
 </style>
