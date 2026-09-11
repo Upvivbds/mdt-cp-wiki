@@ -76,10 +76,11 @@ Mindustry 以 **GPL-3.0** 许可发布，贴图随源码一同分发。本站是
 ## 重新生成站点
 
 ```bash
-python3 tools/merge_and_dps.py    # 解析数据包 + 原版源码 → 数据
-python3 tools/fetch_sprites.py    # 复制贴图 + 生成清单
-python3 tools/gen_pages.py        # 生成 59 单位页 + 57 建筑页
-npm run build                     # 构建到 docs/.vitepress/dist
+python3 tools/merge_and_dps.py        # 解析数据包 + 原版源码 → 数据
+python3 tools/parse_status_effects.py # 采集 status.* 状态效果 → 数据
+python3 tools/fetch_sprites.py        # 复制贴图 + 生成清单
+python3 tools/gen_pages.py            # 生成 59 单位页 + 57 建筑页 + 状态效果页
+npm run build                         # 构建到 docs/.vitepress/dist
 ```
 
 校验工具：

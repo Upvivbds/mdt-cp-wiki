@@ -38,6 +38,8 @@ DATA = os.path.join(DOCS, 'data')
 UNIT_PAGE_DIR = os.path.join(DOCS, 'units')
 BLOCK_PAGE_DIR = os.path.join(DOCS, 'buildings')
 UNIT_DATA_DIR = os.path.join(DATA, 'units')
+EFFECT_PAGE_DIR = os.path.join(DOCS, 'effects')
+EFFECT_DATA_DIR = os.path.join(DATA, 'effects')
 BLOCK_DATA_DIR = os.path.join(DATA, 'buildings')
 
 STAR_LABEL = {'S': '赛普罗', 'E': '埃里克尔'}
@@ -131,6 +133,70 @@ import building from '../data/buildings/{bid}.json'
     return len(blocks)
 
 
+def write_effect_pages(effects):
+    """状态效果页：一类既不是单位也不是建筑的数据包改动。"""
+    clean_dir(EFFECT_PAGE_DIR, keep={'index.md'})
+    clean_dir(EFFECT_DATA_DIR)
+
+    for e in effects:
+        eid = e.get('id')
+        if not eid:
+            continue
+
+        with open(os.path.join(EFFECT_DATA_DIR, eid + '.json'), 'w', encoding='utf-8') as f:
+            json.dump(e, f, ensure_ascii=False, separators=(',', ':'))
+
+        name = e.get('nameZh') or eid
+
+        page = f"""---
+title: {name}
+---
+
+<script setup>
+import effect from '../data/effects/{eid}.json'
+import effects from '../data/effects.json'
+</script>
+
+<EffectPage :effect="effect" :effects="effects" />
+"""
+        with open(os.path.join(EFFECT_PAGE_DIR, eid + '.md'), 'w', encoding='utf-8') as f:
+            f.write(page)
+
+    return len(effects)
+
+
+def write_effect_index(effects):
+    """状态效果总览页。条目少的时候就是一份列表，不必上组件。"""
+    rows = '\n'.join(
+        f"- [{e.get('nameZh') or e['id']}](/effects/{e['id']}) —— `status.{e['id']}`"
+        + (
+            '，修正 ' + '、'.join(
+                f"{m['label']} {m['percent']:+.0f}%" for m in (e.get('mods') or [])
+            )
+            if e.get('mods')
+            else ''
+        )
+        for e in effects
+    )
+
+    body = f"""---
+title: 状态效果总览
+---
+
+# 状态效果总览
+
+共 **{len(effects)}** 条。数据包在 `status.*` 下新增或改写的状态效果。
+
+{rows or '_暂无。_'}
+
+> 原版状态（burning、freezing、wet 等）源自 `ContentStatuses`，本 wiki 只收录
+> 数据包动过的部分 —— 但作为「对立状态」出现在页面上时仍会标注出来。
+"""
+
+    with open(os.path.join(EFFECT_PAGE_DIR, 'index.md'), 'w', encoding='utf-8') as f:
+        f.write(body)
+
+
 def write_index_pages(units, blocks):
     """重写两个总览索引页。
 
@@ -167,13 +233,22 @@ def main():
     units = load('units.json')
     blocks = load('buildings.json')
 
+    effects = load('effects.json')
+
     nu = write_unit_pages(units)
     nb = write_block_pages(blocks)
+    ne = write_effect_pages(effects)
     write_index_pages(units, blocks)
+    write_effect_index(effects)
+
+    # 状态效果的对立状态要能互相跳转，所以把整份名单也放到 docs/data 下。
+    with open(os.path.join(DATA, 'effects.json'), 'w', encoding='utf-8') as f:
+        json.dump(effects, f, ensure_ascii=False, separators=(',', ':'))
 
     print(f'单位页 {nu} 个 + 索引 -> {UNIT_PAGE_DIR}')
     print(f'建筑页 {nb} 个 + 索引 -> {BLOCK_PAGE_DIR}')
-    print(f'数据 -> {UNIT_DATA_DIR} / {BLOCK_DATA_DIR}')
+    print(f'状态效果页 {ne} 个 + 索引 -> {EFFECT_PAGE_DIR}')
+    print(f'数据 -> {UNIT_DATA_DIR} / {BLOCK_DATA_DIR} / {EFFECT_DATA_DIR}')
     return 0
 
 

@@ -27,7 +27,27 @@ function loadIndex(): any {
   return {}
 }
 
+/** 读取任一构建产物 JSON（docs/data 优先，回退到 public/data）。 */
+function loadJson(name: string): any[] {
+  const candidates = [
+    path.join(DOCS, 'data', name),
+    path.join(DOCS, 'public', 'data', name)
+  ]
+  for (const p of candidates) {
+    try {
+      if (fs.existsSync(p)) {
+        const v = JSON.parse(fs.readFileSync(p, 'utf8'))
+        return Array.isArray(v) ? v : []
+      }
+    } catch {
+      /* 忽略，继续尝试下一个候选路径 */
+    }
+  }
+  return []
+}
+
 const indexData = loadIndex()
+const effects: any[] = loadJson('effects.json')
 
 interface UnitIndexRow {
   id: string
@@ -113,6 +133,25 @@ const buildingSidebar = [
   }))
 ]
 
+const effectSidebar = [
+  {
+    text: '状态效果',
+    items: [{ text: '全部状态效果', link: '/effects/' }]
+  },
+  ...(effects.length
+    ? [
+        {
+          text: '数据包新增',
+          collapsed: false,
+          items: effects.map((e) => ({
+            text: e.nameZh || e.id,
+            link: `/effects/${e.id}`
+          }))
+        }
+      ]
+    : [])
+]
+
 const rootSidebar = [
   {
     text: '总览',
@@ -120,6 +159,7 @@ const rootSidebar = [
       { text: '首页', link: '/' },
       { text: '单位总览', link: '/units/' },
       { text: '建筑总览', link: '/buildings/' },
+      { text: '状态效果', link: '/effects/' },
       { text: 'DPS 排行', link: '/dps' },
       { text: '关于', link: '/about' }
     ]
@@ -143,12 +183,14 @@ export default defineConfig({
       { text: '首页', link: '/' },
       { text: '单位', link: '/units/' },
       { text: '建筑', link: '/buildings/' },
+      { text: '状态效果', link: '/effects/' },
       { text: 'DPS 排行', link: '/dps' },
       { text: '关于', link: '/about' }
     ],
     sidebar: {
       '/units/': unitSidebar,
       '/buildings/': buildingSidebar,
+      '/effects/': effectSidebar,
       '/': rootSidebar
     },
     search: {

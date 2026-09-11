@@ -14,6 +14,8 @@ import StatsCards from './components/StatsCards.vue'
 import TopDps from './components/TopDps.vue'
 import DpsRanking from './components/DpsRanking.vue'
 import SiteDirectory from './components/SiteDirectory.vue'
+import EffectPage from './components/EffectPage.vue'
+import EffectChips from './components/EffectChips.vue'
 
 export default {
   extends: DefaultTheme,
@@ -30,5 +32,7 @@ export default {
     app.component('TopDps', TopDps)
     app.component('DpsRanking', DpsRanking)
     app.component('SiteDirectory', SiteDirectory)
+    app.component('EffectPage', EffectPage)
+    app.component('EffectChips', EffectChips)
   }
 } satisfies Theme

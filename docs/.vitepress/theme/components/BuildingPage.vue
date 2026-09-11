@@ -179,6 +179,8 @@ const turretHint = computed(() => {
         </div>
       </header>
 
+      <EffectChips kind="block" :id="b.id || id" />
+
       <section v-if="descParagraphs.length" class="bp-section">
         <h2>简介</h2>
         <p v-for="(p, i) in descParagraphs" :key="i" class="bp-desc">{{ p }}</p>

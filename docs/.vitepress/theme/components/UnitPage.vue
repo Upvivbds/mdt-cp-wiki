@@ -173,6 +173,8 @@ function weaponTargets(w) {
         </div>
       </header>
 
+      <EffectChips kind="unit" :id="u.id || id" />
+
       <!-- 描述 -->
       <section v-if="descParagraphs.length" class="up-section">
         <h2>简介</h2>

@@ -10,9 +10,11 @@ import { computed } from 'vue'
 import { unitUrl, buildingUrl, pageUrl } from '../composables/useRemoteData'
 
 import indexData from '../../../data/index.json'
+import effectsData from '../../../data/effects.json'
 
 const units = computed(() => (Array.isArray(indexData.units) ? indexData.units : []))
 const blocks = computed(() => (Array.isArray(indexData.blocks) ? indexData.blocks : []))
+const effects = computed(() => (Array.isArray(effectsData) ? effectsData : []))
 
 /** 单位：星球 → 分类 → [单位] */
 const unitSections = computed(() => {
@@ -51,8 +53,16 @@ const otherPages = [
   { link: '/dps', title: 'DPS 排行', desc: '单体 / 范围 / 对空 / 对地四种口径' },
   { link: '/units/', title: '单位总览', desc: '卡片网格，可按星球、作者、分类筛选' },
   { link: '/buildings/', title: '建筑总览', desc: '炮塔弹药与墙体改动' },
+  { link: '/effects/', title: '状态效果', desc: '数据包新增的 status.* 与施加者' },
   { link: '/about', title: '关于本站', desc: '数据来源与 DPS 公式说明' }
 ]
+
+/** 状态效果条目少，直接把修正项摊开写，省得再点一层。 */
+function effectSummary(e) {
+  const mods = e.mods || []
+  if (!mods.length) return '无数值修正'
+  return mods.map((m) => `${m.label} ${m.percent > 0 ? '+' : ''}${m.percent}%`).join(' · ')
+}
 </script>
 
 <template>
@@ -84,6 +94,24 @@ const otherPages = [
           </li>
         </ul>
       </div>
+    </section>
+
+    <!-- 状态效果 -->
+    <section v-if="effects.length" class="dir-block">
+      <h2 class="dir-title">
+        状态效果
+        <span class="dir-count">{{ effects.length }}</span>
+      </h2>
+      <ul class="dir-list">
+        <li v-for="e in effects" :key="e.id">
+          <span
+            class="dir-swatch"
+            :style="{ background: e.color ? '#' + String(e.color).slice(0, 6) : 'var(--vp-c-text-3)' }"
+          />
+          <a :href="pageUrl('/effects/' + e.id)">{{ e.nameZh || e.id }}</a>
+          <span class="dir-note">{{ effectSummary(e) }}</span>
+        </li>
+      </ul>
     </section>
 
     <!-- 建筑 -->
@@ -228,5 +256,19 @@ const otherPages = [
   font-family: var(--vp-font-family-mono);
   font-size: 0.72rem;
   color: var(--vp-c-text-3);
+}
+.dir-swatch {
+  flex: none;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+.dir-note {
+  margin-left: auto;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.7rem;
+  color: var(--vp-c-text-3);
+  text-align: right;
 }
 </style>
