@@ -1,24 +1,14 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-import { loadJson } from '../composables/useRemoteData'
+import { computed, ref } from 'vue'
+import indexData from '../../../data/index.json'
 
-const loading = ref(true)
-const stats = ref({ unitCount: null, blockCount: null, vanillaCount: null })
-
-onMounted(async () => {
-  try {
-    const idx = await loadJson('data/index.json')
-    stats.value = {
-      unitCount: idx && idx.unitCount != null ? idx.unitCount : null,
-      blockCount: idx && idx.blockCount != null ? idx.blockCount : null,
-      vanillaCount: idx && idx.vanillaCount != null ? idx.vanillaCount : null
-    }
-  } catch {
-    /* 首页统计卡片失败不阻塞渲染 */
-  } finally {
-    loading.value = false
-  }
-})
+// 构建期注入：统计数字直接进 SSR 产物。
+const loading = ref(false)
+const stats = computed(() => ({
+  unitCount: indexData.unitCount != null ? indexData.unitCount : null,
+  blockCount: indexData.blockCount != null ? indexData.blockCount : null,
+  vanillaCount: indexData.vanillaCount != null ? indexData.vanillaCount : null
+}))
 
 const cards = computed(() => [
   { label: '数据包单位', value: stats.value.unitCount, hint: '个独立单位页面' },

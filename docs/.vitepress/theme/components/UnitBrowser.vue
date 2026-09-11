@@ -1,33 +1,23 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import UnitCard from './UnitCard.vue'
-import { loadJson } from '../composables/useRemoteData'
+import indexData from '../../../data/index.json'
 
 const props = defineProps({
   /** 可选的初始筛选（例如 /units/#分类 锚点用不到，这里保留给将来扩展） */
   initialCategory: { type: String, default: '' }
 })
 
-const loading = ref(true)
+// 构建期注入：SSR 直接出完整卡片网格（含贴图），首屏不空白。
+const loading = ref(false)
 const error = ref('')
-const all = ref([])
+const all = computed(() => (Array.isArray(indexData.units) ? indexData.units : []))
 
 const star = ref('all')
 const author = ref('all')
 const category = ref(props.initialCategory || 'all')
 const sortKey = ref('dps-desc')
 const keyword = ref('')
-
-onMounted(async () => {
-  try {
-    const idx = await loadJson('data/index.json')
-    all.value = Array.isArray(idx && idx.units) ? idx.units : []
-  } catch (e) {
-    error.value = e && e.message ? e.message : String(e)
-  } finally {
-    loading.value = false
-  }
-})
 
 const stars = computed(() => {
   const s = new Set(all.value.map((u) => u.star).filter(Boolean))

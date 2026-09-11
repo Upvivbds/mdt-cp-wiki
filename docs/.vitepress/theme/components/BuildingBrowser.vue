@@ -1,34 +1,17 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import BuildingCard from './BuildingCard.vue'
-import { loadJson } from '../composables/useRemoteData'
+import indexData from '../../../data/index.json'
 
-const loading = ref(true)
+// 构建期注入：SSR 直接出完整卡片网格（含贴图），首屏不空白。
+const loading = ref(false)
 const error = ref('')
-const all = ref([])
+const all = computed(() => (Array.isArray(indexData.blocks) ? indexData.blocks : []))
 
 const star = ref('all')
 const author = ref('all')
 const category = ref('all')
 const keyword = ref('')
-
-onMounted(async () => {
-  try {
-    // 建筑完整数据（含 raw）在 public 下；这里只取列表所需字段，顺带补上 packs
-    const data = await loadJson('data/buildings.json')
-    all.value = Array.isArray(data) ? data : []
-  } catch (e) {
-    // 回退：至少用索引里的 blocks 列表
-    try {
-      const idx = await loadJson('data/index.json')
-      all.value = Array.isArray(idx && idx.blocks) ? idx.blocks : []
-    } catch (e2) {
-      error.value = e && e.message ? e.message : String(e)
-    }
-  } finally {
-    loading.value = false
-  }
-})
 
 const stars = computed(() => Array.from(new Set(all.value.map((b) => b.star).filter(Boolean))).sort())
 const authors = computed(() => Array.from(new Set(all.value.map((b) => b.author).filter(Boolean))).sort())

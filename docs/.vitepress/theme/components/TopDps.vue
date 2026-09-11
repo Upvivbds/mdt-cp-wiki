@@ -1,24 +1,15 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-import { fmtNum, loadJson, unitUrl } from '../composables/useRemoteData'
+import { computed, ref } from 'vue'
+import { fmtNum, unitUrl } from '../composables/useRemoteData'
+import indexData from '../../../data/index.json'
 
 const props = defineProps({
   limit: { type: Number, default: 10 }
 })
 
-const loading = ref(true)
-const list = ref([])
-
-onMounted(async () => {
-  try {
-    const idx = await loadJson('data/index.json')
-    list.value = Array.isArray(idx && idx.topDps) ? idx.topDps : []
-  } catch {
-    /* 忽略 */
-  } finally {
-    loading.value = false
-  }
-})
+// 构建期注入：SSR 直接出榜单，首屏不空白。
+const loading = ref(false)
+const list = computed(() => (Array.isArray(indexData.topDps) ? indexData.topDps : []))
 
 const rows = computed(() => list.value.slice(0, props.limit))
 const max = computed(() => {
