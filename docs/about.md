@@ -101,6 +101,11 @@ npm run build                         # 构建到 docs/.vitepress/dist
 校验工具：
 
 ```bash
-python3 tools/audit_components.py   # 组件静态体检
-python3 tools/check_links.py        # 全站链接完整性
+python3 tools/audit_components.py   # 组件静态体检：未声明标识符、断掉的 import、未注册组件
+python3 tools/check_links.py        # 全站链接完整性（起临时服务器逐个请求）
+python3 tools/audit_dps.py          # DPS 审计：逐武器明细与可疑项
+python3 tools/audit_dps.py 天蝎 龙王  # 只看指定单位
 ```
+
+开发期用来「看一眼数据长什么样」的一次性脚本在 `tools/dev/`，不参与构建，
+详见该目录的 README。
