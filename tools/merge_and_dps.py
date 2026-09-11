@@ -322,6 +322,39 @@ def type_of(d, default):
     return default
 
 
+MAX_FRAG_DEPTH = 3
+
+
+def bullet_profile(bullet, depth=0):
+    """算一颗子弹「单发」造成的直伤与溅射，含分裂子母弹。
+
+    数据包里的分裂子母弹长这样：
+
+        fragBullets = 3;
+        fragBullet = new BasicBulletType(9f, 20){{ splashDamage = 15f; }};
+
+    一次命中除了主弹伤害，还会炸出 fragBullets 颗子弹，每颗有自己的直伤与
+    溅射；子弹自身还能再分裂，所以递归累加。这些子弹即使实战中未必全中，
+    也确实构成伤害，此前完全没被计入。
+
+    返回 (direct, splash)。
+    """
+    if not isinstance(bullet, dict) or depth > MAX_FRAG_DEPTH:
+        return 0.0, 0.0
+
+    direct = num(bullet.get('damage'), 0.0)
+    splash = num(bullet.get('splashDamage'), 0.0)
+
+    n = int(num(bullet.get('fragBullets'), 0) or 0)
+    frag = bullet.get('fragBullet')
+    if n > 0 and isinstance(frag, dict):
+        fd, fs = bullet_profile(frag, depth + 1)
+        direct += n * fd
+        splash += n * fs
+
+    return direct, splash
+
+
 def compute_weapon_dps(w, unit_is_projectile=False):
     """返回单个武器的 DPS 明细。
 
@@ -365,6 +398,16 @@ def compute_weapon_dps(w, unit_is_projectile=False):
     splash = num(bullet.get('splashDamage'), 0.0)
     splash_r = num(bullet.get('splashDamageRadius'), -1.0)
 
+    # 含分裂子母弹的完整单发伤害
+    prof_direct, prof_splash = bullet_profile(bullet)
+    frag_n = int(num(bullet.get('fragBullets'), 0) or 0)
+    frag_bullet = bullet.get('fragBullet') if isinstance(bullet.get('fragBullet'), dict) else None
+    frag_direct = frag_splash = 0.0
+    if frag_n and frag_bullet:
+        frag_direct, frag_splash = bullet_profile(frag_bullet, 1)
+        frag_direct *= frag_n
+        frag_splash *= frag_n
+
     continuous = bool(w.get('continuous')) or btype in LASER_TYPES
 
     if btype in ('PointLaserBulletType', 'ContinuousLaserBulletType',
@@ -380,15 +423,18 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         shots_eff = 1
         mode = 'continuous'
     else:
-        # 常规武器：有些单位的子弹没有直伤，只有溅射（crawler 的自爆虫、
-        # 部分霰弹），这时用溅射伤害当每发伤害，否则 DPS 会假性归零。
-        eff_damage = damage if damage else splash
-        dps = shots * eff_damage * TICKS / reload
+        # 常规武器**只算直伤**。此前这里写的是
+        #     eff_damage = damage if damage else splash
+        # 也就是「没有直伤就拿溅射顶替」，结果纯溅射武器（conquer-shockwave
+        # 是 damage=0 / splashDamage=440）被算进单体榜，越靠后虚高越离谱。
+        # 现在溅射单独统计，另立榜单。
+        dps = shots * prof_direct * TICKS / reload
         shots_eff = shots
         mode = 'burst'
 
-    # 单发总伤害（直伤优先，没有直伤就用溅射），用于一次性武器与副单位
-    per_shot = shots_eff * (damage if damage else splash)
+    # 单发伤害：直伤与溅射分开，均含分裂子母弹
+    per_shot = shots_eff * prof_direct
+    per_shot_splash = shots_eff * prof_splash
 
     if role != 'damage':
         # 点防御 / 维修 / 建造 / 采矿 / 死亡爆炸：不是对单位输出，不计入 DPS
@@ -415,8 +461,8 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         bullet_range = num(range_override)
 
     splash_dps = None
-    if splash and reload_explicit and role == 'damage':
-        splash_dps = round(shots_eff * splash * TICKS / reload, 2)
+    if prof_splash and reload_explicit and reload_known and role == 'damage':
+        splash_dps = round(shots_eff * prof_splash * TICKS / reload, 2)
 
     return dict(
         name=w.get('name') or '(未命名)',
@@ -433,6 +479,12 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         damage=damage,
         splashDamage=splash,
         splashDamageRadius=splash_r,
+        # 含分裂子母弹的完整单发伤害（主弹 + fragBullets × 每颗）
+        perShotDirect=round(per_shot, 2),
+        perShotSplash=round(per_shot_splash, 2),
+        fragBullets=frag_n,
+        fragDirect=round(frag_direct, 2),
+        fragSplash=round(frag_splash, 2),
         dps=round(dps, 2) if dps is not None else None,
         perShot=round(per_shot, 2),
         splashDps=splash_dps,
@@ -449,8 +501,8 @@ def unit_dps(unit):
     ws = unit.get('weapons') or []
     details = [compute_weapon_dps(w) for w in ws if isinstance(w, dict)]
     if not details:
-        return dict(weapons=[], total=0.0, air=0.0, ground=0.0,
-                    airGroundOnly=False)
+        return dict(weapons=[], direct=0.0, splash=0.0, total=0.0,
+                    air=0.0, ground=0.0, airGroundOnly=False)
 
     target_air = unit.get('targetAir', True) is not False
     target_ground = unit.get('targetGround', True) is not False
@@ -458,7 +510,11 @@ def unit_dps(unit):
     def v(d):
         return d['dps'] if isinstance(d['dps'], (int, float)) else 0.0
 
-    total = sum(v(d) for d in details)
+    def sp(d):
+        return d['splashDps'] if isinstance(d['splashDps'], (int, float)) else 0.0
+
+    direct = sum(v(d) for d in details)
+    splash = sum(sp(d) for d in details)
     air = sum(v(d) for d in details if d['collidesAir']) if target_air else 0.0
     ground = sum(v(d) for d in details if d['collidesGround']) if target_ground else 0.0
 
@@ -468,12 +524,120 @@ def unit_dps(unit):
 
     return dict(
         weapons=details,
-        total=round(total, 2),
+        # 单体 DPS（直伤，含分裂弹全命中）
+        direct=round(direct, 2),
+        # 范围 DPS（溅射，含分裂弹的溅射）
+        splash=round(splash, 2),
+        # 理论总量 = 单体 + 范围
+        total=round(direct + splash, 2),
         air=round(air, 2),
         ground=round(ground, 2),
         targetAir=target_air,
         targetGround=target_ground,
         airGroundOnly=(target_air and not target_ground),
+    )
+
+
+# ============================================================
+# 建筑（炮塔）DPS
+# ============================================================
+VAN_BLOCKS_PATH = os.path.join(DATA, 'vanilla_blocks.json')
+
+
+def load_vanilla_blocks():
+    """原版炮塔的装填与弹药基准。数据包对建筑的改动是稀疏补丁，
+    多数条目没有 reload，必须回到源码取基准才能算 DPS。"""
+    if not os.path.exists(VAN_BLOCKS_PATH):
+        return {}
+    with open(VAN_BLOCKS_PATH, encoding='utf-8') as f:
+        return json.load(f).get('blocks', {})
+
+
+def ammo_key(s):
+    """Items.silicon / "silicon" / silicon -> silicon"""
+    s = str(s).strip().strip('"')
+    return s.split('.')[-1] if '.' in s else s
+
+
+def merge_node(base, over):
+    """把数据包的覆盖合并进原版节点；两边都是 dict 时逐字段合。"""
+    out = dict(base) if isinstance(base, dict) else {}
+    if isinstance(over, dict):
+        for k, v in over.items():
+            if isinstance(v, dict) and isinstance(out.get(k), dict):
+                out[k] = merge_node(out[k], v)
+            else:
+                out[k] = v
+    return out
+
+
+def building_dps(bid, patch, van_blocks):
+    """算一个炮塔各弹药的 DPS；不可计算时返回 None。"""
+    vb = van_blocks.get(bid)
+    if not vb:
+        return None
+
+    reload_v = num(patch.get('reload', vb.get('reload')), 0.0)
+    if not reload_v:
+        return None
+
+    shoot = patch.get('shoot')
+    if not isinstance(shoot, dict):
+        shoot = vb.get('shoot')
+    if not isinstance(shoot, dict):
+        shoot = {}
+    shots = int(num(shoot.get('shots'), 1) or 1)
+
+    patch_ammo = patch.get('ammoTypes')
+    patch_ammo = ({ammo_key(k): v for k, v in patch_ammo.items() if isinstance(v, dict)}
+                  if isinstance(patch_ammo, dict) else {})
+
+    rows = []
+    for item, bullet in (vb.get('ammo') or []):
+        if not isinstance(bullet, dict):
+            continue
+        key = ammo_key(item)
+        merged = merge_node(bullet, patch_ammo.get(key))
+        d, sp = bullet_profile(merged)
+        rows.append(dict(
+            item=key,
+            damage=round(num(merged.get('damage'), 0.0), 2),
+            splashDamage=round(num(merged.get('splashDamage'), 0.0), 2),
+            perShot=round(shots * d, 2),
+            direct=round(shots * d * TICKS / reload_v, 2),
+            splash=round(shots * sp * TICKS / reload_v, 2),
+        ))
+
+    # 激光 / 电力炮台没有弹药表，用 shootType 当唯一弹种
+    if not rows and isinstance(vb.get('shootType'), dict):
+        merged = merge_node(vb['shootType'],
+                            patch.get('shootType') if isinstance(patch.get('shootType'), dict) else {})
+        d, sp = bullet_profile(merged)
+        rows.append(dict(
+            item='(默认弹种)',
+            damage=round(num(merged.get('damage'), 0.0), 2),
+            splashDamage=round(num(merged.get('splashDamage'), 0.0), 2),
+            perShot=round(shots * d, 2),
+            direct=round(shots * d * TICKS / reload_v, 2),
+            splash=round(shots * sp * TICKS / reload_v, 2),
+        ))
+
+    if not rows:
+        return None
+
+    best = max(rows, key=lambda r: r['direct'] + r['splash'])
+    return dict(
+        reload=round(reload_v, 2),
+        reloadSec=round(reload_v / TICKS, 3),
+        shots=shots,
+        ammo=rows,
+        best=dict(item=best['item'],
+                  direct=best['direct'],
+                  splash=best['splash'],
+                  total=round(best['direct'] + best['splash'], 2)),
+        directMax=max(r['direct'] for r in rows),
+        splashMax=max(r['splash'] for r in rows),
+        totalMax=max(r['direct'] + r['splash'] for r in rows),
     )
 
 
@@ -562,10 +726,12 @@ def main():
                 range=pick(vbase, 'range'),
                 maxRange=pick(vbase, 'maxRange'),
             ),
-            dps=dict(total=dps['total'], air=dps['air'], ground=dps['ground'],
+            dps=dict(direct=dps['direct'], splash=dps['splash'], total=dps['total'],
+                     air=dps['air'], ground=dps['ground'],
                      targetAir=dps.get('targetAir', True),
                      targetGround=dps.get('targetGround', True)),
-            vanillaDps=dict(total=vdps['total'], air=vdps['air'], ground=vdps['ground']),
+            vanillaDps=dict(direct=vdps.get('direct', 0.0), splash=vdps.get('splash', 0.0),
+                            total=vdps['total'], air=vdps['air'], ground=vdps['ground']),
             weapons=[{k: v for k, v in d.items() if k != 'raw'} for d in dps['weapons']],
             abilities=[a for a in (base.get('abilities') or []) if isinstance(a, dict)],
             parts=base.get('parts') or [],
@@ -576,7 +742,7 @@ def main():
 
     # 建筑
     blocks_out = []
-    van_blocks = {}
+    van_blocks = load_vanilla_blocks()
     for key, bucket in sorted(merged_patch.items()):
         kind, bid = key.split('.', 1)
         if kind != 'block':
@@ -591,6 +757,8 @@ def main():
             author='UT' if star == 'S' else ('UP' if star == 'E' else '?'),
             category=cat,
             packs=sorted(set(ent_packs.get(key, []))),
+            isTurret=bool(van_blocks.get(bid)),
+            dps=building_dps(bid, base, van_blocks),
             raw=base,
         ))
 
@@ -604,7 +772,13 @@ def main():
     by_cat = collections.defaultdict(list)
     for u in units_out:
         by_cat[u['categoryLabel'] or '未分类'].append(u['id'])
-    top_dps = sorted(units_out, key=lambda u: -u['dps']['total'])[:15]
+    # 三份榜单：单体（直伤）、范围（溅射）、总量。
+    # 副单位（-missile 战斗部）一律剔除 —— 它们的 DPS 语义是「命中即炸」，
+    # 混进榜单会把真正的作战单位全挤下去。
+    ranked = [x for x in units_out if not x.get('isSubUnit')]
+    top_total = sorted(ranked, key=lambda x: -x['dps']['total'])[:15]
+    top_direct = sorted(ranked, key=lambda x: -x['dps']['direct'])[:15]
+    top_splash = sorted(ranked, key=lambda x: -x['dps']['splash'])[:15]
     idx = dict(
         unitCount=len(units_out),
         blockCount=len(blocks_out),
@@ -613,12 +787,17 @@ def main():
         # 副单位（-missile 战斗部）不参与排行：它们的 DPS 语义是「命中即炸」，
         # 混进榜单会把真正的作战单位全挤下去（曾经前两名是 disrupt-missile
         # 19200 与 quell-missile 14400）。
-        topDps=[dict(id=u['id'], name=u['nameZh'], dps=u['dps']['total'])
-                for u in top_dps if not u.get('isSubUnit')],
+        topDps=[dict(id=x['id'], name=x['nameZh'], dps=x['dps']['total'])
+                for x in top_total],
+        topDirect=[dict(id=x['id'], name=x['nameZh'], dps=x['dps']['direct'])
+                   for x in top_direct],
+        topSplash=[dict(id=x['id'], name=x['nameZh'], dps=x['dps']['splash'])
+                   for x in top_splash],
         units=[dict(id=u['id'], nameZh=u['nameZh'], star=u['star'], author=u['author'],
                     category=u['categoryLabel'], tier=u['tier'],
                     dps=u['dps']['total'], air=u['dps']['air'],
                     ground=u['dps']['ground'],
+                    direct=u['dps']['direct'], splash=u['dps']['splash'],
                     isSubUnit=u.get('isSubUnit', False),
                     health=u['stats']['health']) for u in units_out],
         blocks=[dict(id=b['id'], nameZh=b['nameZh'], star=b['star'],

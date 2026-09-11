@@ -27,13 +27,8 @@ features:
 
 <StatsCards />
 
-## DPS 排行 Top 10
+## DPS 榜速览
 
 <TopDps :limit="10" />
 
-## 站点导航
-
-- [单位总览](/units/) —— 按星球、作者、分类筛选，支持搜索与排序
-- [建筑总览](/buildings/) —— 数据包改动的建筑条目，含所属补丁包
-- [DPS 排行](/dps) —— 全单位 DPS 榜单，可切换对空口径
-- [关于本站](/about) —— 数据来源与 DPS 公式出处
+<SiteDirectory />

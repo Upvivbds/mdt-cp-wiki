@@ -379,6 +379,22 @@ def resolve_symbolic(o):
     return o
 
 
+# 值本身又是一颗子弹的字段。数据包里「分裂子母弹」就是这两个：
+#     fragBullets = 3;
+#     fragBullet = new BasicBulletType(9f, 20){{ damage... }};
+# 早先只把 fragBullet 当普通字面量处理，于是整段 Java 源码被存成了字符串，
+# 分裂弹的伤害一颗都没进 DPS。
+NESTED_BULLET_FIELDS = {'fragBullet', 'intervalBullet'}
+
+
+def parse_field_value(key, raw):
+    """字段值：嵌套子弹字段递归解析成对象，其余走普通字面量。"""
+    v = raw.strip()
+    if key in NESTED_BULLET_FIELDS and v.startswith('new'):
+        return parse_new_obj(v)
+    return to_py(raw)
+
+
 def parse_new_obj(expr):
     """解析 `new Type(args){{fields}}` 成字典。"""
     r = parse_new_expr(expr, 0)
@@ -394,7 +410,7 @@ def parse_new_obj(expr):
                 v = m.group(2)
                 if re.match(r'^[A-Za-z_]\w*\s*=', v):
                     continue
-                o[m.group(1)] = to_py(v)
+                o[m.group(1)] = parse_field_value(m.group(1), v)
             else:
                 o.setdefault('__stmts', []).append(s[:200])
     return resolve_symbolic(apply_ctor(o))

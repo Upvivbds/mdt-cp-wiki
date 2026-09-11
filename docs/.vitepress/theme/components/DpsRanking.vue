@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { fmtNum, loadJson } from '../composables/useRemoteData'
+import { fmtNum, loadJson, unitUrl } from '../composables/useRemoteData'
 
 const loading = ref(true)
 const error = ref('')
@@ -91,7 +91,7 @@ const max = computed(() => {
     <ol class="rank-list">
       <li v-for="(r, i) in rows" :key="r.id" class="rank-row">
         <span class="rank-no">{{ i + 1 }}</span>
-        <a class="rank-name" :href="`/units/${r.id}`">{{ r.nameZh || r.id }}</a>
+        <a class="rank-name" :href="unitUrl(r.id)">{{ r.nameZh || r.id }}</a>
         <span class="rank-meta">
           <span :class="['mz-badge', 'star-' + (r.star || '')]">{{ r.star || '?' }}</span>
           <span v-if="r.author" class="mz-badge author">{{ r.author }}</span>

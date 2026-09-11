@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { fmtNum, loadJson } from '../composables/useRemoteData'
+import { fmtNum, loadJson, unitUrl } from '../composables/useRemoteData'
 
 const props = defineProps({
   limit: { type: Number, default: 10 }
@@ -34,7 +34,7 @@ const max = computed(() => {
     <ol v-else class="td-list">
       <li v-for="(r, i) in rows" :key="r.id" class="td-row">
         <span class="td-rank">{{ i + 1 }}</span>
-        <a class="td-name" :href="`/units/${r.id}`">{{ r.name || r.id }}</a>
+        <a class="td-name" :href="unitUrl(r.id)">{{ r.name || r.id }}</a>
         <span class="td-bar-wrap">
           <span class="td-bar" :style="{ width: (Math.max(r.dps || 0, 0) / max) * 100 + '%' }"></span>
         </span>

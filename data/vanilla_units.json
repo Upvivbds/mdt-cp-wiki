@@ -251,7 +251,15 @@
       "lightningDamage": 20.0,
       "despawnSound": "Sounds.shockBullet",
       "bulletInterval": 4.0,
-      "intervalBullet": "new LightningBulletType(){{\n                        damage = 5f;\n                        lightningLength = 3;\n                        lightningLengthRand = 4;\n                        lightningColor = Pal.surge;\n                        hitEffect = Fx.hitLancerLow;\n                    }}",
+      "intervalBullet": {
+       "__type": "LightningBulletType",
+       "__args": [],
+       "damage": 5.0,
+       "lightningLength": 3.0,
+       "lightningLengthRand": 4.0,
+       "lightningColor": "Pal.surge",
+       "hitEffect": "Fx.hitLancerLow"
+      },
       "speed": 8.0,
       "damage": 70.0
      }
@@ -386,7 +394,24 @@
       "fragLifeMin": 0.0,
       "fragRandomSpread": 30.0,
       "despawnSound": "Sounds.explosion",
-      "fragBullet": "new BasicBulletType(9f, 20){{\n                        width = 10f;\n                        height = 10f;\n                        pierce = true;\n                        pierceBuilding = true;\n                        pierceCap = 3;\n\n                        lifetime = 20f;\n                        hitEffect = Fx.flakExplosion;\n                        splashDamage = 15f;\n                        splashDamageRadius = 10f;\n                    }}",
+      "fragBullet": {
+       "__type": "BasicBulletType",
+       "__args": [
+        "9f",
+        " 20"
+       ],
+       "width": 10.0,
+       "height": 10.0,
+       "pierce": true,
+       "pierceBuilding": true,
+       "pierceCap": 3.0,
+       "lifetime": 20.0,
+       "hitEffect": "Fx.flakExplosion",
+       "splashDamage": 15.0,
+       "splashDamageRadius": 10.0,
+       "speed": 9.0,
+       "damage": 20.0
+      },
       "speed": 13.0,
       "damage": 80.0
      }
@@ -1135,7 +1160,32 @@
       "statusDuration": 600.0,
       "fragLifeMin": 0.3,
       "fragBullets": 9.0,
-      "fragBullet": "new ArtilleryBulletType(2.3f, 30){{\n                        despawnSound = Sounds.explosionArtilleryShock;\n                        hitEffect = Fx.sapExplosion;\n                        knockback = 0.8f;\n                        lifetime = 90f;\n                        width = height = 20f;\n                        collidesTiles = false;\n                        splashDamageRadius = 70f;\n                        splashDamage = 40f;\n                        backColor = Pal.sapBulletBack;\n                        frontColor = lightningColor = Pal.sapBullet;\n                        lightning = 2;\n                        lightningLength = 5;\n                        smokeEffect = Fx.shootBigSmoke2;\n                        hitShake = 5f;\n                        lightRadius = 30f;\n                        lightColor = Pal.sap;\n                        lightOpacity = 0.5f;\n\n                        status = StatusEffects.sapped;\n                        statusDuration = 60f * 10;\n                    }}",
+      "fragBullet": {
+       "__type": "ArtilleryBulletType",
+       "__args": [
+        "2.3f",
+        " 30"
+       ],
+       "despawnSound": "Sounds.explosionArtilleryShock",
+       "hitEffect": "Fx.sapExplosion",
+       "knockback": 0.8,
+       "lifetime": 90.0,
+       "collidesTiles": false,
+       "splashDamageRadius": 70.0,
+       "splashDamage": 40.0,
+       "backColor": "Pal.sapBulletBack",
+       "lightning": 2.0,
+       "lightningLength": 5.0,
+       "smokeEffect": "Fx.shootBigSmoke2",
+       "hitShake": 5.0,
+       "lightRadius": 30.0,
+       "lightColor": "Pal.sap",
+       "lightOpacity": 0.5,
+       "status": "StatusEffects.sapped",
+       "statusDuration": 600.0,
+       "speed": 2.3,
+       "damage": 30.0
+      },
       "speed": 3.0,
       "damage": 50.0
      }
@@ -2586,7 +2636,38 @@
       "trailLength": 29.0,
       "fragBullets": 7.0,
       "fragVelocityMin": 0.3,
-      "fragBullet": "new MissileBulletType(3.9f, 11){{\n                        homingPower = 0.2f;\n                        weaveMag = 4;\n                        weaveScale = 4;\n                        lifetime = 60f;\n                        keepVelocity = false;\n                        shootEffect = Fx.shootHeal;\n                        smokeEffect = Fx.hitLaser;\n                        splashDamage = 13f;\n                        splashDamageRadius = 20f;\n                        frontColor = Color.white;\n                        hitSound = Sounds.none;\n\n                        lightColor = Pal.heal;\n                        lightRadius = 40f;\n                        lightOpacity = 0.7f;\n\n                        trailColor = Pal.heal;\n                        trailWidth = 2.5f;\n                        trailLength = 20;\n                        trailChance = -1f;\n\n                        healPercent = 2.8f;\n                        collidesTeam = true;\n                        backColor = Pal.heal;\n\n                        despawnEffect = Fx.none;\n                        hitEffect = new ExplosionEffect(){{\n                            lifetime = 20f;\n                            waveStroke = 2f;\n                            waveColor = Pal.heal;\n                            waveRad = 12f;\n                            smokeSize = 0f;\n                            smokeSizeBase = 0f;\n                            sparkColor = Pal.heal;\n                            sparks = 9;\n                            sparkRad = 35f;\n                            sparkLen = 4f;\n                            sparkStroke = 1.5f;\n                        }};\n                    }}",
+      "fragBullet": {
+       "__type": "MissileBulletType",
+       "__args": [
+        "3.9f",
+        " 11"
+       ],
+       "homingPower": 0.2,
+       "weaveMag": 4.0,
+       "weaveScale": 4.0,
+       "lifetime": 60.0,
+       "keepVelocity": false,
+       "shootEffect": "Fx.shootHeal",
+       "smokeEffect": "Fx.hitLaser",
+       "splashDamage": 13.0,
+       "splashDamageRadius": 20.0,
+       "frontColor": "Color.white",
+       "hitSound": "Sounds.none",
+       "lightColor": "Pal.heal",
+       "lightRadius": 40.0,
+       "lightOpacity": 0.7,
+       "trailColor": "Pal.heal",
+       "trailWidth": 2.5,
+       "trailLength": 20.0,
+       "trailChance": -1.0,
+       "healPercent": 2.8,
+       "collidesTeam": true,
+       "backColor": "Pal.heal",
+       "despawnEffect": "Fx.none",
+       "hitEffect": "new ExplosionEffect(){{\n                            lifetime = 20f;\n                            waveStroke = 2f;\n                            waveColor = Pal.heal;\n                            waveRad = 12f;\n                            smokeSize = 0f;\n                            smokeSizeBase = 0f;\n                            sparkColor = Pal.heal;\n                            sparks = 9;\n                            sparkRad = 35f;\n                            sparkLen = 4f;\n                            sparkStroke = 1.5f;\n                        }}",
+       "speed": 3.9,
+       "damage": 11.0
+      },
       "speed": 2.5,
       "damage": 25.0
      }
@@ -3153,7 +3234,27 @@
       "trailRotation": true,
       "trailInterval": 3.0,
       "fragBullets": 4.0,
-      "fragBullet": "new BasicBulletType(5f, 35){{\n                        sprite = \"missile-large\";\n                        width = 5f;\n                        height = 7f;\n                        lifetime = 15f;\n                        hitSize = 4f;\n                        pierceCap = 3;\n                        pierce = true;\n                        pierceBuilding = true;\n                        hitColor = backColor = trailColor = Color.valueOf(\"feb380\");\n                        frontColor = Color.white;\n                        trailWidth = 1.7f;\n                        trailLength = 3;\n                        drag = 0.01f;\n                        despawnEffect = hitEffect = Fx.hitBulletColor;\n                    }}",
+      "fragBullet": {
+       "__type": "BasicBulletType",
+       "__args": [
+        "5f",
+        " 35"
+       ],
+       "sprite": "missile-large",
+       "width": 5.0,
+       "height": 7.0,
+       "lifetime": 15.0,
+       "hitSize": 4.0,
+       "pierceCap": 3.0,
+       "pierce": true,
+       "pierceBuilding": true,
+       "frontColor": "Color.white",
+       "trailWidth": 1.7,
+       "trailLength": 3.0,
+       "drag": 0.01,
+       "speed": 5.0,
+       "damage": 35.0
+      },
       "speed": 7.0,
       "damage": 120.0
      }
@@ -3228,7 +3329,25 @@
       "fragBullets": 5.0,
       "fragVelocityMin": 1.0,
       "despawnSound": "Sounds.explosionDull",
-      "fragBullet": "new BasicBulletType(8f, 35f){{\n                        sprite = \"missile-large\";\n                        width = 8f;\n                        height = 16f;\n                        lifetime = 10f;\n                        hitSize = 4f;\n                        hitColor = backColor = trailColor = Color.valueOf(\"feb380\");\n                        frontColor = Color.white;\n                        trailWidth = 2.8f;\n                        trailLength = 6;\n                        hitEffect = despawnEffect = Fx.blastExplosion;\n                        splashDamageRadius = 10f;\n                        splashDamage = 20f;\n                    }}",
+      "fragBullet": {
+       "__type": "BasicBulletType",
+       "__args": [
+        "8f",
+        " 35f"
+       ],
+       "sprite": "missile-large",
+       "width": 8.0,
+       "height": 16.0,
+       "lifetime": 10.0,
+       "hitSize": 4.0,
+       "frontColor": "Color.white",
+       "trailWidth": 2.8,
+       "trailLength": 6.0,
+       "splashDamageRadius": 10.0,
+       "splashDamage": 20.0,
+       "speed": 8.0,
+       "damage": 35.0
+      },
       "speed": 8.0,
       "damage": 150.0
      }
@@ -3814,7 +3933,35 @@
       "fragRandomSpread": 130.0,
       "fragLifeMin": 0.3,
       "despawnShake": 5.0,
-      "fragBullet": "new BasicBulletType(5.5f, 37){{\n                        pierceCap = 2;\n                        pierceBuilding = true;\n\n                        homingPower = 0.09f;\n                        homingRange = 150f;\n\n                        lifetime = 40f;\n                        shootEffect = Fx.shootBigColor;\n                        smokeEffect = Fx.shootSmokeSquareBig;\n                        frontColor = Color.white;\n                        hitSound = Sounds.none;\n                        width = 12f;\n                        height = 20f;\n\n                        lightColor = trailColor = hitColor = backColor = Pal.techBlue;\n                        lightRadius = 40f;\n                        lightOpacity = 0.7f;\n\n                        trailWidth = 2.2f;\n                        trailLength = 7;\n                        trailChance = -1f;\n\n                        collidesAir = false;\n\n                        despawnEffect = Fx.none;\n                        splashDamage = 35f;\n                        splashDamageRadius = 30f;\n\n                        hitEffect = despawnEffect = new MultiEffect(new ExplosionEffect(){{\n                            lifetime = 30f;\n                            waveStroke = 2f;\n                            waveColor = sparkColor = trailColor;\n                            waveRad = 5f;\n                            smokeSize = 0f;\n                            smokeSizeBase = 0f;\n                            sparks = 5;\n                            sparkRad = 20f;\n                            sparkLen = 6f;\n                            sparkStroke = 2f;\n                        }}, Fx.blastExplosion);\n                    }}",
+      "fragBullet": {
+       "__type": "BasicBulletType",
+       "__args": [
+        "5.5f",
+        " 37"
+       ],
+       "pierceCap": 2.0,
+       "pierceBuilding": true,
+       "homingPower": 0.09,
+       "homingRange": 150.0,
+       "lifetime": 40.0,
+       "shootEffect": "Fx.shootBigColor",
+       "smokeEffect": "Fx.shootSmokeSquareBig",
+       "frontColor": "Color.white",
+       "hitSound": "Sounds.none",
+       "width": 12.0,
+       "height": 20.0,
+       "lightRadius": 40.0,
+       "lightOpacity": 0.7,
+       "trailWidth": 2.2,
+       "trailLength": 7.0,
+       "trailChance": -1.0,
+       "collidesAir": false,
+       "despawnEffect": "Fx.none",
+       "splashDamage": 35.0,
+       "splashDamageRadius": 30.0,
+       "speed": 5.5,
+       "damage": 37.0
+      },
       "speed": 5.5,
       "damage": 260.0
      }
@@ -3972,7 +4119,24 @@
       "trailLength": 5.0,
       "fragOnDespawn": false,
       "fragBullets": 2.0,
-      "fragBullet": "new BasicBulletType(3f, 15){{\n                        width = 5f;\n                        height = 8f;\n                        lifetime = 14f;\n                        fragVelocityMax = 1f;\n                        fragVelocityMin = 0.7f;\n                        buildingDamageMultiplier = 0.5f;\n                        hitColor = backColor = trailColor = Pal.suppress;\n                        frontColor = Color.white;\n                        trailWidth = 1.2f;\n                        trailLength = 4;\n                        hitEffect = despawnEffect = Fx.hitBulletColor;\n                    }}",
+      "fragBullet": {
+       "__type": "BasicBulletType",
+       "__args": [
+        "3f",
+        " 15"
+       ],
+       "width": 5.0,
+       "height": 8.0,
+       "lifetime": 14.0,
+       "fragVelocityMax": 1.0,
+       "fragVelocityMin": 0.7,
+       "buildingDamageMultiplier": 0.5,
+       "frontColor": "Color.white",
+       "trailWidth": 1.2,
+       "trailLength": 4.0,
+       "speed": 3.0,
+       "damage": 15.0
+      },
       "speed": 5.0,
       "damage": 34.0
      }
@@ -4032,7 +4196,18 @@
       "trailColor": "Pal.sapBulletBack",
       "trailLength": 12.0,
       "trailWidth": 2.2,
-      "intervalBullet": "new LightningBulletType(){{\n                        damage = 16;\n                        collidesAir = false;\n                        ammoMultiplier = 1f;\n                        lightningColor = Pal.sapBullet;\n                        lightningLength = 3;\n                        lightningLengthRand = 6;\n\n                        \n                        buildingDamageMultiplier = 0.25f;\n\n                        lightningType = new BulletType(0.0001f, 0f){{\n                            lifetime = Fx.lightning.lifetime;\n                            hitEffect = Fx.hitLancer;\n                            despawnEffect = Fx.none;\n                            status = StatusEffects.shocked;\n                            statusDuration = 10f;\n                            hittable = false;\n                            lightColor = Color.white;\n                            buildingDamageMultiplier = 0.25f;\n                        }};\n                    }}",
+      "intervalBullet": {
+       "__type": "LightningBulletType",
+       "__args": [],
+       "damage": 16.0,
+       "collidesAir": false,
+       "ammoMultiplier": 1.0,
+       "lightningColor": "Pal.sapBullet",
+       "lightningLength": 3.0,
+       "lightningLengthRand": 6.0,
+       "buildingDamageMultiplier": 0.25,
+       "lightningType": "new BulletType(0.0001f, 0f){{\n                            lifetime = Fx.lightning.lifetime;\n                            hitEffect = Fx.hitLancer;\n                            despawnEffect = Fx.none;\n                            status = StatusEffects.shocked;\n                            statusDuration = 10f;\n                            hittable = false;\n                            lightColor = Color.white;\n                            buildingDamageMultiplier = 0.25f;\n                        }}"
+      },
       "bulletInterval": 4.0,
       "lightningColor": "Pal.sapBullet",
       "lightningDamage": 17.0,

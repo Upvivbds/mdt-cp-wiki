@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { starLabel } from '../composables/useRemoteData'
+import { buildingUrl, starLabel } from '../composables/useRemoteData'
 
 const props = defineProps({
   building: { type: Object, required: true }
@@ -8,7 +8,7 @@ const props = defineProps({
 
 const b = computed(() => props.building || {})
 const id = computed(() => b.value.id || '')
-const link = computed(() => `/buildings/${id.value}`)
+const link = computed(() => buildingUrl(id.value))
 const nameZh = computed(() => b.value.nameZh || id.value)
 const showEn = computed(() => !!b.value.nameZh && b.value.nameZh !== id.value)
 const packs = computed(() => (Array.isArray(b.value.packs) ? b.value.packs : []))

@@ -76,3 +76,30 @@ export function starLabel(star) {
   if (star === 'E') return '埃里克尔'
   return star || '未知'
 }
+
+/* ---------- 站内链接 ----------
+ * VitePress 只对 Markdown 里写的链接自动补 `.html`，组件里手写的
+ * `:href="`/units/${id}`"` 不会 —— 静态托管上会 404（文件其实是
+ * units/<id>.html）。所以站内链接一律走这里生成。
+ *
+ * 与 config.mts 的 `cleanUrls: false` 保持一致：改配置时这里要同步。
+ */
+export function pageUrl(path) {
+  let p = String(path == null ? '' : path).trim()
+  if (!p) return '/'
+  if (/^(https?:)?\/\//.test(p) || p.startsWith('#') || p.startsWith('mailto:')) return p
+  if (!p.startsWith('/')) p = '/' + p
+  if (p.endsWith('/')) return p
+  if (/\.html?$/.test(p)) return p
+  return p + '.html'
+}
+
+/** 单位详情页 URL */
+export function unitUrl(id) {
+  return pageUrl('units/' + id)
+}
+
+/** 建筑详情页 URL */
+export function buildingUrl(id) {
+  return pageUrl('buildings/' + id)
+}

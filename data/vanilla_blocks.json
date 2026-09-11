@@ -1,0 +1,2557 @@
+{
+ "source": "/Users/hou/Downloads/Mindustry-master/core/src/mindustry/content/Blocks.java",
+ "count": 26,
+ "order": [
+  "duo",
+  "scatter",
+  "scorch",
+  "hail",
+  "wave",
+  "lancer",
+  "arc",
+  "swarmer",
+  "salvo",
+  "tsunami",
+  "fuse",
+  "ripple",
+  "cyclone",
+  "foreshadow",
+  "spectre",
+  "meltdown",
+  "breach",
+  "diffuse",
+  "sublimate",
+  "titan",
+  "disperse",
+  "afflict",
+  "lustre",
+  "scathe",
+  "smite",
+  "malign"
+ ],
+ "blocks": {
+  "duo": {
+   "ammo": [
+    [
+     "Items.copper",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "2.5f",
+       " 9"
+      ],
+      "width": 7.0,
+      "height": 9.0,
+      "lifetime": 60.0,
+      "ammoMultiplier": 2.0,
+      "frontColor": "Pal.copperAmmoFront",
+      "speed": 2.5,
+      "damage": 9.0
+     }
+    ],
+    [
+     "Items.graphite",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "3.5f",
+       " 18"
+      ],
+      "width": 9.0,
+      "height": 12.0,
+      "ammoMultiplier": 4.0,
+      "lifetime": 60.0,
+      "reloadMultiplier": 0.8,
+      "rangeChange": 16.0,
+      "frontColor": "Pal.graphiteAmmoFront",
+      "speed": 3.5,
+      "damage": 18.0
+     }
+    ],
+    [
+     "Items.silicon",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "3f",
+       " 12"
+      ],
+      "width": 7.0,
+      "height": 9.0,
+      "homingPower": 0.2,
+      "reloadMultiplier": 1.5,
+      "ammoMultiplier": 5.0,
+      "lifetime": 60.0,
+      "trailLength": 5.0,
+      "trailWidth": 1.5,
+      "frontColor": "Pal.siliconAmmoFront",
+      "speed": 3.0,
+      "damage": 12.0
+     }
+    ]
+   ],
+   "misc": [
+    "limitRange(5f)"
+   ],
+   "shoot": {
+    "__type": "ShootAlternate",
+    "__args": [
+     "3.5f"
+    ],
+    "spread": 3.5
+   },
+   "recoils": 2.0,
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [],
+    "__stmts": [
+     "for(int i = 0; i < 2; i ++){\n                    int f = i;\n                    parts.add(new RegionPart(\"-barrel-\" + (i == 0 ? \"l\" : \"r\")){{\n                        progress = PartProgress.recoil;\n  "
+    ]
+   },
+   "shootSound": "Sounds.shootDuo",
+   "recoil": 0.5,
+   "shootY": 3.0,
+   "reload": 20.0,
+   "range": 160.0,
+   "shootCone": 15.0,
+   "ammoUseEffect": "Fx.casing1",
+   "health": 250.0,
+   "inaccuracy": 2.0,
+   "rotateSpeed": 10.0,
+   "coolant": "consumeCoolant(0.1f)",
+   "coolantMultiplier": 10.0,
+   "depositCooldown": 2.0,
+   "__ident": "duo",
+   "__class": "ItemTurret",
+   "id": "duo"
+  },
+  "scatter": {
+   "ammo": [
+    [
+     "Items.scrap",
+     {
+      "__type": "FlakBulletType",
+      "__args": [
+       "4f",
+       " 3"
+      ],
+      "lifetime": 60.0,
+      "ammoMultiplier": 5.0,
+      "shootEffect": "Fx.shootSmall",
+      "reloadMultiplier": 0.5,
+      "width": 6.0,
+      "height": 8.0,
+      "hitEffect": "Fx.flakExplosion",
+      "splashDamage": 33.0,
+      "splashDamageRadius": 24.0,
+      "frontColor": "Pal.scrapAmmoFront",
+      "despawnEffect": "Fx.hitBulletColor",
+      "speed": 4.0,
+      "damage": 3.0
+     }
+    ],
+    [
+     "Items.lead",
+     {
+      "__type": "FlakBulletType",
+      "__args": [
+       "4.2f",
+       " 3"
+      ],
+      "lifetime": 60.0,
+      "ammoMultiplier": 4.0,
+      "shootEffect": "Fx.shootSmall",
+      "width": 6.0,
+      "height": 8.0,
+      "hitEffect": "Fx.flakExplosion",
+      "splashDamage": 40.5,
+      "splashDamageRadius": 15.0,
+      "speed": 4.2,
+      "damage": 3.0
+     }
+    ],
+    [
+     "Items.metaglass",
+     {
+      "__type": "FlakBulletType",
+      "__args": [
+       "4f",
+       " 3"
+      ],
+      "despawnEffect": "Fx.hitBulletColor",
+      "lifetime": 60.0,
+      "ammoMultiplier": 5.0,
+      "shootEffect": "Fx.shootSmall",
+      "reloadMultiplier": 0.8,
+      "width": 6.0,
+      "height": 8.0,
+      "hitEffect": "Fx.flakExplosion",
+      "splashDamage": 45.0,
+      "splashDamageRadius": 20.0,
+      "fragBullets": 6.0,
+      "fragBullet": {
+       "__type": "BasicBulletType",
+       "__args": [
+        "3f",
+        " 5"
+       ],
+       "width": 5.0,
+       "height": 12.0,
+       "shrinkY": 1.0,
+       "lifetime": 20.0,
+       "despawnEffect": "Fx.none",
+       "collidesGround": false,
+       "speed": 3.0,
+       "damage": 5.0
+      },
+      "speed": 4.0,
+      "damage": 3.0
+     }
+    ]
+   ],
+   "misc": [
+    "limitRange(2)"
+   ],
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [],
+    "__stmts": [
+     "parts.add(new RegionPart(\"-mid\"){{\n                    progress = PartProgress.recoil;\n                    under = false;\n                    moveY = -1.25f;\n                }})"
+    ]
+   },
+   "reload": 18.0,
+   "range": 220.0,
+   "size": 2.0,
+   "targetGround": false,
+   "shoot.shotDelay": 5.0,
+   "shoot.shots": 2.0,
+   "recoil": 1.0,
+   "rotateSpeed": 15.0,
+   "inaccuracy": 17.0,
+   "shootCone": 35.0,
+   "scaledHealth": 200.0,
+   "shootSound": "Sounds.shootScatter",
+   "coolant": "consumeCoolant(0.2f)",
+   "depositCooldown": 0.5,
+   "__ident": "scatter",
+   "__class": "ItemTurret",
+   "id": "scatter"
+  },
+  "scorch": {
+   "ammo": [
+    [
+     "Items.coal",
+     {
+      "__type": "BulletType",
+      "__args": [
+       "3.35f",
+       " 17f"
+      ],
+      "ammoMultiplier": 3.0,
+      "hitSize": 7.0,
+      "lifetime": 18.0,
+      "pierce": true,
+      "collidesAir": false,
+      "statusDuration": 240.0,
+      "shootEffect": "Fx.shootSmallFlame",
+      "hitEffect": "Fx.hitFlameSmall",
+      "despawnEffect": "Fx.none",
+      "status": "StatusEffects.burning",
+      "keepVelocity": false,
+      "hittable": false,
+      "speed": 3.35,
+      "damage": 17.0
+     }
+    ],
+    [
+     "Items.pyratite",
+     {
+      "__type": "BulletType",
+      "__args": [
+       "4f",
+       " 30f"
+      ],
+      "ammoMultiplier": 10.0,
+      "hitSize": 7.0,
+      "lifetime": 18.0,
+      "pierce": true,
+      "collidesAir": false,
+      "statusDuration": 600.0,
+      "shootEffect": "Fx.shootPyraFlame",
+      "hitEffect": "Fx.hitFlameSmall",
+      "despawnEffect": "Fx.none",
+      "status": "StatusEffects.burning",
+      "hittable": false,
+      "speed": 4.0,
+      "damage": 30.0
+     }
+    ]
+   ],
+   "misc": [],
+   "recoil": 0.0,
+   "reload": 6.0,
+   "coolantMultiplier": 1.5,
+   "range": 60.0,
+   "shootY": 3.0,
+   "shootCone": 50.0,
+   "targetAir": false,
+   "ammoUseEffect": "Fx.none",
+   "health": 400.0,
+   "shootSound": "Sounds.shootFlame",
+   "coolant": "consumeCoolant(0.1f)",
+   "depositCooldown": 1.0,
+   "__ident": "scorch",
+   "__class": "ItemTurret",
+   "id": "scorch"
+  },
+  "hail": {
+   "ammo": [
+    [
+     "Items.graphite",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "3f",
+       " 20"
+      ],
+      "knockback": 0.8,
+      "lifetime": 80.0,
+      "collidesTiles": false,
+      "splashDamageRadius": 18.75,
+      "splashDamage": 33.0,
+      "frontColor": "Pal.graphiteAmmoFront",
+      "despawnEffect": "Fx.hitBulletColor",
+      "speed": 3.0,
+      "damage": 20.0
+     }
+    ],
+    [
+     "Items.silicon",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "3f",
+       " 20"
+      ],
+      "knockback": 0.8,
+      "lifetime": 80.0,
+      "collidesTiles": false,
+      "splashDamageRadius": 18.75,
+      "splashDamage": 33.0,
+      "reloadMultiplier": 1.2,
+      "ammoMultiplier": 3.0,
+      "homingPower": 0.08,
+      "homingRange": 50.0,
+      "trailLength": 7.0,
+      "trailWidth": 3.0,
+      "frontColor": "Pal.siliconAmmoFront",
+      "despawnEffect": "Fx.hitBulletColor",
+      "speed": 3.0,
+      "damage": 20.0
+     }
+    ],
+    [
+     "Items.pyratite",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "3f",
+       " 25"
+      ],
+      "hitEffect": "Fx.blastExplosion",
+      "knockback": 0.8,
+      "lifetime": 80.0,
+      "collidesTiles": false,
+      "splashDamageRadius": 18.75,
+      "splashDamage": 45.0,
+      "status": "StatusEffects.burning",
+      "statusDuration": 720.0,
+      "backColor": "Pal.lightOrange",
+      "makeFire": true,
+      "trailEffect": "Fx.incendTrail",
+      "ammoMultiplier": 4.0,
+      "despawnEffect": "Fx.hitBulletColor",
+      "speed": 3.0,
+      "damage": 25.0
+     }
+    ]
+   ],
+   "misc": [
+    "limitRange(0f)"
+   ],
+   "targetAir": false,
+   "reload": 60.0,
+   "recoil": 2.0,
+   "range": 235.0,
+   "inaccuracy": 1.0,
+   "shootCone": 10.0,
+   "health": 260.0,
+   "shootSound": "Sounds.shootArtillerySmall",
+   "coolant": "consumeCoolant(0.1f)",
+   "coolantMultiplier": 10.0,
+   "depositCooldown": 2.0,
+   "__ident": "hail",
+   "__class": "ItemTurret",
+   "id": "hail"
+  },
+  "wave": {
+   "ammo": [
+    [
+     "Liquids.water",
+     {
+      "__type": "LiquidBulletType",
+      "__args": [
+       "Liquids.water"
+      ],
+      "knockback": 0.7,
+      "drag": 0.01,
+      "layer": "Layer.bullet - 2f"
+     }
+    ],
+    [
+     "Liquids.slag",
+     {
+      "__type": "LiquidBulletType",
+      "__args": [
+       "Liquids.slag"
+      ],
+      "damage": 4.0,
+      "drag": 0.01
+     }
+    ],
+    [
+     "Liquids.cryofluid",
+     {
+      "__type": "LiquidBulletType",
+      "__args": [
+       "Liquids.cryofluid"
+      ],
+      "drag": 0.01
+     }
+    ],
+    [
+     "Liquids.oil",
+     {
+      "__type": "LiquidBulletType",
+      "__args": [
+       "Liquids.oil"
+      ],
+      "drag": 0.01,
+      "layer": "Layer.bullet - 2f"
+     }
+    ]
+   ],
+   "misc": [],
+   "size": 2.0,
+   "recoil": 0.0,
+   "reload": 3.0,
+   "inaccuracy": 5.0,
+   "shootCone": 50.0,
+   "liquidCapacity": 10.0,
+   "shootEffect": "Fx.shootLiquid",
+   "range": 110.0,
+   "scaledHealth": 250.0,
+   "flags": "EnumSet.of(BlockFlag.turret, BlockFlag.extinguisher)",
+   "__ident": "wave",
+   "__class": "LiquidTurret",
+   "id": "wave"
+  },
+  "lancer": {
+   "ammo": [],
+   "misc": [
+    "consumePower(6f)"
+   ],
+   "range": 165.0,
+   "shoot.firstShotDelay": 40.0,
+   "recoil": 2.0,
+   "reload": 80.0,
+   "shake": 2.0,
+   "shootEffect": "Fx.lancerLaserShoot",
+   "smokeEffect": "Fx.none",
+   "heatColor": "Color.red",
+   "size": 2.0,
+   "scaledHealth": 280.0,
+   "targetAir": false,
+   "moveWhileCharging": false,
+   "accurateDelay": false,
+   "shootSound": "Sounds.shootLancer",
+   "coolant": "consumeCoolant(0.2f)",
+   "chargeSound": "Sounds.chargeLancer",
+   "shootType": {
+    "__type": "LaserBulletType",
+    "__args": [
+     "140"
+    ],
+    "colors": "new Color[]{Pal.lancerLaser.cpy().a(0.4f), Pal.lancerLaser, Color.white}",
+    "chargeEffect": "new MultiEffect(Fx.lancerLaserCharge, Fx.lancerLaserChargeBegin)",
+    "buildingDamageMultiplier": 0.25,
+    "armorMultiplier": 4.0,
+    "hitEffect": "Fx.hitLancer",
+    "hitSize": 4.0,
+    "lifetime": 16.0,
+    "drawSize": 400.0,
+    "collidesAir": false,
+    "length": 173.0,
+    "ammoMultiplier": 1.0,
+    "pierceCap": 4.0,
+    "damage": 140.0
+   },
+   "__ident": "lancer",
+   "__class": "PowerTurret",
+   "id": "lancer"
+  },
+  "arc": {
+   "ammo": [],
+   "misc": [
+    "consumePower(3.3f)"
+   ],
+   "shootType": {
+    "__type": "LightningBulletType",
+    "__args": [],
+    "damage": 20.0,
+    "lightningLength": 25.0,
+    "collidesAir": false,
+    "ammoMultiplier": 1.0,
+    "buildingDamageMultiplier": 0.25,
+    "lightningType": "new BulletType(0.0001f, 0f){{\n                    lifetime = Fx.lightning.lifetime;\n                    hitEffect = Fx.hitLancer;\n                    despawnEffect = Fx.none;\n                    status = StatusEffects.shocked;\n                    hittable = false;\n                    lightColor = Color.white;\n                    collidesAir = false;\n                    buildingDamageMultiplier = 0.25f;\n                    shieldDamageMultiplier = 0.2f;\n                }}"
+   },
+   "reload": 35.0,
+   "shootCone": 40.0,
+   "rotateSpeed": 8.0,
+   "targetAir": false,
+   "range": 90.0,
+   "shootEffect": "Fx.lightningShoot",
+   "heatColor": "Color.red",
+   "recoil": 1.0,
+   "size": 1.0,
+   "health": 260.0,
+   "shootSound": "Sounds.shootArc",
+   "coolant": "consumeCoolant(0.1f)",
+   "__ident": "arc",
+   "__class": "PowerTurret",
+   "id": "arc"
+  },
+  "swarmer": {
+   "ammo": [
+    [
+     "Items.blastCompound",
+     {
+      "__type": "MissileBulletType",
+      "__args": [
+       "3.7f",
+       " 10"
+      ],
+      "width": 8.0,
+      "height": 8.0,
+      "shrinkY": 0.0,
+      "splashDamageRadius": 30.0,
+      "splashDamage": 45.0,
+      "ammoMultiplier": 5.0,
+      "hitEffect": "Fx.blastExplosion",
+      "despawnEffect": "Fx.blastExplosion",
+      "status": "StatusEffects.blasted",
+      "frontColor": "Pal.blastAmmoFront",
+      "speed": 3.7,
+      "damage": 10.0
+     }
+    ],
+    [
+     "Items.pyratite",
+     {
+      "__type": "MissileBulletType",
+      "__args": [
+       "3.7f",
+       " 12"
+      ],
+      "frontColor": "Pal.lightishOrange",
+      "backColor": "Pal.lightOrange",
+      "width": 7.0,
+      "height": 8.0,
+      "shrinkY": 0.0,
+      "homingPower": 0.08,
+      "splashDamageRadius": 20.0,
+      "splashDamage": 45.0,
+      "makeFire": true,
+      "ammoMultiplier": 5.0,
+      "hitEffect": "Fx.blastExplosion",
+      "status": "StatusEffects.burning",
+      "speed": 3.7,
+      "damage": 12.0
+     }
+    ],
+    [
+     "Items.surgeAlloy",
+     {
+      "__type": "MissileBulletType",
+      "__args": [
+       "3.7f",
+       " 18"
+      ],
+      "width": 8.0,
+      "height": 8.0,
+      "shrinkY": 0.0,
+      "splashDamageRadius": 25.0,
+      "splashDamage": 35.0,
+      "hitEffect": "Fx.blastExplosion",
+      "despawnEffect": "Fx.blastExplosion",
+      "ammoMultiplier": 4.0,
+      "lightningDamage": 10.0,
+      "lightning": 2.0,
+      "lightningLength": 10.0,
+      "frontColor": "Pal.surgeAmmoFront",
+      "speed": 3.7,
+      "damage": 18.0
+     }
+    ]
+   ],
+   "misc": [
+    "envEnabled |= Env.space",
+    "limitRange(5f)"
+   ],
+   "shoot": {
+    "__type": "ShootBarrel",
+    "__args": [],
+    "barrels": "new float[]{\n                    -4, -1.25f, 0,\n                    0, 0, 0,\n                    4, -1.25f, 0\n                }",
+    "shots": 4.0,
+    "shotDelay": 5.0
+   },
+   "shootY": 4.5,
+   "reload": 34.285714285714285,
+   "inaccuracy": 10.0,
+   "range": 240.0,
+   "consumeAmmoOnce": false,
+   "size": 2.0,
+   "scaledHealth": 300.0,
+   "shootSound": "Sounds.shootMissile",
+   "coolant": "consumeCoolant(0.3f)",
+   "depositCooldown": 2.0,
+   "__ident": "swarmer",
+   "__class": "ItemTurret",
+   "id": "swarmer"
+  },
+  "salvo": {
+   "ammo": [
+    [
+     "Items.copper",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "2.5f",
+       " 15"
+      ],
+      "width": 7.0,
+      "height": 9.0,
+      "lifetime": 60.0,
+      "ammoMultiplier": 5.0,
+      "armorMultiplier": 1.5,
+      "frontColor": "Pal.copperAmmoFront",
+      "speed": 2.5,
+      "damage": 15.0
+     }
+    ],
+    [
+     "Items.graphite",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "3.5f",
+       " 31"
+      ],
+      "width": 9.0,
+      "height": 12.0,
+      "ammoMultiplier": 4.0,
+      "lifetime": 60.0,
+      "reloadMultiplier": 0.8,
+      "rangeChange": 32.0,
+      "frontColor": "Pal.graphiteAmmoFront",
+      "speed": 3.5,
+      "damage": 31.0
+     }
+    ],
+    [
+     "Items.pyratite",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "3.2f",
+       " 25"
+      ],
+      "width": 10.0,
+      "height": 12.0,
+      "backColor": "Pal.lightOrange",
+      "status": "StatusEffects.burning",
+      "hitEffect": "new MultiEffect(Fx.hitBulletColor, Fx.fireHit)",
+      "ammoMultiplier": 5.0,
+      "splashDamage": 15.0,
+      "splashDamageRadius": 22.0,
+      "makeFire": true,
+      "lifetime": 60.0,
+      "speed": 3.2,
+      "damage": 25.0
+     }
+    ],
+    [
+     "Items.silicon",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "3f",
+       " 23",
+       " \"bullet\""
+      ],
+      "width": 8.0,
+      "height": 10.0,
+      "homingPower": 0.2,
+      "reloadMultiplier": 1.5,
+      "ammoMultiplier": 5.0,
+      "lifetime": 60.0,
+      "trailLength": 5.0,
+      "trailWidth": 1.5,
+      "frontColor": "Pal.siliconAmmoFront",
+      "speed": 3.0,
+      "damage": 23.0
+     }
+    ],
+    [
+     "Items.thorium",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "4f",
+       " 28",
+       " \"bullet\""
+      ],
+      "width": 8.0,
+      "height": 13.0,
+      "shootEffect": "Fx.shootBig",
+      "smokeEffect": "Fx.shootBigSmoke",
+      "ammoMultiplier": 4.0,
+      "lifetime": 60.0,
+      "armorMultiplier": 0.8,
+      "frontColor": "Pal.thoriumAmmoFront",
+      "speed": 4.0,
+      "damage": 28.0
+     }
+    ]
+   ],
+   "misc": [
+    "limitRange()"
+   ],
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [],
+    "__stmts": [
+     "parts.add(new RegionPart(\"-side\"){{\n                    progress = PartProgress.warmup;\n                    moveX = 0.6f;\n                    moveRot = -15f;\n                    mirror = true;\n       "
+    ]
+   },
+   "size": 2.0,
+   "range": 190.0,
+   "reload": 29.0,
+   "consumeAmmoOnce": false,
+   "ammoEjectBack": 3.0,
+   "recoil": 0.0,
+   "shake": 1.0,
+   "shoot.shots": 4.0,
+   "shoot.shotDelay": 3.0,
+   "ammoUseEffect": "Fx.casing2",
+   "scaledHealth": 240.0,
+   "shootSound": "Sounds.shootSalvo",
+   "coolant": "consumeCoolant(0.2f)",
+   "depositCooldown": 2.0,
+   "__ident": "salvo",
+   "__class": "ItemTurret",
+   "id": "salvo"
+  },
+  "tsunami": {
+   "ammo": [
+    [
+     "Liquids.water",
+     {
+      "__type": "LiquidBulletType",
+      "__args": [
+       "Liquids.water"
+      ],
+      "lifetime": 49.0,
+      "speed": 4.0,
+      "knockback": 1.7,
+      "puddleSize": 8.0,
+      "orbSize": 4.0,
+      "drag": 0.001,
+      "ammoMultiplier": 0.4,
+      "statusDuration": 240.0,
+      "damage": 0.2,
+      "layer": "Layer.bullet - 2f"
+     }
+    ],
+    [
+     "Liquids.slag",
+     {
+      "__type": "LiquidBulletType",
+      "__args": [
+       "Liquids.slag"
+      ],
+      "lifetime": 49.0,
+      "speed": 4.0,
+      "knockback": 1.3,
+      "puddleSize": 8.0,
+      "orbSize": 4.0,
+      "damage": 4.75,
+      "drag": 0.001,
+      "ammoMultiplier": 0.4,
+      "statusDuration": 240.0
+     }
+    ],
+    [
+     "Liquids.cryofluid",
+     {
+      "__type": "LiquidBulletType",
+      "__args": [
+       "Liquids.cryofluid"
+      ],
+      "lifetime": 49.0,
+      "speed": 4.0,
+      "knockback": 1.3,
+      "puddleSize": 8.0,
+      "orbSize": 4.0,
+      "drag": 0.001,
+      "ammoMultiplier": 0.4,
+      "statusDuration": 240.0,
+      "damage": 0.2
+     }
+    ],
+    [
+     "Liquids.oil",
+     {
+      "__type": "LiquidBulletType",
+      "__args": [
+       "Liquids.oil"
+      ],
+      "lifetime": 49.0,
+      "speed": 4.0,
+      "knockback": 1.3,
+      "puddleSize": 8.0,
+      "orbSize": 4.0,
+      "drag": 0.001,
+      "ammoMultiplier": 0.4,
+      "statusDuration": 240.0,
+      "damage": 0.2,
+      "layer": "Layer.bullet - 2f"
+     }
+    ]
+   ],
+   "misc": [],
+   "size": 3.0,
+   "reload": 3.0,
+   "shoot.shots": 2.0,
+   "velocityRnd": 0.1,
+   "inaccuracy": 4.0,
+   "recoil": 1.0,
+   "shootCone": 45.0,
+   "liquidCapacity": 40.0,
+   "shootEffect": "Fx.shootLiquid",
+   "range": 190.0,
+   "scaledHealth": 250.0,
+   "flags": "EnumSet.of(BlockFlag.turret, BlockFlag.extinguisher)",
+   "__ident": "tsunami",
+   "__class": "LiquidTurret",
+   "id": "tsunami"
+  },
+  "fuse": {
+   "ammo": [
+    [
+     "Items.titanium",
+     {
+      "__type": "ShrapnelBulletType",
+      "__args": [],
+      "length": "brange",
+      "damage": 66.0,
+      "ammoMultiplier": 4.0,
+      "width": 17.0,
+      "reloadMultiplier": 1.3
+     }
+    ],
+    [
+     "Items.thorium",
+     {
+      "__type": "ShrapnelBulletType",
+      "__args": [],
+      "length": "brange",
+      "damage": 105.0,
+      "ammoMultiplier": 5.0,
+      "toColor": "Pal.thoriumPink"
+     }
+    ]
+   ],
+   "misc": [
+    "envEnabled |= Env.space",
+    "float brange = range + 10f"
+   ],
+   "reload": 35.0,
+   "shake": 4.0,
+   "range": 90.0,
+   "recoil": 5.0,
+   "shoot": {
+    "__type": "ShootSpread",
+    "__args": [
+     "3",
+     " 20f"
+    ],
+    "shots": 3,
+    "spread": 20.0
+   },
+   "shootCone": 30.0,
+   "size": 3.0,
+   "scaledHealth": 220.0,
+   "shootSound": "Sounds.shootFuse",
+   "shootSoundVolume": 0.9,
+   "coolant": "consumeCoolant(0.3f)",
+   "depositCooldown": 1.0,
+   "__ident": "fuse",
+   "__class": "ItemTurret",
+   "id": "fuse"
+  },
+  "ripple": {
+   "ammo": [
+    [
+     "Items.graphite",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "3f",
+       " 40"
+      ],
+      "hitEffect": "new MultiEffect(Fx.flakExplosion, Fx.shockwaveSmaller)",
+      "knockback": 0.8,
+      "lifetime": 80.0,
+      "width": 12.0,
+      "height": 14.0,
+      "collidesTiles": false,
+      "splashDamageRadius": 22.5,
+      "splashDamage": 70.0,
+      "frontColor": "Pal.graphiteAmmoFront",
+      "despawnEffect": "Fx.hitBulletColor",
+      "lifeScaleRandMax": 1.08,
+      "lifeScaleRandMin": 0.95,
+      "speed": 3.0,
+      "damage": 40.0
+     }
+    ],
+    [
+     "Items.silicon",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "3f",
+       " 40"
+      ],
+      "hitEffect": "new MultiEffect(Fx.flakExplosion, Fx.shockwaveSmaller)",
+      "knockback": 0.8,
+      "lifetime": 80.0,
+      "width": 12.0,
+      "height": 14.0,
+      "collidesTiles": false,
+      "splashDamageRadius": 22.5,
+      "splashDamage": 70.0,
+      "reloadMultiplier": 1.2,
+      "ammoMultiplier": 3.0,
+      "homingPower": 0.08,
+      "homingRange": 50.0,
+      "trailLength": 9.0,
+      "trailWidth": 3.1,
+      "despawnEffect": "Fx.hitBulletColor",
+      "frontColor": "Pal.siliconAmmoFront",
+      "lifeScaleRandMax": 1.08,
+      "lifeScaleRandMin": 0.95,
+      "speed": 3.0,
+      "damage": 40.0
+     }
+    ],
+    [
+     "Items.pyratite",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "3f",
+       " 48"
+      ],
+      "hitEffect": "new MultiEffect(Fx.blastExplosion, Fx.shockwave)",
+      "knockback": 0.8,
+      "lifetime": 80.0,
+      "width": 13.0,
+      "height": 15.0,
+      "collidesTiles": false,
+      "splashDamageRadius": 22.5,
+      "splashDamage": 90.0,
+      "status": "StatusEffects.burning",
+      "statusDuration": 720.0,
+      "frontColor": "Pal.lightishOrange",
+      "makeFire": true,
+      "trailEffect": "Fx.incendTrail",
+      "ammoMultiplier": 4.0,
+      "despawnEffect": "Fx.hitBulletColor",
+      "lifeScaleRandMax": 1.08,
+      "lifeScaleRandMin": 0.95,
+      "speed": 3.0,
+      "damage": 48.0
+     }
+    ],
+    [
+     "Items.blastCompound",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "2f",
+       " 40",
+       " \"shell\""
+      ],
+      "hitEffect": "new MultiEffect(Fx.blastExplosion, Fx.shockwave)",
+      "knockback": 0.8,
+      "lifetime": 80.0,
+      "width": 14.0,
+      "height": 16.0,
+      "collidesTiles": false,
+      "ammoMultiplier": 4.0,
+      "splashDamageRadius": 37.5,
+      "splashDamage": 90.0,
+      "status": "StatusEffects.blasted",
+      "lifeScaleRandMax": 1.08,
+      "lifeScaleRandMin": 0.95,
+      "despawnEffect": "Fx.hitBulletColor",
+      "frontColor": "Pal.blastAmmoFront",
+      "speed": 2.0,
+      "damage": 40.0
+     }
+    ],
+    [
+     "Items.plastanium",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "3.4f",
+       " 40",
+       " \"shell\""
+      ],
+      "hitEffect": "new MultiEffect(Fx.plasticExplosion, Fx.shockwave)",
+      "knockback": 1.0,
+      "lifetime": 80.0,
+      "width": 13.0,
+      "height": 15.0,
+      "collidesTiles": false,
+      "splashDamageRadius": 30.0,
+      "splashDamage": 90.0,
+      "fragBullet": {
+       "__type": "BasicBulletType",
+       "__args": [
+        "2.5f",
+        " 14",
+        " \"bullet\""
+       ],
+       "width": 10.0,
+       "height": 12.0,
+       "shrinkY": 1.0,
+       "lifetime": 15.0,
+       "backColor": "Pal.plastaniumBack",
+       "frontColor": "Pal.plastaniumFront",
+       "despawnEffect": "Fx.none",
+       "collidesAir": false,
+       "speed": 2.5,
+       "damage": 14.0
+      },
+      "fragBullets": 15.0,
+      "backColor": "Pal.plastaniumBack",
+      "frontColor": "Pal.plastaniumFront",
+      "lifeScaleRandMax": 1.08,
+      "lifeScaleRandMin": 0.95,
+      "speed": 3.4,
+      "damage": 40.0
+     }
+    ]
+   ],
+   "misc": [],
+   "targetAir": false,
+   "size": 3.0,
+   "shoot.shots": 4.0,
+   "inaccuracy": 11.0,
+   "reload": 120.0,
+   "ammoEjectBack": 5.0,
+   "ammoUseEffect": "Fx.casing3Double",
+   "ammoPerShot": 2.0,
+   "velocityRnd": 0.2,
+   "scaleLifetimeOffset": 0.1111111111111111,
+   "recoil": 6.0,
+   "shake": 2.0,
+   "range": 290.0,
+   "minRange": 50.0,
+   "coolant": "consumeCoolant(0.3f)",
+   "scaledHealth": 130.0,
+   "depositCooldown": 2.0,
+   "shootSound": "Sounds.shootRipple",
+   "__ident": "ripple",
+   "__class": "ItemTurret",
+   "id": "ripple"
+  },
+  "cyclone": {
+   "ammo": [
+    [
+     "Items.metaglass",
+     {
+      "__type": "FlakBulletType",
+      "__args": [
+       "4f",
+       " 6"
+      ],
+      "ammoMultiplier": 2.0,
+      "shootEffect": "Fx.shootSmall",
+      "reloadMultiplier": 0.8,
+      "width": 6.0,
+      "height": 11.0,
+      "hitEffect": "Fx.flakExplosion",
+      "splashDamage": 45.0,
+      "splashDamageRadius": 25.0,
+      "fragBullet": {
+       "__type": "BasicBulletType",
+       "__args": [
+        "3f",
+        " 12",
+        " \"bullet\""
+       ],
+       "width": 5.0,
+       "height": 12.0,
+       "shrinkY": 1.0,
+       "lifetime": 20.0,
+       "backColor": "Pal.gray",
+       "frontColor": "Color.white",
+       "despawnEffect": "Fx.none",
+       "speed": 3.0,
+       "damage": 12.0
+      },
+      "fragBullets": 4.0,
+      "explodeRange": 20.0,
+      "collidesGround": true,
+      "frontColor": "Pal.glassAmmoFront",
+      "despawnEffect": "Fx.hitBulletColor",
+      "speed": 4.0,
+      "damage": 6.0
+     }
+    ],
+    [
+     "Items.blastCompound",
+     {
+      "__type": "FlakBulletType",
+      "__args": [
+       "4f",
+       " 8"
+      ],
+      "shootEffect": "Fx.shootBig",
+      "ammoMultiplier": 5.0,
+      "splashDamage": 45.0,
+      "splashDamageRadius": 60.0,
+      "collidesGround": true,
+      "status": "StatusEffects.blasted",
+      "frontColor": "Pal.blastAmmoFront",
+      "despawnEffect": "Fx.hitBulletColor",
+      "speed": 4.0,
+      "damage": 8.0
+     }
+    ],
+    [
+     "Items.plastanium",
+     {
+      "__type": "FlakBulletType",
+      "__args": [
+       "4f",
+       " 8"
+      ],
+      "ammoMultiplier": 4.0,
+      "splashDamageRadius": 40.0,
+      "splashDamage": 37.5,
+      "fragBullet": {
+       "__type": "BasicBulletType",
+       "__args": [
+        "2.5f",
+        " 12",
+        " \"bullet\""
+       ],
+       "width": 10.0,
+       "height": 12.0,
+       "shrinkY": 1.0,
+       "lifetime": 15.0,
+       "backColor": "Pal.plastaniumBack",
+       "frontColor": "Pal.plastaniumFront",
+       "despawnEffect": "Fx.none",
+       "speed": 2.5,
+       "damage": 12.0
+      },
+      "fragBullets": 6.0,
+      "hitEffect": "Fx.plasticExplosion",
+      "frontColor": "Pal.plastaniumFront",
+      "backColor": "Pal.plastaniumBack",
+      "shootEffect": "Fx.shootBig",
+      "collidesGround": true,
+      "explodeRange": 20.0,
+      "despawnEffect": "Fx.hitBulletColor",
+      "speed": 4.0,
+      "damage": 8.0
+     }
+    ],
+    [
+     "Items.surgeAlloy",
+     {
+      "__type": "FlakBulletType",
+      "__args": [
+       "4.5f",
+       " 13"
+      ],
+      "ammoMultiplier": 5.0,
+      "splashDamage": 75.0,
+      "splashDamageRadius": 38.0,
+      "lightning": 2.0,
+      "lightningLength": 7.0,
+      "shootEffect": "Fx.shootBig",
+      "collidesGround": true,
+      "explodeRange": 20.0,
+      "frontColor": "Pal.surgeAmmoFront",
+      "despawnEffect": "Fx.hitBulletColor",
+      "speed": 4.5,
+      "damage": 13.0
+     }
+    ]
+   ],
+   "misc": [
+    "limitRange()"
+   ],
+   "shootY": 10.0,
+   "shoot": {
+    "__type": "ShootBarrel",
+    "__args": [],
+    "barrels": "new float[]{\n                0f, 1f, 0f,\n                3f, 0f, 0f,\n                -3f, 0f, 0f,\n                }"
+   },
+   "recoils": 3.0,
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [],
+    "__stmts": [
+     "for(int i = 3; i > 0; i--){\n                    int f = i;\n                    parts.add(new RegionPart(\"-barrel-\" + i){{\n                        progress = PartProgress.recoil;\n                      "
+    ]
+   },
+   "reload": 10.0,
+   "range": 200.0,
+   "size": 3.0,
+   "recoil": 1.5,
+   "recoilTime": 10.0,
+   "rotateSpeed": 10.0,
+   "inaccuracy": 10.0,
+   "shootCone": 30.0,
+   "shootSound": "Sounds.shootCyclone",
+   "coolant": "consumeCoolant(0.3f)",
+   "scaledHealth": 145.0,
+   "depositCooldown": 2.0,
+   "__ident": "cyclone",
+   "__class": "ItemTurret",
+   "id": "cyclone"
+  },
+  "foreshadow": {
+   "ammo": [
+    [
+     "Items.surgeAlloy",
+     {
+      "__type": "RailBulletType",
+      "__args": [],
+      "shootEffect": "Fx.instShoot",
+      "hitEffect": "Fx.instHit",
+      "pierceEffect": "Fx.railHit",
+      "smokeEffect": "Fx.smokeCloud",
+      "pointEffect": "Fx.instTrail",
+      "despawnEffect": "Fx.instBomb",
+      "pointEffectSpace": 20.0,
+      "damage": 1350.0,
+      "buildingDamageMultiplier": 0.2,
+      "pierceDamageFactor": 1.0,
+      "length": "brange",
+      "hitShake": 6.0,
+      "ammoMultiplier": 1.0
+     }
+    ]
+   ],
+   "misc": [
+    "float brange = range = 500f",
+    "envEnabled |= Env.space",
+    "consumePower(10f)"
+   ],
+   "maxAmmo": 40.0,
+   "ammoPerShot": 5.0,
+   "rotateSpeed": 2.0,
+   "reload": 200.0,
+   "ammoUseEffect": "Fx.casing3Double",
+   "recoil": 5.0,
+   "cooldownTime": "reload",
+   "shake": 4.0,
+   "size": 4.0,
+   "shootCone": 2.0,
+   "shootSound": "Sounds.shootForeshadow",
+   "unitSort": "UnitSorts.strongest",
+   "coolantMultiplier": 0.4,
+   "liquidCapacity": 60.0,
+   "scaledHealth": 150.0,
+   "coolant": "consumeCoolant(1f)",
+   "depositCooldown": 2.0,
+   "__ident": "foreshadow",
+   "__class": "ItemTurret",
+   "id": "foreshadow"
+  },
+  "spectre": {
+   "ammo": [
+    [
+     "Items.graphite",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "7.5f",
+       " 50"
+      ],
+      "hitSize": 4.8,
+      "width": 15.0,
+      "height": 21.0,
+      "shootEffect": "Fx.shootBig",
+      "ammoMultiplier": 4.0,
+      "reloadMultiplier": 1.7,
+      "knockback": 0.3,
+      "frontColor": "Pal.graphiteAmmoFront",
+      "speed": 7.5,
+      "damage": 50.0
+     }
+    ],
+    [
+     "Items.thorium",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "8f",
+       " 80"
+      ],
+      "hitSize": 5.0,
+      "width": 16.0,
+      "height": 23.0,
+      "shootEffect": "Fx.shootBig",
+      "pierceCap": 2.0,
+      "pierceBuilding": true,
+      "knockback": 0.7,
+      "frontColor": "Pal.thoriumAmmoFront",
+      "speed": 8.0,
+      "damage": 80.0
+     }
+    ],
+    [
+     "Items.pyratite",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "7f",
+       " 70"
+      ],
+      "hitSize": 5.0,
+      "width": 16.0,
+      "height": 21.0,
+      "frontColor": "Pal.lightishOrange",
+      "backColor": "Pal.lightOrange",
+      "status": "StatusEffects.burning",
+      "hitEffect": "new MultiEffect(Fx.hitBulletSmall, Fx.fireHit)",
+      "shootEffect": "Fx.shootBig",
+      "makeFire": true,
+      "pierceCap": 2.0,
+      "pierceBuilding": true,
+      "knockback": 0.6,
+      "ammoMultiplier": 3.0,
+      "splashDamage": 20.0,
+      "splashDamageRadius": 25.0,
+      "speed": 7.0,
+      "damage": 70.0
+     }
+    ]
+   ],
+   "misc": [
+    "limitRange()"
+   ],
+   "reload": 7.0,
+   "recoilTime": "reload * 2f",
+   "coolantMultiplier": 0.5,
+   "liquidCapacity": 120.0,
+   "ammoUseEffect": "Fx.casing3",
+   "range": 260.0,
+   "inaccuracy": 3.0,
+   "recoil": 3.0,
+   "shoot": {
+    "__type": "ShootAlternate",
+    "__args": [
+     "8f"
+    ],
+    "spread": 8.0
+   },
+   "shake": 2.0,
+   "size": 4.0,
+   "shootCone": 24.0,
+   "shootSound": "Sounds.shootSpectre",
+   "scaledHealth": 160.0,
+   "coolant": "consumeCoolant(1f)",
+   "depositCooldown": 2.0,
+   "__ident": "spectre",
+   "__class": "ItemTurret",
+   "id": "spectre"
+  },
+  "meltdown": {
+   "ammo": [],
+   "misc": [
+    "envEnabled |= Env.space",
+    "consumePower(17f)"
+   ],
+   "shootEffect": "Fx.shootBigSmoke2",
+   "shootCone": 40.0,
+   "recoil": 4.0,
+   "size": 4.0,
+   "shake": 2.0,
+   "range": 195.0,
+   "reload": 90.0,
+   "firingMoveFract": 0.5,
+   "shootDuration": 230.0,
+   "shootSound": "Sounds.shootMeltdown",
+   "loopSound": "Sounds.beamMeltdown",
+   "loopSoundVolume": 2.0,
+   "shootType": {
+    "__type": "ContinuousLaserBulletType",
+    "__args": [
+     "78"
+    ],
+    "length": 200.0,
+    "hitEffect": "Fx.hitMeltdown",
+    "hitColor": "Pal.meltdownHit",
+    "status": "StatusEffects.melting",
+    "drawSize": 420.0,
+    "timescaleDamage": true,
+    "incendChance": 0.4,
+    "incendSpread": 5.0,
+    "incendAmount": 1.0,
+    "ammoMultiplier": 1.0,
+    "damage": 78.0
+   },
+   "scaledHealth": 200.0,
+   "liquidCapacity": 60.0,
+   "coolant": "consumeCoolant(0.5f)",
+   "__ident": "meltdown",
+   "__class": "LaserTurret",
+   "id": "meltdown"
+  },
+  "breach": {
+   "ammo": [
+    [
+     "Items.beryllium",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "7.5f",
+       " 85"
+      ],
+      "width": 12.0,
+      "hitSize": 7.0,
+      "height": 20.0,
+      "shootEffect": "sfe",
+      "smokeEffect": "Fx.shootBigSmoke",
+      "ammoMultiplier": 1.0,
+      "pierceCap": 2.0,
+      "pierce": true,
+      "pierceBuilding": true,
+      "frontColor": "Color.white",
+      "trailWidth": 2.1,
+      "trailLength": 10.0,
+      "buildingDamageMultiplier": 0.3,
+      "speed": 7.5,
+      "damage": 85.0
+     }
+    ],
+    [
+     "Items.tungsten",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "8f",
+       " 95"
+      ],
+      "width": 13.0,
+      "height": 19.0,
+      "hitSize": 7.0,
+      "shootEffect": "sfe",
+      "smokeEffect": "Fx.shootBigSmoke",
+      "ammoMultiplier": 2.0,
+      "reloadMultiplier": 1.0,
+      "pierceCap": 4.0,
+      "pierce": true,
+      "pierceBuilding": true,
+      "frontColor": "Color.white",
+      "trailWidth": 2.2,
+      "trailLength": 11.0,
+      "rangeChange": 40.0,
+      "buildingDamageMultiplier": 0.3,
+      "speed": 8.0,
+      "damage": 95.0
+     }
+    ],
+    [
+     "Items.carbide",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "12f",
+       " 325f/0.75f"
+      ],
+      "width": 15.0,
+      "height": 21.0,
+      "hitSize": 7.0,
+      "shootEffect": "sfe",
+      "smokeEffect": "Fx.shootBigSmoke",
+      "ammoMultiplier": 2.0,
+      "reloadMultiplier": 0.2,
+      "frontColor": "Color.white",
+      "trailWidth": 2.2,
+      "trailLength": 11.0,
+      "trailEffect": "Fx.disperseTrail",
+      "trailInterval": 2.0,
+      "rangeChange": 56.0,
+      "buildingDamageMultiplier": 0.3,
+      "trailRotation": true,
+      "shootSound": "Sounds.shootBreachCarbide",
+      "fragBullets": 3.0,
+      "fragRandomSpread": 0.0,
+      "fragSpread": 25.0,
+      "fragVelocityMin": 1.0,
+      "fragBullet": {
+       "__type": "BasicBulletType",
+       "__args": [
+        "8.1f",
+        " 227f"
+       ],
+       "lifetime": 8.0,
+       "width": 11.0,
+       "height": 14.0,
+       "hitSize": 7.0,
+       "shootEffect": "sfe",
+       "ammoMultiplier": 1.0,
+       "reloadMultiplier": 1.0,
+       "pierceCap": 2.0,
+       "pierce": true,
+       "pierceBuilding": true,
+       "frontColor": "Color.white",
+       "trailWidth": 1.8,
+       "trailLength": 11.0,
+       "buildingDamageMultiplier": 0.2,
+       "speed": 8.1,
+       "damage": 227.0
+      },
+      "speed": 12.0,
+      "damage": 433.3333333333333
+     }
+    ]
+   ],
+   "misc": [
+    "Effect sfe = new MultiEffect(Fx.shootBigColor, Fx.colorSparkBig)",
+    "envEnabled |= Env.space",
+    "limitRange(12f)"
+   ],
+   "coolantMultiplier": 15.0,
+   "shootSound": "Sounds.shootBreach",
+   "targetUnderBlocks": false,
+   "shake": 1.0,
+   "ammoPerShot": 2.0,
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [
+     "\"reinforced-\""
+    ]
+   },
+   "shootY": -2.0,
+   "outlineColor": "Pal.darkOutline",
+   "size": 3.0,
+   "reload": 40.0,
+   "recoil": 2.0,
+   "range": 190.0,
+   "shootCone": 3.0,
+   "scaledHealth": 180.0,
+   "rotateSpeed": 1.5,
+   "buildTime": 540.0,
+   "coolant": "consume(new ConsumeLiquid(Liquids.water, 15f / 60f))",
+   "__ident": "breach",
+   "__class": "ItemTurret",
+   "id": "breach"
+  },
+  "diffuse": {
+   "ammo": [
+    [
+     "Items.graphite",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "8f",
+       " 41"
+      ],
+      "knockback": 4.0,
+      "width": 25.0,
+      "hitSize": 7.0,
+      "height": 20.0,
+      "shootEffect": "Fx.shootBigColor",
+      "smokeEffect": "Fx.shootSmokeSquareSparse",
+      "ammoMultiplier": 1.0,
+      "frontColor": "Pal.redLight",
+      "trailWidth": 6.0,
+      "trailLength": 3.0,
+      "buildingDamageMultiplier": 0.2,
+      "speed": 8.0,
+      "damage": 41.0
+     }
+    ],
+    [
+     "Items.oxide",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "8f",
+       " 90"
+      ],
+      "knockback": 3.0,
+      "width": 25.0,
+      "hitSize": 7.0,
+      "height": 20.0,
+      "shootEffect": "Fx.shootBigColor",
+      "smokeEffect": "Fx.shootSmokeSquareSparse",
+      "ammoMultiplier": 2.0,
+      "frontColor": "Color.valueOf(\"e4ffd6\")",
+      "trailWidth": 6.0,
+      "trailLength": 3.0,
+      "buildingDamageMultiplier": 0.2,
+      "speed": 8.0,
+      "damage": 90.0
+     }
+    ],
+    [
+     "Items.silicon",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "8f",
+       " 35"
+      ],
+      "knockback": 3.0,
+      "width": 25.0,
+      "hitSize": 7.0,
+      "height": 20.0,
+      "homingPower": 0.045,
+      "shootEffect": "Fx.shootBigColor",
+      "smokeEffect": "Fx.shootSmokeSquareSparse",
+      "ammoMultiplier": 1.0,
+      "frontColor": "Color.valueOf(\"dae1ee\")",
+      "trailWidth": 6.0,
+      "trailLength": 6.0,
+      "buildingDamageMultiplier": 0.2,
+      "speed": 8.0,
+      "damage": 35.0
+     }
+    ]
+   ],
+   "misc": [
+    "envEnabled |= Env.space",
+    "limitRange(25f)"
+   ],
+   "shoot": {
+    "__type": "ShootSpread",
+    "__args": [
+     "15",
+     " 4f"
+    ],
+    "shots": 15,
+    "spread": 4.0
+   },
+   "coolantMultiplier": 15.0,
+   "inaccuracy": 0.2,
+   "velocityRnd": 0.17,
+   "shake": 1.0,
+   "ammoPerShot": 3.0,
+   "maxAmmo": 30.0,
+   "consumeAmmoOnce": true,
+   "targetUnderBlocks": false,
+   "shootSound": "Sounds.shootDiffuse",
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [
+     "\"reinforced-\""
+    ],
+    "__stmts": [
+     "parts.add(new RegionPart(\"-front\"){{\n                    progress = PartProgress.warmup;\n                    moveRot = -10f;\n                    mirror = true;\n                    moves.add(new PartMo"
+    ]
+   },
+   "shootY": 5.0,
+   "outlineColor": "Pal.darkOutline",
+   "size": 3.0,
+   "reload": 30.0,
+   "recoil": 2.0,
+   "range": 125.0,
+   "shootCone": 40.0,
+   "scaledHealth": 210.0,
+   "rotateSpeed": 3.0,
+   "coolant": "consume(new ConsumeLiquid(Liquids.water, 15f / 60f))",
+   "__ident": "diffuse",
+   "__class": "ItemTurret",
+   "id": "diffuse"
+  },
+  "sublimate": {
+   "ammo": [
+    [
+     "Liquids.ozone",
+     {
+      "__type": "ContinuousFlameBulletType",
+      "__args": [],
+      "damage": 60.0,
+      "length": "r",
+      "ammoMultiplier": 1.2,
+      "knockback": 1.0,
+      "pierceCap": 2.0,
+      "buildingDamageMultiplier": 0.3,
+      "timescaleDamage": true,
+      "colors": "new Color[]{Color.valueOf(\"eb7abe\").a(0.55f), Color.valueOf(\"e189f5\").a(0.7f), Color.valueOf(\"907ef7\").a(0.8f), Color.valueOf(\"91a4ff\"), Color.white}"
+     }
+    ],
+    [
+     "Liquids.cyanogen",
+     {
+      "__type": "ContinuousFlameBulletType",
+      "__args": [],
+      "damage": 130.0,
+      "rangeChange": 70.0,
+      "length": "r + rangeChange",
+      "knockback": 2.0,
+      "pierceCap": 3.0,
+      "buildingDamageMultiplier": 0.3,
+      "timescaleDamage": true,
+      "colors": "new Color[]{Color.valueOf(\"465ab8\").a(0.55f), Color.valueOf(\"66a6d2\").a(0.7f), Color.valueOf(\"89e8b6\").a(0.8f), Color.valueOf(\"cafcbe\"), Color.white}",
+      "flareColor": "Color.valueOf(\"89e8b6\")"
+     }
+    ]
+   ],
+   "misc": [
+    "float r = range = 130f"
+   ],
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [
+     "\"reinforced-\""
+    ],
+    "__stmts": [
+     "Color heatc = Color.valueOf(\"fa2859\")",
+     "parts.addAll(\n                new RegionPart(\"-back\"){{\n                    progress = PartProgress.warmup;\n                    mirror = true;\n                    moveRot = 40f;\n                    x "
+    ],
+    "heatColor": "heatc"
+   },
+   "outlineColor": "Pal.darkOutline",
+   "liquidCapacity": 50.0,
+   "liquidConsumed": 0.3,
+   "targetInterval": 5.0,
+   "newTargetInterval": 30.0,
+   "targetUnderBlocks": false,
+   "shootY": 8.0,
+   "loopSound": "Sounds.shootSublimate",
+   "shootSound": "Sounds.none",
+   "loopSoundVolume": 1.0,
+   "scaledHealth": 210.0,
+   "size": 3.0,
+   "__ident": "sublimate",
+   "__class": "ContinuousLiquidTurret",
+   "id": "sublimate"
+  },
+  "titan": {
+   "ammo": [
+    [
+     "Items.thorium",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "2.5f",
+       " 350",
+       " \"shell\""
+      ],
+      "hitEffect": "new MultiEffect(Fx.titanExplosion, Fx.titanSmoke)",
+      "despawnEffect": "Fx.none",
+      "knockback": 2.0,
+      "lifetime": 140.0,
+      "height": 19.0,
+      "width": 17.0,
+      "splashDamageRadius": 65.0,
+      "splashDamage": 350.0,
+      "scaledSplashDamage": true,
+      "frontColor": "Color.white",
+      "ammoMultiplier": 1.0,
+      "hitSound": "Sounds.explosionTitan",
+      "status": "StatusEffects.blasted",
+      "trailLength": 32.0,
+      "trailWidth": 3.35,
+      "trailSinScl": 2.5,
+      "trailSinMag": 0.5,
+      "trailEffect": "Fx.none",
+      "despawnShake": 7.0,
+      "shootEffect": "Fx.shootTitan",
+      "smokeEffect": "Fx.shootSmokeTitan",
+      "trailInterp": "v -> Math.max(Mathf.slope(v), 0.8f)",
+      "shrinkX": 0.2,
+      "shrinkY": 0.1,
+      "buildingDamageMultiplier": 0.3,
+      "speed": 2.5,
+      "damage": 350.0
+     }
+    ],
+    [
+     "Items.carbide",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "3.25f",
+       " 700",
+       " \"shell\""
+      ],
+      "hitEffect": "new MultiEffect(Fx.titanExplosionSmall, Fx.titanSmokeSmall)",
+      "despawnEffect": "Fx.none",
+      "knockback": 3.0,
+      "lifetime": 140.0,
+      "height": 28.0,
+      "width": 15.0,
+      "splashDamageRadius": 36.0,
+      "splashDamage": 750.0,
+      "rangeChange": 80.0,
+      "reloadMultiplier": 0.8,
+      "scaledSplashDamage": true,
+      "frontColor": "Color.white",
+      "ammoMultiplier": 1.0,
+      "hitSound": "Sounds.explosionTitan",
+      "status": "StatusEffects.blasted",
+      "trailLength": 32.0,
+      "trailWidth": 3.35,
+      "trailSinScl": 2.5,
+      "trailSinMag": 0.5,
+      "trailEffect": "Fx.disperseTrail",
+      "trailInterval": 2.0,
+      "despawnShake": 7.0,
+      "shootEffect": "Fx.shootTitan",
+      "smokeEffect": "Fx.shootSmokeTitan",
+      "trailRotation": true,
+      "trailInterp": "v -> Math.max(Mathf.slope(v), 0.8f)",
+      "shrinkX": 0.2,
+      "shrinkY": 0.1,
+      "buildingDamageMultiplier": 0.2,
+      "fragLifeMin": 1.5,
+      "fragBullets": 12.0,
+      "fragBullet": {
+       "__type": "ArtilleryBulletType",
+       "__args": [
+        "0.5f",
+        " 50",
+        " \"shell\""
+       ],
+       "hitEffect": "new MultiEffect(Fx.titanExplosionFrag, Fx.titanLightSmall, new WaveEffect(){{\n                            lifetime = 8f;\n                            strokeFrom = 1f;\n                            sizeTo = 8f;\n                        }})",
+       "despawnEffect": "Fx.hitBulletColor",
+       "width": 8.0,
+       "height": 12.0,
+       "lifetime": 50.0,
+       "knockback": 0.5,
+       "splashDamageRadius": 22.0,
+       "splashDamage": 50.0,
+       "scaledSplashDamage": true,
+       "pierceArmor": true,
+       "frontColor": "Color.white",
+       "buildingDamageMultiplier": 0.25,
+       "shrinkY": 0.3,
+       "speed": 0.5,
+       "damage": 50.0
+      },
+      "speed": 3.25,
+      "damage": 700.0
+     }
+    ],
+    [
+     "Items.oxide",
+     {
+      "__type": "ArtilleryBulletType",
+      "__args": [
+       "2.5f",
+       " 300",
+       " \"shell\""
+      ],
+      "hitEffect": "new MultiEffect(Fx.titanExplosionLarge, Fx.titanSmokeLarge, Fx.smokeAoeCloud)",
+      "despawnEffect": "Fx.none",
+      "knockback": 2.0,
+      "lifetime": 190.0,
+      "height": 19.0,
+      "width": 17.0,
+      "reloadMultiplier": 0.7,
+      "splashDamageRadius": 110.0,
+      "rangeChange": 8.0,
+      "splashDamage": 180.0,
+      "scaledSplashDamage": true,
+      "frontColor": "Color.valueOf(\"e4ffd6\")",
+      "ammoMultiplier": 1.0,
+      "hitSound": "Sounds.explosionTitan",
+      "trailLength": 32.0,
+      "trailWidth": 3.35,
+      "trailSinScl": 2.5,
+      "trailSinMag": 0.5,
+      "trailEffect": "Fx.vapor",
+      "trailInterval": 3.0,
+      "despawnShake": 7.0,
+      "shootEffect": "Fx.shootTitan",
+      "smokeEffect": "Fx.shootSmokeTitan",
+      "trailInterp": "v -> Math.max(Mathf.slope(v), 0.8f)",
+      "shrinkX": 0.2,
+      "shrinkY": 0.1,
+      "buildingDamageMultiplier": 0.25,
+      "status": "StatusEffects.corroded",
+      "statusDuration": 480.0,
+      "fragBullets": 1.0,
+      "fragBullet": {
+       "__type": "EmptyBulletType",
+       "__args": [],
+       "damage": 0.0,
+       "lifetime": 150.0,
+       "bulletInterval": 20.0,
+       "intervalBullet": {
+        "__type": "EmptyBulletType",
+        "__args": [],
+        "splashDamage": 15.0,
+        "collidesGround": true,
+        "collidesAir": false,
+        "collides": false,
+        "pierce": true,
+        "instantDisappear": true,
+        "splashDamageRadius": 90.0,
+        "buildingDamageMultiplier": 0.0
+       }
+      },
+      "speed": 2.5,
+      "damage": 300.0
+     }
+    ]
+   ],
+   "misc": [
+    "consumeLiquid(Liquids.hydrogen, 5f / 60f)"
+   ],
+   "shootSound": "Sounds.shootTank",
+   "ammoPerShot": 4.0,
+   "maxAmmo": "ammoPerShot * 3",
+   "targetAir": false,
+   "shake": 4.0,
+   "recoil": 1.0,
+   "reload": 138.0,
+   "shootY": 7.0,
+   "rotateSpeed": 1.4,
+   "minWarmup": 0.85,
+   "newTargetInterval": 40.0,
+   "shootWarmupSpeed": 0.08,
+   "warmupMaintainTime": 120.0,
+   "coolant": "consume(new ConsumeLiquid(Liquids.water, 30f / 60f))",
+   "coolantMultiplier": 3.75,
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [
+     "\"reinforced-\""
+    ],
+    "__stmts": [
+     "parts.addAll(\n                new RegionPart(\"-barrel\"){{\n                    progress = PartProgress.recoil.curve(Interp.pow2In);\n                    moveY = -5f * 4f / 3f;\n                    heatCo"
+    ]
+   },
+   "outlineColor": "Pal.darkOutline",
+   "scaledHealth": 250.0,
+   "range": 390.0,
+   "size": 4.0,
+   "__ident": "titan",
+   "__class": "ItemTurret",
+   "id": "titan"
+  },
+  "disperse": {
+   "ammo": [
+    [
+     "Items.tungsten",
+     {
+      "__type": "BasicBulletType",
+      "__args": [],
+      "damage": 65.0,
+      "speed": 8.5,
+      "shrinkY": 0.3,
+      "backSprite": "large-bomb-back",
+      "sprite": "mine-bullet",
+      "velocityRnd": 0.11,
+      "collidesGround": false,
+      "collidesTiles": false,
+      "shootEffect": "Fx.shootBig2",
+      "smokeEffect": "Fx.shootSmokeDisperse",
+      "frontColor": "Color.white",
+      "trailChance": 0.44,
+      "ammoMultiplier": 3.0,
+      "lifetime": 34.0,
+      "rotationOffset": 90.0,
+      "trailRotation": true,
+      "trailEffect": "Fx.disperseTrail"
+     }
+    ],
+    [
+     "Items.thorium",
+     {
+      "__type": "BasicBulletType",
+      "__args": [],
+      "damage": 90.0,
+      "reloadMultiplier": 0.85,
+      "rangeChange": -120.0,
+      "speed": 9.5,
+      "pierceCap": 2.0,
+      "shrinkY": 0.3,
+      "backSprite": "large-bomb-back",
+      "sprite": "mine-bullet",
+      "velocityRnd": 0.5,
+      "collidesGround": false,
+      "collidesTiles": false,
+      "shootEffect": "Fx.shootBig2",
+      "smokeEffect": "Fx.shootSmokeDisperse",
+      "frontColor": "Color.white",
+      "trailChance": 0.44,
+      "ammoMultiplier": 1.0,
+      "lifetime": 34.0,
+      "extraRangeMargin": 32.0,
+      "rotationOffset": 90.0,
+      "trailRotation": true,
+      "trailEffect": "Fx.disperseTrail"
+     }
+    ],
+    [
+     "Items.silicon",
+     {
+      "__type": "BasicBulletType",
+      "__args": [],
+      "damage": 37.0,
+      "homingPower": 0.045,
+      "speed": 9.0,
+      "shrinkY": 0.3,
+      "backSprite": "large-bomb-back",
+      "sprite": "mine-bullet",
+      "velocityRnd": 0.11,
+      "collidesGround": false,
+      "collidesTiles": false,
+      "shootEffect": "Fx.shootBig2",
+      "smokeEffect": "Fx.shootSmokeDisperse",
+      "frontColor": "Color.valueOf(\"dae1ee\")",
+      "ammoMultiplier": 4.0,
+      "lifetime": 34.0,
+      "rotationOffset": 90.0,
+      "trailLength": 7.0,
+      "extraRangeMargin": 32.0
+     }
+    ],
+    [
+     "Items.surgeAlloy",
+     {
+      "__type": "BasicBulletType",
+      "__args": [],
+      "reloadMultiplier": 0.75,
+      "damage": 65.0,
+      "rangeChange": 24.0,
+      "lightning": 3.0,
+      "lightningLength": 4.0,
+      "lightningDamage": 18.0,
+      "lightningLengthRand": 3.0,
+      "speed": 6.0,
+      "shrinkY": 0.3,
+      "backSprite": "large-bomb-back",
+      "sprite": "mine-bullet",
+      "velocityRnd": 0.11,
+      "collidesGround": false,
+      "collidesTiles": false,
+      "shootEffect": "Fx.shootBig2",
+      "smokeEffect": "Fx.shootSmokeDisperse",
+      "frontColor": "Color.white",
+      "trailChance": 0.44,
+      "ammoMultiplier": 3.0,
+      "lifetime": 34.0,
+      "rotationOffset": 90.0,
+      "trailRotation": true,
+      "trailEffect": "Fx.disperseTrail",
+      "bulletInterval": 4.0,
+      "intervalBullet": {
+       "__type": "BulletType",
+       "__args": [],
+       "collidesGround": false,
+       "collidesTiles": false,
+       "lightningLengthRand": 4.0,
+       "lightningLength": 2.0,
+       "lightningCone": 30.0,
+       "lightningDamage": 20.0,
+       "lightning": 1.0,
+       "instantDisappear": true
+      }
+     }
+    ]
+   ],
+   "misc": [
+    "limitRange(16f)"
+   ],
+   "reload": 9.0,
+   "shootY": 15.0,
+   "rotateSpeed": 5.0,
+   "shootCone": 30.0,
+   "consumeAmmoOnce": true,
+   "shootSound": "Sounds.shootDisperse",
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [
+     "\"reinforced-\""
+    ],
+    "__stmts": [
+     "parts.add(new RegionPart(\"-side\"){{\n                    mirror = true;\n                    under = true;\n                    moveX = 1.75f;\n                    moveY = -0.5f;\n                }},\n     "
+    ]
+   },
+   "shoot": {
+    "__type": "ShootAlternate",
+    "__args": [],
+    "spread": 4.7,
+    "shots": 4.0,
+    "barrels": 4.0
+   },
+   "targetGround": false,
+   "inaccuracy": 8.0,
+   "shootWarmupSpeed": 0.08,
+   "outlineColor": "Pal.darkOutline",
+   "scaledHealth": 280.0,
+   "range": 310.0,
+   "size": 4.0,
+   "coolant": "consume(new ConsumeLiquid(Liquids.water, 20f / 60f))",
+   "coolantMultiplier": 6.25,
+   "__ident": "disperse",
+   "__class": "ItemTurret",
+   "id": "disperse"
+  },
+  "afflict": {
+   "ammo": [],
+   "misc": [
+    "consumePower(5f)",
+    "envEnabled |= Env.space",
+    "limitRange(-55f)"
+   ],
+   "buildCostMultiplier": 1.5,
+   "shootType": {
+    "__type": "BasicBulletType",
+    "__args": [],
+    "shootEffect": "new MultiEffect(Fx.shootTitan, new WaveEffect(){{\n                    colorTo = Pal.surge;\n                    sizeTo = 26f;\n                    lifetime = 14f;\n                    strokeFrom = 4f;\n                }})",
+    "smokeEffect": "Fx.shootSmokeTitan",
+    "hitColor": "Pal.surge",
+    "sprite": "large-orb",
+    "trailEffect": "Fx.missileTrail",
+    "trailInterval": 3.0,
+    "trailParam": 4.0,
+    "pierceCap": 2.0,
+    "buildingDamageMultiplier": 0.5,
+    "fragOnHit": false,
+    "speed": 5.0,
+    "damage": 180.0,
+    "lifetime": 80.0,
+    "backColor": "Pal.surge",
+    "frontColor": "Color.white",
+    "trailColor": "Pal.surge",
+    "trailLength": 12.0,
+    "trailWidth": 2.2,
+    "despawnSound": "Sounds.explosionAfflict",
+    "shootSound": "Sounds.shootAfflict",
+    "bulletInterval": 3.0,
+    "intervalRandomSpread": 20.0,
+    "intervalBullets": 2.0,
+    "intervalAngle": 180.0,
+    "intervalSpread": 300.0,
+    "fragBullets": 20.0,
+    "fragVelocityMin": 0.5,
+    "fragVelocityMax": 1.2,
+    "fragLifeMin": 0.5
+   },
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [
+     "\"reinforced-\""
+    ],
+    "__stmts": [
+     "parts.add(new RegionPart(\"-blade\"){{\n                    progress = PartProgress.recoil;\n                    heatColor = Color.valueOf(\"ff6214\");\n                    mirror = true;\n                   "
+    ]
+   },
+   "heatRequirement": 20.0,
+   "maxHeatEfficiency": 1.0,
+   "newTargetInterval": 40.0,
+   "inaccuracy": 1.0,
+   "shake": 2.0,
+   "shootY": 4.0,
+   "outlineColor": "Pal.darkOutline",
+   "size": 4.0,
+   "reload": 50.0,
+   "cooldownTime": 100.0,
+   "recoil": 3.0,
+   "range": 368.0,
+   "shootCone": 20.0,
+   "scaledHealth": 220.0,
+   "rotateSpeed": 1.5,
+   "__ident": "afflict",
+   "__class": "PowerTurret",
+   "id": "afflict"
+  },
+  "lustre": {
+   "ammo": [],
+   "misc": [
+    "envEnabled |= Env.space",
+    "consumeLiquid(Liquids.nitrogen, 6f / 60f)",
+    "consumePower(200f / 60f)"
+   ],
+   "shootType": {
+    "__type": "PointLaserBulletType",
+    "__args": [],
+    "damage": 210.0,
+    "buildingDamageMultiplier": 0.3,
+    "hitColor": "Color.valueOf(\"fda981\")"
+   },
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [
+     "\"reinforced-\""
+    ],
+    "__stmts": [
+     "var heatp = PartProgress.warmup.blend(p -> Mathf.absin(2f, 1f) * p.warmup, 0.2f)",
+     "parts.add(new RegionPart(\"-blade\"){{\n                    progress = PartProgress.warmup;\n                    heatProgress = PartProgress.warmup;\n                    heatColor = Color.valueOf(\"ff6214\")"
+    ]
+   },
+   "scaleDamageEfficiency": true,
+   "shootSound": "Sounds.none",
+   "loopSoundVolume": 1.0,
+   "loopSound": "Sounds.beamLustre",
+   "shootWarmupSpeed": 0.08,
+   "shootCone": 360.0,
+   "aimChangeSpeed": 0.9,
+   "rotateSpeed": 0.9,
+   "shootY": 0.5,
+   "outlineColor": "Pal.darkOutline",
+   "size": 4.0,
+   "range": 250.0,
+   "scaledHealth": 210.0,
+   "unitSort": "UnitSorts.strongest",
+   "__ident": "lustre",
+   "__class": "ContinuousTurret",
+   "id": "lustre"
+  },
+  "scathe": {
+   "ammo": [
+    [
+     "Items.carbide",
+     {
+      "__type": "BulletType",
+      "__args": [
+       "0f",
+       " 0f"
+      ],
+      "shootEffect": "Fx.shootBig",
+      "smokeEffect": "Fx.shootSmokeMissileColor",
+      "hitColor": "Pal.redLight",
+      "ammoMultiplier": 1.0,
+      "spawnUnit": "new MissileUnitType(\"scathe-missile\"){{\n                    speed = 4.6f;\n                    maxRange = 6f;\n                    lifetime = 60f * 5.5f;\n                    hitSize = 10f;\n                    outlineColor = Pal.darkOutline;\n                    engineColor = trailColor = Pal.redLight;\n                    engineLayer = Layer.effect;\n                    engineSize = 3.1f;\n                    engineOffset = 10f;\n                    rotateSpeed = 0.25f;\n                    trailLength = 18;\n                    missileAccelTime = 50f;\n                    lowAltitude = true;\n                    loopSound = Sounds.loopMissileTrail;\n                    loopSoundVolume = 0.6f;\n                    deathSound = Sounds.explosionMissile;\n                    targetAir = false;\n                    targetUnderBlocks = false;\n\n                    fogRadius = 6f;\n\n                    health = 240;\n\n                    weapons.add(new Weapon(){{\n                        shootCone = 360f;\n                        mirror = false;\n                        reload = 1f;\n                        deathExplosionEffect = Fx.massiveExplosion;\n                        shootOnDeath = true;\n                        shake = 10f;\n                        bullet = new ExplosionBulletType(1000f, 65f){{\n                            hitColor = Pal.redLight;\n                            shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosion, Fx.scatheLight, new WaveEffect(){{\n                                lifetime = 10f;\n                                strokeFrom = 4f;\n                                sizeTo = 130f;\n                            }});\n\n                            collidesAir = false;\n                            buildingDamageMultiplier = 0.1f;\n\n                            ammoMultiplier = 1f;\n                            fragLifeMin = 0.1f;\n                            fragBullets = 7;\n                            fragBullet = new ArtilleryBulletType(3.4f, 32){{\n                                buildingDamageMultiplier = 0.1f;\n                                drag = 0.02f;\n                                hitEffect = Fx.massiveExplosion;\n                                despawnEffect = Fx.scatheSlash;\n                                knockback = 0.8f;\n                                lifetime = 23f;\n                                width = height = 18f;\n                                collidesTiles = false;\n                                splashDamageRadius = 40f;\n                                splashDamage = 100f;\n                                backColor = trailColor = hitColor = Pal.redLight;\n                                frontColor = Color.white;\n                                smokeEffect = Fx.shootBigSmoke2;\n                                despawnShake = 7f;\n                                lightRadius = 30f;\n                                lightColor = Pal.redLight;\n                                lightOpacity = 0.5f;\n\n                                trailLength = 20;\n                                trailWidth = 3.5f;\n                                trailEffect = Fx.none;\n                            }};\n                        }};\n                    }});\n\n                    abilities.add(new MoveEffectAbility(){{\n                        effect = Fx.missileTrailSmoke;\n                        rotation = 180f;\n                        y = -9f;\n                        color = Color.grays(0.6f).lerp(Pal.redLight, 0.5f).a(0.4f);\n                        interval = 7f;\n                    }});\n                }}",
+      "speed": 0.0,
+      "damage": 0.0
+     }
+    ],
+    [
+     "Items.phaseFabric",
+     {
+      "__type": "BulletType",
+      "__args": [
+       "0f",
+       " 0f"
+      ],
+      "shootEffect": "Fx.shootBig",
+      "smokeEffect": "Fx.shootSmokeMissileColor",
+      "hitColor": "Color.valueOf(\"ffd37f\")",
+      "ammoMultiplier": 5.0,
+      "reloadMultiplier": 0.8,
+      "spawnUnit": "new MissileUnitType(\"scathe-missile-phase\"){{\n                    speed = 2.5f;\n                    maxRange = 6f;\n                    lifetime = 60f * 9.77f;\n                    hitSize = 10f;\n                    outlineColor = Pal.darkOutline;\n                    engineColor = trailColor = Color.valueOf(\"ffd37f\");\n                    engineLayer = Layer.effect;\n                    engineSize = 3.1f;\n                    engineOffset = 10f;\n                    rotateSpeed = 0.2f;\n                    trailLength = 18;\n                    missileAccelTime = 50f;\n                    lowAltitude = true;\n                    loopSound = Sounds.loopMissileTrail;\n                    loopSoundVolume = 0.6f;\n                    deathSound = Sounds.explosionMissile;\n                    targetAir = false;\n                    targetUnderBlocks = false;\n\n                    parts.add(new ShapePart(){{\n                        progress = PartProgress.constant(1f);\n                        color = Pal.accent;\n                        sides = 6;\n                        radius = 3f;\n                        rotateSpeed = 3f;\n                        hollow = true;\n                        layer = Layer.effect;\n                        y = 1.8f;\n                    }});\n\n                    fogRadius = 6f;\n\n                    health = 500;\n\n                    weapons.add(new Weapon(){{\n                        shootCone = 360f;\n                        mirror = false;\n                        reload = 1f;\n                        deathExplosionEffect = Fx.massiveExplosion;\n                        shootOnDeath = true;\n                        shake = 10f;\n                        bullet = new ExplosionBulletType(320f, 120f){{\n                            reloadMultiplier = 0.8f;\n                            ammoMultiplier = 5f;\n\n                            hitColor = engineColor;\n                            shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosion, Fx.scatheLight, new WaveEffect(){{\n                                lifetime = 10f;\n                                strokeFrom = 4f;\n                                sizeTo = 130f;\n                            }});\n\n                            collidesAir = false;\n                            buildingDamageMultiplier = 0.1f;\n\n                            fragLifeMin = 0.1f;\n                            fragBullets = 7;\n                            fragBullet = new ArtilleryBulletType(3.4f, 32){{\n                                buildingDamageMultiplier = 0.2f;\n                                drag = 0.02f;\n                                hitEffect = Fx.massiveExplosion;\n                                despawnEffect = Fx.scatheSlash;\n                                knockback = 0.8f;\n                                lifetime = 23f;\n                                width = height = 18f;\n                                collidesTiles = false;\n                                splashDamageRadius = 56f;\n                                splashDamage = 120f;\n                                backColor = trailColor = hitColor = engineColor;\n                                frontColor = Color.white;\n                                smokeEffect = Fx.shootBigSmoke2;\n                                despawnShake = 7f;\n                                lightRadius = 30f;\n                                lightColor = engineColor;\n                                lightOpacity = 0.5f;\n\n                                trailLength = 20;\n                                trailWidth = 3.5f;\n                                trailEffect = Fx.none;\n                            }};\n                        }};\n                    }});\n\n                    abilities.add(new MoveEffectAbility(){{\n                        effect = Fx.missileTrailSmoke;\n                        rotation = 180f;\n                        y = -9f;\n                        color = Color.grays(0.6f).lerp(Pal.redLight, 0.5f).a(0.4f);\n                        interval = 15f;\n                    }});\n\n                    abilities.add(new ForceFieldAbility(120f, 0f, 3000f, 999999999f));\n\n                }}",
+      "speed": 0.0,
+      "damage": 0.0
+     }
+    ],
+    [
+     "Items.surgeAlloy",
+     {
+      "__type": "BulletType",
+      "__args": [
+       "0f",
+       " 0f"
+      ],
+      "shootEffect": "Fx.shootBig",
+      "smokeEffect": "Fx.shootSmokeMissileColor",
+      "hitColor": "Color.valueOf(\"f7e97e\")",
+      "ammoMultiplier": 1.0,
+      "reloadMultiplier": 0.9,
+      "spawnUnit": "new MissileUnitType(\"scathe-missile-surge\"){{\n                    speed = 4.4f;\n                    maxRange = 6f;\n                    lifetime = 60f * 1.4f;\n                    hitSize = 10f;\n                    outlineColor = Pal.darkOutline;\n                    engineColor = trailColor = Color.valueOf(\"f7e97e\");\n                    engineLayer = Layer.effect;\n                    engineSize = 3.1f;\n                    engineOffset = 10f;\n                    rotateSpeed = 0.25f;\n                    trailLength = 18;\n                    missileAccelTime = 30f;\n                    lowAltitude = true;\n                    loopSound = Sounds.loopMissileTrail;\n                    loopSoundVolume = 0.6f;\n                    deathSound = Sounds.explosionMissile;\n                    targetAir = false;\n                    targetUnderBlocks = false;\n\n                    fogRadius = 6f;\n\n                    health = 300;\n\n                    weapons.add(new Weapon(){{\n                        shootCone = 360f;\n                        rotate = true;\n                        rotationLimit = rotateSpeed = 0f;\n                        reload = 1f;\n                        deathExplosionEffect = Fx.massiveExplosion;\n                        shootOnDeath = true;\n                        shake = 10f;\n                        bullet = new ExplosionBulletType(1800f, 40f){{\n                            \n                            ammoMultiplier = 1f;\n                            reloadMultiplier = 0.9f;\n                            lightning = 10;\n                            lightningDamage = 45f;\n                            lightningLength = 12;\n\n                            hitColor = engineColor;\n                            shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosionSmall);\n\n                            collidesAir = false;\n                            buildingDamageMultiplier = 0.1f;\n\n                            fragLifeMin = 0.1f;\n                            fragBullets = 5;\n                            fragRandomSpread = 0f;\n                            fragSpread = 20f;\n                            fragBullet = new BulletType(){{\n                                shootEffect = Fx.shootBig;\n                                smokeEffect = Fx.shootSmokeMissileColor;\n                                hitColor = engineColor;\n                                ammoMultiplier = 1f;\n\n                                spawnUnit = new MissileUnitType(\"scathe-missile-surge-split\"){{\n                                    speed = 4.8f;\n                                    maxRange = 6f;\n                                    lifetime = 60f * 3.7f;\n                                    outlineColor = Pal.darkOutline;\n                                    engineColor = trailColor = Color.valueOf(\"f7e97e\");\n                                    engineLayer = Layer.effect;\n                                    engineSize = 2.2f;\n                                    engineOffset = 8f;\n                                    rotateSpeed = 1.4f;\n                                    trailLength = 12;\n                                    lowAltitude = true;\n                                    loopSound = Sounds.loopMissileTrail;\n                                    loopSoundVolume = 0.6f;\n                                    deathSound = Sounds.explosionMissile;\n                                    targetAir = false;\n                                    targetUnderBlocks = false;\n\n                                    fogRadius = 6f;\n\n                                    health = 50;\n\n                                    weapons.add(new Weapon(){{\n                                        shootCone = 360f;\n                                        mirror = false;\n                                        reload = 1f;\n                                        deathExplosionEffect = Fx.massiveExplosion;\n                                        shootOnDeath = true;\n                                        shake = 10f;\n                                        bullet = new ExplosionBulletType(180f, 35f){{\n                                            lightning = 4;\n                                            lightningDamage = 25f;\n                                            lightningLength = 6;\n\n                                            hitColor = engineColor;\n                                            shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosionSmall, Fx.scatheLightSmall, new WaveEffect(){{\n                                                lifetime = 10f;\n                                                strokeFrom = 4f;\n                                                sizeTo = 100f;\n                                            }});\n\n                                            collidesAir = false;\n                                            buildingDamageMultiplier = 0.1f;\n                                        }};\n                                    }});\n\n                                    abilities.add(new MoveEffectAbility(){{\n                                        effect = Fx.missileTrailSmokeSmall;\n                                        rotation = 180f;\n                                        y = -9f;\n                                        color = Color.grays(0.6f).lerp(Color.valueOf(\"f7e97e\"), 0.5f).a(0.4f);\n                                        interval = 5f;\n                                    }});\n                                }};\n                            }};\n                        }};\n                    }});\n\n                    abilities.add(new MoveEffectAbility(){{\n                        effect = Fx.missileTrailSmoke;\n                        rotation = 180f;\n                        y = -9f;\n                        color = Color.grays(0.6f).lerp(Color.valueOf(\"f7e97e\"), 0.5f).a(0.4f);\n                        interval = 7f;\n                    }});\n                }}",
+      "speed": 0.0,
+      "damage": 0.0
+     }
+    ]
+   ],
+   "misc": [
+    "envEnabled |= Env.space",
+    "limitRange()"
+   ],
+   "predictTarget": false,
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [
+     "\"reinforced-\""
+    ],
+    "__stmts": [
+     "parts.add(new RegionPart(\"-blade\"){{\n                    progress = PartProgress.warmup;\n                    heatProgress = PartProgress.warmup;\n                    heatColor = Color.red;\n            "
+    ]
+   },
+   "recoil": 0.5,
+   "fogRadiusMultiplier": 0.4,
+   "coolantMultiplier": 15.0,
+   "shootSound": "Sounds.shootScathe",
+   "minWarmup": 0.94,
+   "newTargetInterval": 40.0,
+   "unitSort": "UnitSorts.strongest",
+   "shootWarmupSpeed": 0.03,
+   "targetAir": false,
+   "targetUnderBlocks": false,
+   "shake": 6.0,
+   "ammoPerShot": 15.0,
+   "maxAmmo": 45.0,
+   "shootY": -1.0,
+   "outlineColor": "Pal.darkOutline",
+   "size": 4.0,
+   "reload": 600.0,
+   "range": 1350.0,
+   "shootCone": 1.0,
+   "scaledHealth": 220.0,
+   "rotateSpeed": 0.9,
+   "coolant": "consume(new ConsumeLiquid(Liquids.water, 15f / 60f))",
+   "__ident": "scathe",
+   "__class": "ItemTurret",
+   "id": "scathe"
+  },
+  "smite": {
+   "ammo": [
+    [
+     "Items.surgeAlloy",
+     {
+      "__type": "BasicBulletType",
+      "__args": [
+       "7f",
+       " 250"
+      ],
+      "sprite": "large-orb",
+      "width": 17.0,
+      "height": 21.0,
+      "hitSize": 8.0,
+      "shootEffect": "new MultiEffect(Fx.shootTitan, Fx.colorSparkBig, new WaveEffect(){{\n                    colorFrom = colorTo = Pal.accent;\n                    lifetime = 12f;\n                    sizeTo = 20f;\n                    strokeFrom = 3f;\n                    strokeTo = 0.3f;\n                }})",
+      "smokeEffect": "Fx.shootSmokeSmite",
+      "ammoMultiplier": 1.0,
+      "pierceCap": 4.0,
+      "pierce": true,
+      "pierceBuilding": true,
+      "frontColor": "Color.white",
+      "trailWidth": 2.8,
+      "trailLength": 9.0,
+      "hitEffect": "Fx.hitBulletColor",
+      "buildingDamageMultiplier": 0.3,
+      "despawnEffect": "new MultiEffect(Fx.hitBulletColor, new WaveEffect(){{\n                    sizeTo = 30f;\n                    colorFrom = colorTo = Pal.accent;\n                    lifetime = 12f;\n                }})",
+      "trailRotation": true,
+      "trailEffect": "Fx.disperseTrail",
+      "trailInterval": 3.0,
+      "intervalBullet": {
+       "__type": "LightningBulletType",
+       "__args": [],
+       "damage": 30.0,
+       "collidesAir": false,
+       "ammoMultiplier": 1.0,
+       "lightningColor": "Pal.accent",
+       "lightningLength": 5.0,
+       "lightningLengthRand": 10.0,
+       "buildingDamageMultiplier": 0.25,
+       "lightningType": "new BulletType(0.0001f, 0f){{\n                        lifetime = Fx.lightning.lifetime;\n                        hitEffect = Fx.hitLancer;\n                        despawnEffect = Fx.none;\n                        status = StatusEffects.shocked;\n                        hittable = false;\n                        lightColor = Color.white;\n                        buildingDamageMultiplier = 0.25f;\n                    }}"
+      },
+      "bulletInterval": 3.0,
+      "speed": 7.0,
+      "damage": 250.0
+     }
+    ]
+   ],
+   "misc": [
+    "var haloProgress = PartProgress.warmup.delay(0.5f)",
+    "float haloY = -15f, haloRotSpeed = 1f",
+    "envEnabled |= Env.space",
+    "limitRange()"
+   ],
+   "shoot": {
+    "__type": "ShootMulti",
+    "__args": [
+     "new ShootAlternate(){{\n                spread = 3.3f * 1.9f;\n                shots = barrels = 5;\n            }}",
+     " new ShootHelix(){{\n                scl = 4f;\n                mag = 3f;\n            }}"
+    ]
+   },
+   "shootSound": "Sounds.shootSmite",
+   "minWarmup": 0.99,
+   "coolantMultiplier": 15.0,
+   "shake": 2.0,
+   "ammoPerShot": 2.0,
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [
+     "\"reinforced-\""
+    ],
+    "__stmts": [
+     "parts.addAll(\n\n                new RegionPart(\"-mid\"){{\n                    heatProgress = PartProgress.heat.blend(PartProgress.warmup, 0.5f);\n                    mirror = false;\n                }},\n ",
+     "for(int i = 0; i < 3; i++){\n                    int fi = i;\n                    parts.add(new RegionPart(\"-blade-bar\"){{\n                        progress = PartProgress.warmup;\n                       "
+    ]
+   },
+   "shootWarmupSpeed": 0.04,
+   "shootY": 15.0,
+   "outlineColor": "Pal.darkOutline",
+   "size": 5.0,
+   "warmupMaintainTime": 120.0,
+   "reload": 100.0,
+   "recoil": 2.0,
+   "range": 300.0,
+   "trackingRange": "range * 1.4f",
+   "shootCone": 30.0,
+   "scaledHealth": 350.0,
+   "rotateSpeed": 1.5,
+   "coolant": "consume(new ConsumeLiquid(Liquids.water, 15f / 60f))",
+   "loopSound": "Sounds.loopGlow",
+   "loopSoundVolume": 0.8,
+   "__ident": "smite",
+   "__class": "ItemTurret",
+   "id": "smite"
+  },
+  "malign": {
+   "ammo": [],
+   "misc": [
+    "var haloProgress = PartProgress.warmup",
+    "Color haloColor = Color.valueOf(\"d370d3\"), heatCol = Color.purple",
+    "float haloY = -15f, haloRotSpeed = 1.5f",
+    "var circleProgress = PartProgress.warmup.delay(0.9f)",
+    "var circleColor = haloColor",
+    "float circleY = 25f, circleRad = 11f, circleRotSpeed = 3.5f, circleStroke = 1.6f",
+    "consumePower(40f)",
+    "envEnabled |= Env.space"
+   ],
+   "shootSound": "Sounds.shootMalign",
+   "loopSound": "Sounds.loopMalign",
+   "loopSoundVolume": 1.3,
+   "shootType": {
+    "__type": "FlakBulletType",
+    "__args": [
+     "8f",
+     " 70f"
+    ],
+    "sprite": "missile-large",
+    "lifetime": 40.0,
+    "width": 12.0,
+    "height": 22.0,
+    "hitSize": 7.0,
+    "shootEffect": "Fx.shootSmokeSquareBig",
+    "smokeEffect": "Fx.shootSmokeDisperse",
+    "ammoMultiplier": 1.0,
+    "frontColor": "Color.white",
+    "trailWidth": 3.0,
+    "trailLength": 12.0,
+    "buildingDamageMultiplier": 0.3,
+    "trailEffect": "Fx.colorSpark",
+    "trailRotation": true,
+    "trailInterval": 3.0,
+    "homingPower": 0.17,
+    "homingDelay": 19.0,
+    "homingRange": 160.0,
+    "explodeRange": 100.0,
+    "explodeDelay": 0.0,
+    "flakInterval": 20.0,
+    "despawnShake": 3.0,
+    "intervalBullet": {
+     "__type": "LightningBulletType",
+     "__args": [],
+     "lightningColor": "circleColor",
+     "lightningCone": 15.0,
+     "lightningLength": 35.0,
+     "lightningLengthRand": 5.0,
+     "damage": 18.0
+    },
+    "fragBullet": {
+     "__type": "LaserBulletType",
+     "__args": [
+      "65f"
+     ],
+     "colors": "new Color[]{haloColor.cpy().a(0.4f), haloColor, Color.white}",
+     "buildingDamageMultiplier": 0.25,
+     "width": 19.0,
+     "hitEffect": "Fx.hitLancer",
+     "sideAngle": 175.0,
+     "sideWidth": 1.0,
+     "sideLength": 40.0,
+     "lifetime": 22.0,
+     "drawSize": 400.0,
+     "length": 120.0,
+     "pierceCap": 2.0,
+     "optimalLifeFract": 1.0,
+     "damage": 65.0
+    },
+    "intervalBullets": 1.0,
+    "bulletInterval": 20.0,
+    "splashDamage": 0.0,
+    "hitEffect": "Fx.hitSquaresColor",
+    "collidesGround": true,
+    "speed": 8.0,
+    "damage": 70.0
+   },
+   "size": 5.0,
+   "drawer": {
+    "__type": "DrawTurret",
+    "__args": [
+     "\"reinforced-\""
+    ],
+    "__stmts": [
+     "parts.addAll(\n\n                \n                new ShapePart(){{\n                    progress = circleProgress;\n                    color = circleColor;\n                    circle = true;\n           ",
+     "Color heatCol2 = heatCol.cpy().add(0.1f, 0.1f, 0.1f).mul(1.2f)",
+     "for(int i = 1; i < 4; i++){\n                    int fi = i;\n                    parts.add(new RegionPart(\"-spine\"){{\n                        outline = false;\n                        progress = PartPro"
+    ]
+   },
+   "velocityRnd": 0.15,
+   "heatRequirement": 144.0,
+   "maxHeatEfficiency": 1.0,
+   "warmupMaintainTime": 120.0,
+   "unitSort": "UnitSorts.strongest",
+   "shoot": {
+    "__type": "ShootSummon",
+    "__args": [
+     "0f",
+     " 0f",
+     " circleRad",
+     " 20f"
+    ],
+    "speed": 0.0,
+    "damage": 0.0
+   },
+   "minWarmup": 0.96,
+   "shootWarmupSpeed": 0.08,
+   "shootY": "circleY - 5f",
+   "outlineColor": "Pal.darkOutline",
+   "reload": 3.5,
+   "range": 410.0,
+   "trackingRange": "range * 1.4f",
+   "shootCone": 100.0,
+   "scaledHealth": 370.0,
+   "rotateSpeed": 2.6,
+   "recoil": 0.5,
+   "recoilTime": 30.0,
+   "shake": 3.0,
+   "__ident": "malign",
+   "__class": "PowerTurret",
+   "id": "malign"
+  }
+ }
+}

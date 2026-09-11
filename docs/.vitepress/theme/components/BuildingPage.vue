@@ -28,6 +28,7 @@ onMounted(async () => {
 
 const buildingData = computed(() => props.building || fetched.value)
 const b = computed(() => buildingData.value || {})
+const dps = computed(() => (b.value && b.value.dps) || null)
 const raw = computed(() => b.value.raw || {})
 const packs = computed(() => (Array.isArray(b.value.packs) ? b.value.packs : []))
 
@@ -241,6 +242,45 @@ const turretHint = computed(() => {
             </div>
           </div>
         </div>
+      </section>
+
+      <section v-if="dps" class="bp-section">
+        <h2>DPS 估算</h2>
+        <div class="bp-dps-big">
+          <div class="bp-dps-card">
+            <div class="bp-dps-label">单体 DPS（最佳弹药）</div>
+            <div class="bp-dps-val">{{ dps.best.direct.toFixed(1) }}</div>
+            <div class="bp-dps-sub">{{ dps.best.item }}</div>
+          </div>
+          <div class="bp-dps-card">
+            <div class="bp-dps-label">范围 DPS</div>
+            <div class="bp-dps-val">{{ dps.best.splash.toFixed(1) }}</div>
+            <div class="bp-dps-sub">{{ dps.best.item }}</div>
+          </div>
+          <div class="bp-dps-card">
+            <div class="bp-dps-label">装填 / 齐射</div>
+            <div class="bp-dps-val">{{ dps.reload }}<span class="bp-dps-unit">tick</span></div>
+            <div class="bp-dps-sub">{{ dps.reloadSec }} 秒 · {{ dps.shots }} 发</div>
+          </div>
+        </div>
+        <table class="bp-dps-table">
+          <thead>
+            <tr><th>弹药</th><th>单发直伤</th><th>单发溅射</th><th>单体 DPS</th><th>范围 DPS</th></tr>
+          </thead>
+          <tbody>
+            <tr v-for="a in dps.ammo" :key="a.item">
+              <td>{{ a.item }}</td>
+              <td class="num">{{ a.damage }}</td>
+              <td class="num">{{ a.splashDamage }}</td>
+              <td class="num strong">{{ a.direct.toFixed(1) }}</td>
+              <td class="num">{{ a.splash.toFixed(1) }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="bp-note">
+          公式 <code>shots × 单发伤害 × 60 / reload</code>，已含分裂子母弹。
+          溅射单独列出，不与直伤相加。
+        </p>
       </section>
 
       <section class="bp-section">
@@ -502,5 +542,82 @@ const turretHint = computed(() => {
   .bp-k { grid-area: label; }
   .bp-v { grid-area: value; text-align: right; }
   .bp-raw-k { grid-area: raw; }
+}
+
+.bp-dps-big {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.bp-dps-card {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--mz-border);
+  border-radius: 10px;
+  background: var(--mz-surface-2);
+  text-align: center;
+}
+
+.bp-dps-label {
+  font-size: 0.78rem;
+  color: var(--vp-c-text-3);
+}
+
+.bp-dps-val {
+  margin: 0.25rem 0;
+  font-family: var(--vp-font-family-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--mz-accent);
+}
+
+.bp-dps-card:nth-child(2) .bp-dps-val {
+  color: var(--mz-accent-2);
+}
+
+.bp-dps-unit {
+  margin-left: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--vp-c-text-3);
+}
+
+.bp-dps-sub {
+  font-size: 0.72rem;
+  color: var(--vp-c-text-3);
+}
+
+.bp-dps-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+}
+
+.bp-dps-table th {
+  padding: 0.45rem 0.55rem;
+  border-bottom: 1px solid var(--mz-border-strong);
+  text-align: left;
+  font-size: 0.76rem;
+  color: var(--mz-accent);
+  white-space: nowrap;
+}
+
+.bp-dps-table td {
+  padding: 0.4rem 0.55rem;
+  border-bottom: 1px dotted var(--mz-border);
+  color: var(--vp-c-text-2);
+}
+
+.bp-dps-table td.num {
+  font-family: var(--vp-font-family-mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.bp-dps-table td.strong {
+  color: var(--vp-c-text-1);
+  font-weight: 600;
 }
 </style>

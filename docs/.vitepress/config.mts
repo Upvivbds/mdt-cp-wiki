@@ -55,36 +55,62 @@ function unitLabel(id: string): string {
   return zh ? `${zh}（${id}）` : id
 }
 
-const unitGroups = Object.keys(categories).map((cat) => ({
-  text: cat,
-  collapsed: true,
-  items: (categories[cat] || []).map((id) => ({
-    text: unitLabel(id),
-    link: `/units/${id}`
-  }))
-}))
+// 侧边栏做三级嵌套：星球 → 分类 → 单位。
+// 早先只按分类平铺一层，59 个单位堆在一起，当索引用的价值很低。
+const byStar: Record<string, string[]> = { 赛普罗: [], 埃里克尔: [], 通用: [] }
+for (const cat of Object.keys(categories)) {
+  const bucket = cat.includes('赛普罗')
+    ? '赛普罗'
+    : cat.includes('埃里克尔')
+      ? '埃里克尔'
+      : '通用'
+  byStar[bucket].push(cat)
+}
+
+// 建筑按类型分组（炮塔 / 墙体 / 其他），同样来自 index.json
+const blocks: Array<{ id: string; nameZh?: string; category?: string }> =
+  Array.isArray(indexData.blocks) ? indexData.blocks : []
+const blockByCat: Record<string, string[]> = {}
+for (const b of blocks) {
+  const c = b.category || '其他'
+  if (!blockByCat[c]) blockByCat[c] = []
+  blockByCat[c].push(b.id)
+}
 
 const unitSidebar = [
   {
     text: '单位',
     items: [{ text: '全部单位', link: '/units/' }]
   },
-  {
-    text: '按分类浏览',
-    collapsed: false,
-    items: Object.keys(categories).map((c) => ({ text: c, link: '/units/' }))
-  },
-  ...unitGroups
+  ...Object.entries(byStar)
+    .filter(([, cats]) => cats.length > 0)
+    .map(([star, cats]) => ({
+      text: star,
+      collapsed: true,
+      items: cats.map((c) => ({
+        text: c,
+        collapsed: true,
+        items: (categories[c] || []).map((id) => ({
+          text: unitLabel(id),
+          link: `/units/${id}`
+        }))
+      }))
+    }))
 ]
 
 const buildingSidebar = [
   {
     text: '建筑',
-    items: [
-      { text: '全部建筑', link: '/buildings/' },
-      { text: 'DPS 排行', link: '/dps' }
-    ]
-  }
+    items: [{ text: '全部建筑', link: '/buildings/' }]
+  },
+  ...Object.entries(blockByCat).map(([cat, ids]) => ({
+    text: cat,
+    collapsed: true,
+    items: ids.map((id) => {
+      const b = blocks.find((x) => x.id === id)
+      return { text: (b && b.nameZh) || id, link: `/buildings/${id}` }
+    })
+  }))
 ]
 
 const rootSidebar = [

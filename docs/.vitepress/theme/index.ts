@@ -13,6 +13,7 @@ import BuildingPage from './components/BuildingPage.vue'
 import StatsCards from './components/StatsCards.vue'
 import TopDps from './components/TopDps.vue'
 import DpsRanking from './components/DpsRanking.vue'
+import SiteDirectory from './components/SiteDirectory.vue'
 
 export default {
   extends: DefaultTheme,
@@ -28,5 +29,6 @@ export default {
     app.component('StatsCards', StatsCards)
     app.component('TopDps', TopDps)
     app.component('DpsRanking', DpsRanking)
+    app.component('SiteDirectory', SiteDirectory)
   }
 } satisfies Theme

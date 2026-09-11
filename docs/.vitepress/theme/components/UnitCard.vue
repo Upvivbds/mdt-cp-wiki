@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { fmtNum, starLabel } from '../composables/useRemoteData'
+import { fmtNum, starLabel, unitUrl } from '../composables/useRemoteData'
 
 const props = defineProps({
   unit: { type: Object, required: true },
@@ -10,7 +10,7 @@ const props = defineProps({
 
 const u = computed(() => props.unit || {})
 const id = computed(() => u.value.id || '')
-const link = computed(() => `/units/${id.value}`)
+const link = computed(() => unitUrl(id.value))
 const nameZh = computed(() => u.value.nameZh || id.value)
 const showEn = computed(() => !!u.value.nameZh && u.value.nameZh !== id.value)
 const dps = computed(() => u.value.dps)
