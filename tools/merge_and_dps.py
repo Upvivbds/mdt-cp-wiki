@@ -579,15 +579,39 @@ def merge_node(base, over):
     return out
 
 
+# 持续型弹种：不吃 reload，按 damageInterval 结算
+CONTINUOUS_BTYPES = {
+    'PointLaserBulletType', 'ContinuousLaserBulletType', 'ContinuousFlameBulletType',
+    'ContinuousBulletType', 'SapBulletType', 'LightningBulletType',
+}
+
+
+def _row_dps(reload_v, shots, merged, d, sp):
+    """把单发伤害折成 DPS。
+
+    两条路径：
+      - 有 reload 的常规炮塔：shots × 伤害 × 60 / reload
+      - 持续型炮塔（lustre / sublimate）：damage / damageInterval × 60
+    都不是则返回 None（例如纯推液的 wave/tsunami 液体弹药没有伤害字段）。
+    """
+    btype = merged.get('type') or merged.get('__type') or ''
+    if reload_v:
+        return (round(shots * d * TICKS / reload_v, 2),
+                round(shots * sp * TICKS / reload_v, 2), 'burst')
+    if btype in CONTINUOUS_BTYPES:
+        di = num(merged.get('damageInterval'), 5.0) or 5.0
+        return (round(d / di * TICKS, 2), round(sp / di * TICKS, 2), 'continuous')
+    return None
+
+
 def building_dps(bid, patch, van_blocks):
     """算一个炮塔各弹药的 DPS；不可计算时返回 None。"""
     vb = van_blocks.get(bid)
     if not vb:
         return None
 
+    # 注意：持续型炮塔没有 reload，不能在这里就放弃 —— 交给 _row_dps 判断
     reload_v = num(patch.get('reload', vb.get('reload')), 0.0)
-    if not reload_v:
-        return None
 
     shoot = patch.get('shoot')
     if not isinstance(shoot, dict):
@@ -607,13 +631,18 @@ def building_dps(bid, patch, van_blocks):
         key = ammo_key(item)
         merged = merge_node(bullet, patch_ammo.get(key))
         d, sp = bullet_profile(merged)
+        calc = _row_dps(reload_v, shots, merged, d, sp)
+        if calc is None:
+            continue
+        rd, rs, mode = calc
         rows.append(dict(
             item=key,
             damage=round(num(merged.get('damage'), 0.0), 2),
             splashDamage=round(num(merged.get('splashDamage'), 0.0), 2),
             perShot=round(shots * d, 2),
-            direct=round(shots * d * TICKS / reload_v, 2),
-            splash=round(shots * sp * TICKS / reload_v, 2),
+            direct=rd,
+            splash=rs,
+            mode=mode,
         ))
 
     # 激光 / 电力炮台没有弹药表，用 shootType 当唯一弹种
@@ -621,13 +650,18 @@ def building_dps(bid, patch, van_blocks):
         merged = merge_node(vb['shootType'],
                             patch.get('shootType') if isinstance(patch.get('shootType'), dict) else {})
         d, sp = bullet_profile(merged)
+        calc = _row_dps(reload_v, shots, merged, d, sp)
+        if calc is None:
+            return None
+        rd, rs, mode = calc
         rows.append(dict(
             item='(默认弹种)',
             damage=round(num(merged.get('damage'), 0.0), 2),
             splashDamage=round(num(merged.get('splashDamage'), 0.0), 2),
             perShot=round(shots * d, 2),
-            direct=round(shots * d * TICKS / reload_v, 2),
-            splash=round(shots * sp * TICKS / reload_v, 2),
+            direct=rd,
+            splash=rs,
+            mode=mode,
         ))
 
     if not rows:
@@ -635,8 +669,9 @@ def building_dps(bid, patch, van_blocks):
 
     best = max(rows, key=lambda r: r['direct'] + r['splash'])
     return dict(
-        reload=round(reload_v, 2),
-        reloadSec=round(reload_v / TICKS, 3),
+        mode=rows[0]['mode'],
+        reload=round(reload_v, 2) if reload_v else None,
+        reloadSec=round(reload_v / TICKS, 3) if reload_v else None,
         shots=shots,
         ammo=rows,
         best=dict(item=best['item'],

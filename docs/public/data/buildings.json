@@ -12,6 +12,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 450.0,
    "reloadSec": 7.5,
    "shots": 1,
@@ -22,7 +23,8 @@
      "splashDamage": 0.0,
      "perShot": 1800.0,
      "direct": 240.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -314,6 +316,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 35.0,
    "reloadSec": 0.583,
    "shots": 3,
@@ -324,7 +327,8 @@
      "splashDamage": 0.0,
      "perShot": 60.0,
      "direct": 102.86,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -409,6 +413,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 40.0,
    "reloadSec": 0.667,
    "shots": 1,
@@ -419,7 +424,8 @@
      "splashDamage": 0.0,
      "perShot": 85.0,
      "direct": 127.5,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "tungsten",
@@ -427,7 +433,8 @@
      "splashDamage": 0.0,
      "perShot": 95.0,
      "direct": 142.5,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "carbide",
@@ -435,7 +442,8 @@
      "splashDamage": 0.0,
      "perShot": 1114.33,
      "direct": 1671.5,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -628,6 +636,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 10.0,
    "reloadSec": 0.167,
    "shots": 1,
@@ -638,7 +647,8 @@
      "splashDamage": 45.0,
      "perShot": 54.0,
      "direct": 324.0,
-     "splash": 270.0
+     "splash": 270.0,
+     "mode": "burst"
     },
     {
      "item": "blastCompound",
@@ -646,7 +656,8 @@
      "splashDamage": 45.0,
      "perShot": 8.0,
      "direct": 48.0,
-     "splash": 270.0
+     "splash": 270.0,
+     "mode": "burst"
     },
     {
      "item": "plastanium",
@@ -654,7 +665,8 @@
      "splashDamage": 37.5,
      "perShot": 80.0,
      "direct": 480.0,
-     "splash": 225.0
+     "splash": 225.0,
+     "mode": "burst"
     },
     {
      "item": "surgeAlloy",
@@ -662,7 +674,8 @@
      "splashDamage": 75.0,
      "perShot": 13.0,
      "direct": 78.0,
-     "splash": 450.0
+     "splash": 450.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -745,6 +758,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 30.0,
    "reloadSec": 0.5,
    "shots": 15,
@@ -755,7 +769,8 @@
      "splashDamage": 0.0,
      "perShot": 615.0,
      "direct": 1230.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "oxide",
@@ -763,7 +778,8 @@
      "splashDamage": 0.0,
      "perShot": 1350.0,
      "direct": 2700.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "silicon",
@@ -771,7 +787,8 @@
      "splashDamage": 0.0,
      "perShot": 525.0,
      "direct": 1050.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -912,6 +929,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 9.0,
    "reloadSec": 0.15,
    "shots": 4,
@@ -922,7 +940,8 @@
      "splashDamage": 0.0,
      "perShot": 260.0,
      "direct": 1733.33,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "thorium",
@@ -930,7 +949,8 @@
      "splashDamage": 0.0,
      "perShot": 360.0,
      "direct": 2400.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "silicon",
@@ -938,7 +958,8 @@
      "splashDamage": 0.0,
      "perShot": 148.0,
      "direct": 986.67,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "surgeAlloy",
@@ -946,7 +967,8 @@
      "splashDamage": 0.0,
      "perShot": 260.0,
      "direct": 1733.33,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -1233,6 +1255,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 20.0,
    "reloadSec": 0.333,
    "shots": 1,
@@ -1243,7 +1266,8 @@
      "splashDamage": 0.0,
      "perShot": 9.0,
      "direct": 27.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "graphite",
@@ -1251,7 +1275,8 @@
      "splashDamage": 0.0,
      "perShot": 18.0,
      "direct": 54.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "silicon",
@@ -1259,7 +1284,8 @@
      "splashDamage": 0.0,
      "perShot": 12.0,
      "direct": 36.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -2031,6 +2057,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 200.0,
    "reloadSec": 3.333,
    "shots": 1,
@@ -2041,7 +2068,8 @@
      "splashDamage": 0.0,
      "perShot": 1350.0,
      "direct": 405.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -2163,6 +2191,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 35.0,
    "reloadSec": 0.583,
    "shots": 3,
@@ -2173,7 +2202,8 @@
      "splashDamage": 0.0,
      "perShot": 198.0,
      "direct": 339.43,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "thorium",
@@ -2181,7 +2211,8 @@
      "splashDamage": 0.0,
      "perShot": 315.0,
      "direct": 540.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -2231,6 +2262,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 60.0,
    "reloadSec": 1.0,
    "shots": 1,
@@ -2241,7 +2273,8 @@
      "splashDamage": 33.0,
      "perShot": 20.0,
      "direct": 20.0,
-     "splash": 33.0
+     "splash": 33.0,
+     "mode": "burst"
     },
     {
      "item": "silicon",
@@ -2249,7 +2282,8 @@
      "splashDamage": 33.0,
      "perShot": 20.0,
      "direct": 20.0,
-     "splash": 33.0
+     "splash": 33.0,
+     "mode": "burst"
     },
     {
      "item": "pyratite",
@@ -2257,7 +2291,8 @@
      "splashDamage": 45.0,
      "perShot": 25.0,
      "direct": 25.0,
-     "splash": 45.0
+     "splash": 45.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -2312,6 +2347,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 62.0,
    "reloadSec": 1.033,
    "shots": 1,
@@ -2322,7 +2358,8 @@
      "splashDamage": 0.0,
      "perShot": 260.0,
      "direct": 251.61,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -2382,7 +2419,32 @@
    "UT和UP的S&E星建筑补丁合集.hjson"
   ],
   "isTurret": true,
-  "dps": null,
+  "dps": {
+   "mode": "continuous",
+   "reload": null,
+   "reloadSec": null,
+   "shots": 1,
+   "ammo": [
+    {
+     "item": "(默认弹种)",
+     "damage": 550.0,
+     "splashDamage": 0.0,
+     "perShot": 550.0,
+     "direct": 6600.0,
+     "splash": 0.0,
+     "mode": "continuous"
+    }
+   ],
+   "best": {
+    "item": "(默认弹种)",
+    "direct": 6600.0,
+    "splash": 0.0,
+    "total": 6600.0
+   },
+   "directMax": 6600.0,
+   "splashMax": 0.0,
+   "totalMax": 6600.0
+  },
   "raw": {
    "scaleDamageEfficiency": true,
    "shootWarmupSpeed": 0.001,
@@ -2452,6 +2514,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 3.5,
    "reloadSec": 0.058,
    "shots": 1,
@@ -2462,7 +2525,8 @@
      "splashDamage": 0.0,
      "perShot": 250.0,
      "direct": 4285.71,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -2510,6 +2574,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 90.0,
    "reloadSec": 1.5,
    "shots": 1,
@@ -2520,7 +2585,8 @@
      "splashDamage": 0.0,
      "perShot": 365.0,
      "direct": 243.33,
-     "splash": 102.67
+     "splash": 102.67,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -2698,6 +2764,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 120.0,
    "reloadSec": 2.0,
    "shots": 1,
@@ -2708,7 +2775,8 @@
      "splashDamage": 70.0,
      "perShot": 40.0,
      "direct": 20.0,
-     "splash": 35.0
+     "splash": 35.0,
+     "mode": "burst"
     },
     {
      "item": "silicon",
@@ -2716,7 +2784,8 @@
      "splashDamage": 70.0,
      "perShot": 40.0,
      "direct": 20.0,
-     "splash": 35.0
+     "splash": 35.0,
+     "mode": "burst"
     },
     {
      "item": "pyratite",
@@ -2724,7 +2793,8 @@
      "splashDamage": 90.0,
      "perShot": 48.0,
      "direct": 24.0,
-     "splash": 45.0
+     "splash": 45.0,
+     "mode": "burst"
     },
     {
      "item": "blastCompound",
@@ -2732,7 +2802,8 @@
      "splashDamage": 90.0,
      "perShot": 40.0,
      "direct": 20.0,
-     "splash": 45.0
+     "splash": 45.0,
+     "mode": "burst"
     },
     {
      "item": "plastanium",
@@ -2740,7 +2811,8 @@
      "splashDamage": 90.0,
      "perShot": 250.0,
      "direct": 125.0,
-     "splash": 45.0
+     "splash": 45.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -2957,6 +3029,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 29.0,
    "reloadSec": 0.483,
    "shots": 1,
@@ -2967,7 +3040,8 @@
      "splashDamage": 0.0,
      "perShot": 15.0,
      "direct": 31.03,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "graphite",
@@ -2975,7 +3049,8 @@
      "splashDamage": 0.0,
      "perShot": 31.0,
      "direct": 64.14,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "pyratite",
@@ -2983,7 +3058,8 @@
      "splashDamage": 15.0,
      "perShot": 25.0,
      "direct": 51.72,
-     "splash": 31.03
+     "splash": 31.03,
+     "mode": "burst"
     },
     {
      "item": "silicon",
@@ -2991,7 +3067,8 @@
      "splashDamage": 0.0,
      "perShot": 23.0,
      "direct": 47.59,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "thorium",
@@ -2999,7 +3076,8 @@
      "splashDamage": 0.0,
      "perShot": 28.0,
      "direct": 57.93,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -3051,6 +3129,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 600.0,
    "reloadSec": 10.0,
    "shots": 1,
@@ -3061,7 +3140,8 @@
      "splashDamage": 0.0,
      "perShot": 0.0,
      "direct": 0.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "phaseFabric",
@@ -3069,7 +3149,8 @@
      "splashDamage": 0.0,
      "perShot": 0.0,
      "direct": 0.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "surgeAlloy",
@@ -3077,7 +3158,8 @@
      "splashDamage": 0.0,
      "perShot": 0.0,
      "direct": 0.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -3185,6 +3267,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 18.0,
    "reloadSec": 0.3,
    "shots": 1,
@@ -3195,7 +3278,8 @@
      "splashDamage": 33.0,
      "perShot": 3.0,
      "direct": 10.0,
-     "splash": 110.0
+     "splash": 110.0,
+     "mode": "burst"
     },
     {
      "item": "lead",
@@ -3203,7 +3287,8 @@
      "splashDamage": 40.5,
      "perShot": 3.0,
      "direct": 10.0,
-     "splash": 135.0
+     "splash": 135.0,
+     "mode": "burst"
     },
     {
      "item": "metaglass",
@@ -3211,7 +3296,8 @@
      "splashDamage": 45.0,
      "perShot": 33.0,
      "direct": 110.0,
-     "splash": 150.0
+     "splash": 150.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -3345,6 +3431,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 6.0,
    "reloadSec": 0.1,
    "shots": 1,
@@ -3355,7 +3442,8 @@
      "splashDamage": 0.0,
      "perShot": 17.0,
      "direct": 170.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "pyratite",
@@ -3363,7 +3451,8 @@
      "splashDamage": 0.0,
      "perShot": 86.0,
      "direct": 860.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -3569,6 +3658,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 100.0,
    "reloadSec": 1.667,
    "shots": 1,
@@ -3579,7 +3669,8 @@
      "splashDamage": 0.0,
      "perShot": 250.0,
      "direct": 150.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -4133,6 +4224,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 7.0,
    "reloadSec": 0.117,
    "shots": 1,
@@ -4143,7 +4235,8 @@
      "splashDamage": 0.0,
      "perShot": 50.0,
      "direct": 428.57,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "thorium",
@@ -4151,7 +4244,8 @@
      "splashDamage": 0.0,
      "perShot": 80.0,
      "direct": 685.71,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "pyratite",
@@ -4159,7 +4253,8 @@
      "splashDamage": 20.0,
      "perShot": 70.0,
      "direct": 600.0,
-     "splash": 171.43
+     "splash": 171.43,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -4434,7 +4529,41 @@
    "UT和UP的S&E星建筑补丁合集.hjson"
   ],
   "isTurret": true,
-  "dps": null,
+  "dps": {
+   "mode": "continuous",
+   "reload": null,
+   "reloadSec": null,
+   "shots": 1,
+   "ammo": [
+    {
+     "item": "ozone",
+     "damage": 60.0,
+     "splashDamage": 0.0,
+     "perShot": 60.0,
+     "direct": 720.0,
+     "splash": 0.0,
+     "mode": "continuous"
+    },
+    {
+     "item": "cyanogen",
+     "damage": 130.0,
+     "splashDamage": 0.0,
+     "perShot": 130.0,
+     "direct": 1560.0,
+     "splash": 0.0,
+     "mode": "continuous"
+    }
+   ],
+   "best": {
+    "item": "cyanogen",
+    "direct": 1560.0,
+    "splash": 0.0,
+    "total": 1560.0
+   },
+   "directMax": 1560.0,
+   "splashMax": 0.0,
+   "totalMax": 1560.0
+  },
   "raw": {
    "ammoTypes": {
     "arkycite": {
@@ -4698,6 +4827,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 34.29,
    "reloadSec": 0.571,
    "shots": 4,
@@ -4708,7 +4838,8 @@
      "splashDamage": 45.0,
      "perShot": 40.0,
      "direct": 70.0,
-     "splash": 315.0
+     "splash": 315.0,
+     "mode": "burst"
     },
     {
      "item": "pyratite",
@@ -4716,7 +4847,8 @@
      "splashDamage": 45.0,
      "perShot": 48.0,
      "direct": 84.0,
-     "splash": 315.0
+     "splash": 315.0,
+     "mode": "burst"
     },
     {
      "item": "surgeAlloy",
@@ -4724,7 +4856,8 @@
      "splashDamage": 35.0,
      "perShot": 72.0,
      "direct": 126.0,
-     "splash": 245.0
+     "splash": 245.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -4837,6 +4970,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 138.0,
    "reloadSec": 2.3,
    "shots": 1,
@@ -4847,7 +4981,8 @@
      "splashDamage": 350.0,
      "perShot": 350.0,
      "direct": 152.17,
-     "splash": 152.17
+     "splash": 152.17,
+     "mode": "burst"
     },
     {
      "item": "carbide",
@@ -4855,7 +4990,8 @@
      "splashDamage": 750.0,
      "perShot": 1300.0,
      "direct": 565.22,
-     "splash": 586.96
+     "splash": 586.96,
+     "mode": "burst"
     },
     {
      "item": "oxide",
@@ -4863,7 +4999,8 @@
      "splashDamage": 180.0,
      "perShot": 300.0,
      "direct": 130.43,
-     "splash": 78.26
+     "splash": 78.26,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -5166,6 +5303,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 3.0,
    "reloadSec": 0.05,
    "shots": 1,
@@ -5176,7 +5314,8 @@
      "splashDamage": 0.0,
      "perShot": 0.2,
      "direct": 4.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "slag",
@@ -5184,7 +5323,8 @@
      "splashDamage": 0.0,
      "perShot": 4.75,
      "direct": 95.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "cryofluid",
@@ -5192,7 +5332,8 @@
      "splashDamage": 0.0,
      "perShot": 0.2,
      "direct": 4.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "oil",
@@ -5200,7 +5341,8 @@
      "splashDamage": 0.0,
      "perShot": 0.2,
      "direct": 4.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {
@@ -5286,6 +5428,7 @@
   ],
   "isTurret": true,
   "dps": {
+   "mode": "burst",
    "reload": 3.0,
    "reloadSec": 0.05,
    "shots": 1,
@@ -5296,7 +5439,8 @@
      "splashDamage": 0.0,
      "perShot": 0.0,
      "direct": 0.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "slag",
@@ -5304,7 +5448,8 @@
      "splashDamage": 0.0,
      "perShot": 4.0,
      "direct": 80.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "cryofluid",
@@ -5312,7 +5457,8 @@
      "splashDamage": 0.0,
      "perShot": 0.0,
      "direct": 0.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     },
     {
      "item": "oil",
@@ -5320,7 +5466,8 @@
      "splashDamage": 0.0,
      "perShot": 0.0,
      "direct": 0.0,
-     "splash": 0.0
+     "splash": 0.0,
+     "mode": "burst"
     }
    ],
    "best": {

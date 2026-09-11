@@ -263,9 +263,16 @@ const turretHint = computed(() => {
             <div class="bp-dps-sub">{{ dps.best.item }}</div>
           </div>
           <div class="bp-dps-card">
-            <div class="bp-dps-label">装填 / 齐射</div>
-            <div class="bp-dps-val">{{ dps.reload }}<span class="bp-dps-unit">tick</span></div>
-            <div class="bp-dps-sub">{{ dps.reloadSec }} 秒 · {{ dps.shots }} 发</div>
+            <template v-if="dps.reload">
+              <div class="bp-dps-label">装填 / 齐射</div>
+              <div class="bp-dps-val">{{ dps.reload }}<span class="bp-dps-unit">tick</span></div>
+              <div class="bp-dps-sub">{{ dps.reloadSec }} 秒 · {{ dps.shots }} 发</div>
+            </template>
+            <template v-else>
+              <div class="bp-dps-label">输出方式</div>
+              <div class="bp-dps-val">持续</div>
+              <div class="bp-dps-sub">按 damageInterval 结算，无装填</div>
+            </template>
           </div>
         </div>
         <table class="bp-dps-table">
@@ -283,7 +290,12 @@ const turretHint = computed(() => {
           </tbody>
         </table>
         <p class="bp-note">
-          公式 <code>shots × 单发伤害 × 60 / reload</code>，已含分裂子母弹。
+          <template v-if="dps.mode === 'continuous'">
+            持续性炮塔按 <code>damage / damageInterval × 60</code> 结算，没有装填时间。
+          </template>
+          <template v-else>
+            公式 <code>shots × 单发伤害 × 60 / reload</code>，已含分裂子母弹。
+          </template>
           溅射单独列出，不与直伤相加。
         </p>
       </section>
