@@ -46,7 +46,12 @@ def serve(directory, prefix=''):
             super().__init__(*a, directory=directory, **kw)
 
         def translate_path(self, path):
-            if prefix and path.startswith(prefix):
+            if prefix:
+                # 给了 prefix 就**必须**带前缀，和 GitHub Pages 的行为一致。
+                # 早期版本只是「有前缀就剥掉」，缺前缀的链接照样 200，
+                # 于是线上真出问题（首页链接少 /<repo>/）本地却是全绿。
+                if not path.startswith(prefix):
+                    return os.path.join(directory, '.dsh-no-such-path')
                 path = path[len(prefix):] or '/'
             return super().translate_path(path)
 

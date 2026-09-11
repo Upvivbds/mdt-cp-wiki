@@ -84,14 +84,26 @@ export function starLabel(star) {
  *
  * 与 config.mts 的 `cleanUrls: false` 保持一致：改配置时这里要同步。
  */
+/**
+ * 站点 base（VitePress 的 BASE_URL）。
+ *
+ * GitHub Pages 部署在 /<仓库名>/ 下，base 就不是 '/' 了。**手写的绝对路径
+ * 不会自动带这一段** —— 少了它，线上就是 404，而本地 base='/' 的构建完全
+ * 看不出问题。所有自己拼的站内路径都必须过这里。
+ */
+export function siteBase() {
+  const base =
+    (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/'
+  return base.endsWith('/') ? base : base + '/'
+}
+
 export function pageUrl(path) {
   let p = String(path == null ? '' : path).trim()
-  if (!p) return '/'
   if (/^(https?:)?\/\//.test(p) || p.startsWith('#') || p.startsWith('mailto:')) return p
+  if (!p) return siteBase()
   if (!p.startsWith('/')) p = '/' + p
-  if (p.endsWith('/')) return p
-  if (/\.html?$/.test(p)) return p
-  return p + '.html'
+  if (!p.endsWith('/') && !/\.html?$/.test(p)) p += '.html'
+  return siteBase() + p.replace(/^\/+/, '')
 }
 
 /** 单位详情页 URL */
@@ -105,14 +117,10 @@ export function buildingUrl(id) {
 }
 
 /* ---------- 贴图 ----------
- * 与 pageUrl 同理：手写的绝对路径不会自动带 base，
- * GitHub Pages 部署在 /<仓库名>/ 下就会 404。走 BASE_URL 拼。
+ * 与 pageUrl 同理，统一走 siteBase()。
  */
 export function assetUrl(path) {
-  const base =
-    (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/'
-  const b = base.endsWith('/') ? base : base + '/'
-  return b + String(path).replace(/^\/+/, '')
+  return siteBase() + String(path).replace(/^\/+/, '')
 }
 
 /** 单位贴图；不存在时调用方用 onerror 隐藏 */

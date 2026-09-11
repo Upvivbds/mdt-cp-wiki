@@ -103,10 +103,15 @@ npm run build                         # 构建到 docs/.vitepress/dist
 ```bash
 python3 tools/audit_components.py   # 组件静态体检：未声明标识符、断掉的 import、未注册组件
 python3 tools/check_links.py        # 全站链接完整性（起临时服务器逐个请求）
-python3 tools/check_links.py --base /mindustry-wiki/   # 同上，但按 Pages 的 /<repo>/ 前缀验
+python3 tools/check_links.py --base /<仓库名>/   # 同上，但按 Pages 的 /<repo>/ 前缀验
 python3 tools/audit_dps.py          # DPS 审计：逐武器明细与可疑项
 python3 tools/audit_dps.py 天蝎 龙王  # 只看指定单位
 ```
 
 开发期用来「看一眼数据长什么样」的一次性脚本在 `tools/dev/`，不参与构建，
 详见该目录的 README。
+
+> **改了组件里的链接或贴图路径，务必用 `--base` 再验一次。**
+> GitHub Pages 挂在 `/<仓库名>/` 下，而本地默认构建的 base 是 `/` ——
+> 少一段前缀的链接在本地完全正常，上线就是 404。`--base` 模式会强制要求
+> 前缀存在（和 Pages 行为一致），缺前缀的链接会被判为 404。
