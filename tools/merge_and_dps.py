@@ -326,16 +326,13 @@ MAX_FRAG_DEPTH = 3
 
 
 def bullet_profile(bullet, depth=0):
-    """算一颗子弹「单发」造成的直伤与溅射，含分裂子母弹。
+    """算一颗子弹「单发」造成的直伤与溅射。
 
-    数据包里的分裂子母弹长这样：
+    一次扣扳机打出的伤害不只有主弹，还包括这些派生伤害，递归累加：
 
-        fragBullets = 3;
-        fragBullet = new BasicBulletType(9f, 20){{ splashDamage = 15f; }};
-
-    一次命中除了主弹伤害，还会炸出 fragBullets 颗子弹，每颗有自己的直伤与
-    溅射；子弹自身还能再分裂，所以递归累加。这些子弹即使实战中未必全中，
-    也确实构成伤害，此前完全没被计入。
+      分裂子母弹 fragBullet × fragBullets （可再分裂，深度上限 MAX_FRAG_DEPTH）
+      间隔弹     intervalBullet × intervalBullets × 寿命内的生成次数
+      电弧       lightning 条，每条 lightningDamage（负值取主弹伤害）
 
     返回 (direct, splash)。
     """
@@ -346,6 +343,7 @@ def bullet_profile(bullet, depth=0):
     direct = own
     splash = num(bullet.get('splashDamage'), 0.0)
 
+    # 分裂子母弹
     n = int(num(bullet.get('fragBullets'), 0) or 0)
     frag = bullet.get('fragBullet')
     if n > 0 and isinstance(frag, dict):
@@ -353,29 +351,38 @@ def bullet_profile(bullet, depth=0):
         direct += n * fd
         splash += n * fs
 
-    # 电弧：BulletType.hit() 里 `for(i < lightning) Lightning.create(...)`，
-    # 每次命中派生 lightning 条电弧，每条造成 lightningDamage；字段为负值时
-    # 取主弹伤害。电弧沿路径会同时命中多个目标，所以归到「范围」而不是单体。
-    lb = int(num(bullet.get('lightning'), 0) or 0)
-    if lb > 0:
-        ld = num(bullet.get('lightningDamage'), -1.0)
-        if ld < 0:
-            ld = own
-        splash += lb * ld
-
-    # 间隔弹：BulletType.updateBulletInterval() 在子弹飞行期间每隔
-    # bulletInterval（默认 20 tick）生成 intervalBullets 枚间隔弹，
-    # 数量 = floor(lifetime / bulletInterval)，各自还有自己的直伤与溅射。
+    # 间隔弹：BulletType.updateBulletInterval()，飞行期间每 bulletInterval
+    # （默认 20 tick）生成 intervalBullets 枚，但要等 b.time >= intervalDelay
+    # 才开始（intervalDelay 默认 -1，源码注释即「负值表示不延迟」）。
     iv = bullet.get('intervalBullet')
     if isinstance(iv, dict):
         cnt = int(num(bullet.get('intervalBullets'), 1) or 1)
         gap = num(bullet.get('bulletInterval'), 20.0) or 20.0
         life = num(bullet.get('lifetime'), 0.0)
-        events = int(life // gap) if (life > 0 and gap > 0) else 0
+        delay = num(bullet.get('intervalDelay'), -1.0)
+        if delay < 0:
+            delay = 0.0
+        events = int((life - delay) // gap) if (life > delay and gap > 0) else 0
         if cnt > 0 and events > 0:
             idd, iss = bullet_profile(iv, depth + 1)
             direct += cnt * events * idd
             splash += cnt * events * iss
+
+    # 电弧：BulletType.hit() 里 `for(i < lightning) Lightning.create(...)`，
+    # 每次命中派生 lightning 条电弧。指定了 lightningType 就按那颗子弹递归算，
+    # 否则每条造成 lightningDamage（负值取主弹伤害）。
+    # 电弧沿路径会同时命中多个目标，所以归入「范围」而非单体。
+    lb = int(num(bullet.get('lightning'), 0) or 0)
+    if lb > 0:
+        lt = bullet.get('lightningType')
+        if isinstance(lt, dict):
+            l_d, l_s = bullet_profile(lt, depth + 1)
+            splash += lb * (l_d + l_s)
+        else:
+            ld = num(bullet.get('lightningDamage'), -1.0)
+            if ld < 0:
+                ld = own
+            splash += lb * ld
 
     return direct, splash
 
@@ -445,7 +452,6 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         shots_eff = 1
         mode = 'continuous'
     elif btype == 'SapBulletType':
-        # 吸血光束：伤害按 damageInterval 结算
         di = num(bullet.get('damageInterval'), 5.0) or 5.0
         dps = damage / di * TICKS
         shots_eff = 1
@@ -464,13 +470,25 @@ def compute_weapon_dps(w, unit_is_projectile=False):
     per_shot = shots_eff * prof_direct
     per_shot_splash = shots_eff * prof_splash
 
+    # 穿透只作信息展示，**不折算成 DPS**。
+    # 源码：pierce 是 boolean（BulletType.java:53），pierceCap 是穿透上限（:57），
+    # pierceDamageFactor 默认 0f，语义是「每穿透一点生命值降低的伤害倍率」（:59）
+    # —— 不是逐目标衰减系数，拿它算群体倍率是错的。
+    pierce = bool(bullet.get('pierce'))
+    pierce_cap = bullet.get('pierceCap')
+    pierce_factor = bullet.get('pierceDamageFactor')
+
+    # 穿透只作信息展示，**不折算成 DPS**。
+    # 源码：pierce 是 boolean（BulletType.java:53），pierceCap 是上限（:57），
+    # pierceDamageFactor 默认 0f 且语义是「每穿透一点生命值降低的伤害倍率」
+    # （:59），不是逐目标衰减系数 —— 拿它算倍率是错的。
+
+    # ammoPerShot：每发消耗多少弹药（默认 1），不影响 DPS 但影响弹药经济
+    ammo_per_shot = int(num(w.get('ammoPerShot'), 1) or 1)
+
     if role != 'damage':
-        # 点防御 / 维修 / 建造 / 采矿 / 死亡爆炸：不是对单位输出，不计入 DPS
         dps = None
     elif not reload_explicit or not reload_known:
-        # 装填没显式设定（默认 1 tick），或装填依赖循环变量算不出来：
-        # 多为导弹本体、撞击弹、命中即爆的弹头 —— 按秒折算没有意义，
-        # 只报单发伤害，不报 DPS。
         dps = None
         mode = 'oneshot'
 
@@ -520,6 +538,13 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         collidesGround=collides_ground,
         bulletRange=round(bullet_range, 1) if bullet_range else None,
         continuous=continuous,
+        # 新增字段
+        ammoPerShot=ammo_per_shot,
+        pierce=pierce,
+        pierceCap=(int(pierce_cap) if isinstance(pierce_cap, (int, float)) else None),
+        pierceDamageFactor=(num(pierce_factor) if pierce_factor is not None else None),
+        pierceArmor=bullet.get('pierceArmor', False),
+        armorPiercing=bullet.get('armorPiercing', False),
         raw=w,
     )
 

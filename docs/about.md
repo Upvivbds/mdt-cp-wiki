@@ -47,14 +47,16 @@ DPS = damage / damageInterval × 60
 | --- | --- | --- |
 | 分裂子母弹 `fragBullet` | `fragBullets` × 子弹出伤 | 按子弹出伤性质 |
 | 电弧 `lightning` | `lightning` × `lightningDamage`；该字段为负时取主弹伤害 | 范围 |
-| 间隔弹 `intervalBullet` | `intervalBullets` × ⌊`lifetime` / `bulletInterval`⌋ × 间隔弹出伤 | 按间隔弹出伤性质 |
+| 间隔弹 `intervalBullet` | `intervalBullets` × ⌊(`lifetime` − `intervalDelay`) / `bulletInterval`⌋ × 间隔弹出伤 | 按间隔弹出伤性质 |
 
 - **电弧会同时命中多个目标**，所以计入范围而非单体。它按原版的
   `BulletType.hit()` 逻辑在命中点派生，条数即 `lightning`。
 - **间隔弹按「寿命内全部生成且全部命中」计**，是理论上限；实战中子弹可能
   在生成出全部间隔弹之前就打空了。`bulletInterval` 缺省 20 tick。
 - **穿透（`pierce` / `pierceCap`）不计入 DPS** —— 它让同一发子弹命中更多
-  目标，不增加对单个目标的伤害。
+  目标，不增加对单个目标的伤害。页面只展示穿透参数，不做折算：
+  `pierce` 是布尔值，`pierceCap` 是穿透上限，而 `pierceDamageFactor` 的语义是
+  「每穿透一点生命值降低的伤害倍率」（默认 0），并非逐目标衰减系数。
 
 以下不计入 DPS，只列单发伤害：
 
