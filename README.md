@@ -69,3 +69,23 @@ python3 tools/audit_components.py # 组件静态体检（见下）
 - **副单位（`-missile`）**：其 DPS 语义是「命中即炸」，
   混进榜单会把真正的作战单位全挤下去，因此已从 `topDps` 排除。
 - 数据里的空值（如 `ground: 0` 的纯对空单位）按原样显示，不做推测补全。
+## 部署到 GitHub Pages
+
+仓库已带好工作流 `.github/workflows/deploy.yml`，推上 GitHub 后：
+
+1. 新建仓库并把本目录推上去（`main` 分支）：
+   ```bash
+   git remote add origin git@github.com:<你的用户名>/<仓库名>.git
+   git push -u origin main
+   ```
+2. 仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**。
+3. 之后每次 push 到 `main` 都会自动构建并发布。
+
+站点地址是 `https://<用户名>.github.io/<仓库名>/`。
+
+> **base 为什么必须改**：Pages 把站点放在 `/<仓库名>/` 子路径下。
+> 若 `base` 仍是 `/`，所有 `/assets/...` 与站内链接都会 404 —— 页面会变成
+> 没有样式的裸 HTML 且点不动。工作流里已用
+> `npm run build -- --base /<仓库名>/` 自动处理，不用手改配置。
+>
+> 本地预览仍用 `npm run build && npm run preview`（base 为 `/`）。
