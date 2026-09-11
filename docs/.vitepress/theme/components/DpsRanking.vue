@@ -19,6 +19,8 @@ function pickOf(u) {
   if (!u) return 0
   if (mode.value === 'air') return u.air
   if (mode.value === 'ground') return u.ground
+  if (mode.value === 'direct') return u.direct
+  if (mode.value === 'splash') return u.splash
   return u.dps
 }
 
@@ -48,7 +50,7 @@ const rows = computed(() =>
 )
 
 const modeLabel = computed(
-  () => ({ air: '对空', ground: '对地', total: '总' })[mode.value] || '总'
+  () => ({ air: '对空', ground: '对地', total: '总', direct: '单体', splash: '范围' })[mode.value] || '总'
 )
 
 const max = computed(() => {
@@ -77,7 +79,9 @@ const max = computed(() => {
       <label class="rank-field">
         <span>口径</span>
         <select v-model="mode">
-          <option value="total">总 DPS</option>
+          <option value="total">总 DPS（单体 + 范围）</option>
+          <option value="direct">单体 DPS</option>
+          <option value="splash">范围 DPS</option>
           <option value="air">对空 DPS</option>
           <option value="ground">对地 DPS</option>
         </select>

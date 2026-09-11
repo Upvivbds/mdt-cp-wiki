@@ -132,25 +132,41 @@ const calcGround = computed(() => sum(rows.value.filter((r) => r.ground), (r) =>
 const calcAirSplash = computed(() => sum(rows.value.filter((r) => r.air), (r) => r.calcSplashDps))
 const calcGroundSplash = computed(() => sum(rows.value.filter((r) => r.ground), (r) => r.calcSplashDps))
 
-const origTotal = computed(() => toNum(dps.value.total))
+const origDirect = computed(() => {
+  const d = toNum(dps.value.direct)
+  return d !== null ? d : toNum(dps.value.total)
+})
+const origSplash = computed(() => toNum(dps.value.splash))
 const origAir = computed(() => toNum(dps.value.air))
 const origGround = computed(() => toNum(dps.value.ground))
 const origVanillaTotal = computed(() => toNum(vanillaDps.value.total))
+const origVanillaSplash = computed(() => toNum(vanillaDps.value.splash))
 const origVanillaAir = computed(() => toNum(vanillaDps.value.air))
 const origVanillaGround = computed(() => toNum(vanillaDps.value.ground))
 
 const bigCards = computed(() => [
   {
-    label: '总 DPS',
-    value: dirty.value ? calcTotal.value : origTotal.value !== null ? origTotal.value : calcTotal.value,
+    label: '单体 DPS',
+    value: dirty.value ? calcTotal.value : origDirect.value !== null ? origDirect.value : calcTotal.value,
     hint: dirty.value
       ? '按当前参数实时计算'
-      : origTotal.value !== null
-        ? '数据包解析值'
+      : origDirect.value !== null
+        ? '数据包解析值（含分裂子弹）'
         : '按公式计算',
     sub: [
-      origVanillaTotal.value !== null ? `原版 ${fmtNum(origVanillaTotal.value)}` : null,
-      calcSplashTotal.value > 0 ? `溅射 ${fmtNum(calcSplashTotal.value)}` : null
+      origVanillaTotal.value !== null ? `原版单体 ${fmtNum(origVanillaTotal.value)}` : null
+    ].filter(Boolean)
+  },
+  {
+    label: '范围 DPS',
+    value: dirty.value
+      ? calcSplashTotal.value
+      : origSplash.value !== null
+        ? origSplash.value
+        : calcSplashTotal.value,
+    hint: '溅射伤害，与单体分开计',
+    sub: [
+      origVanillaSplash.value !== null ? `原版范围 ${fmtNum(origVanillaSplash.value)}` : null
     ].filter(Boolean)
   },
   {
