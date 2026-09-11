@@ -1,0 +1,1 @@
+{"id":"arc","nameZh":"电弧","star":"S","author":"UT","category":"炮塔","packs":["UT和UP的S&E星建筑补丁合集.hjson","UT的赛普罗单位&建筑补丁整合包.hjson","UT的赛普罗建筑补丁包.hjson"],"raw":{"shoot":{"shots":3,"shotDelay":1},"description":"微型电力炮台。消耗电力射出3道随机弧度的电弧，对于扎堆的敌人有着可观的输出。"}}

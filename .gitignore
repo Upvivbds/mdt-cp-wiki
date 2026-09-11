@@ -1,0 +1,14 @@
+# 依赖与产物
+node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
+# 系统
+.DS_Store
+*.log
+__pycache__/
+
+# 说明：docs/units/*.md、docs/buildings/*.md、docs/data/** 是 tools/gen_pages.py
+# 从 docs/public/data/*.json 派生的页面与数据。它们体积很小（合计约 1MB），
+# 且 CI 里没有 Python 步骤，因此**选择入库**，保证 clone 后 npm ci && npm run build
+# 就能直接构建。若日后改为 CI 内生成，再把它们加进本文件。

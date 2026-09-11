@@ -1,0 +1,1 @@
+{"id":"segment","nameZh":"裂解","star":"E","author":"UP","category":"炮塔","packs":["UP的埃里克尔单位&建筑补丁整合包.hjson","UP的埃里克尔建筑补丁包.hjson","UT和UP的S&E星建筑补丁合集.hjson"],"raw":{"reload":4.5,"range":225,"retargetTime":0.5,"description":"小型电力辅助炮台。将射程内的所有敌人弹幕逐一分解，保护我方的建筑。不能分解电流、激光和导弹。"}}
