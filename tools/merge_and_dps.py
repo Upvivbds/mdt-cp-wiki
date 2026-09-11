@@ -387,6 +387,80 @@ def bullet_profile(bullet, depth=0):
     return direct, splash
 
 
+def bullet_estimate_dps(bullet, depth=0):
+    """移植游戏内置的 BulletType.estimateDPS()（BulletType.java:410）。
+
+    这是**游戏内显示的 DPS** 所用的单发估算值，wiki 对齐它才能和游戏对上。
+    原公式：
+
+        float sum = (damage + splashDamage * 0.75f)
+                  * (pierce ? (pierceCap == -1 ? 2 : clamp(pierceCap, 1, 2)) : 1f);
+        if(fragBullet != null && fragBullet != this)
+            sum += fragBullet.estimateDPS() * fragBullets / 2f;
+        for(other : spawnBullets) sum += other.estimateDPS();
+
+    注意三点，都和「自己拍脑袋算」不同：
+      - 溅射按 **0.75** 折算，不是全额
+      - 分裂子母弹按 **fragBullets / 2** 折算（游戏认为只有一半能命中）
+      - 穿透会乘倍率，而**不是**不计
+
+    子类覆写：
+      LightningBulletType  × max(lightningLength / 10, 1)
+      LaserBulletType      × 3
+      PointLaserBulletType 整段替换为 damage * 100 / damageInterval * 3
+      MultiBulletType      取 bullets 之和
+
+    返回 (direct, splash)，两者之和 = 游戏口径的单发估算。
+    """
+    if not isinstance(bullet, dict) or depth > MAX_FRAG_DEPTH:
+        return 0.0, 0.0
+
+    btype = type_of(bullet, 'BulletType')
+    dmg = num(bullet.get('damage'), 0.0)
+    sp = num(bullet.get('splashDamage'), 0.0) * 0.75
+
+    mult = 1.0
+    if bullet.get('pierce'):
+        cap_raw = bullet.get('pierceCap')
+        cap = -1 if cap_raw is None else int(num(cap_raw, -1))
+        mult = 2.0 if cap == -1 else min(max(cap, 1), 2)
+    d, sp = dmg * mult, sp * mult
+
+    frag = bullet.get('fragBullet')
+    n = int(num(bullet.get('fragBullets'), 0) or 0)
+    if n > 0 and isinstance(frag, dict) and frag is not bullet:
+        fd, fs = bullet_estimate_dps(frag, depth + 1)
+        d += fd * n / 2.0
+        sp += fs * n / 2.0
+
+    spawns = bullet.get('spawnBullets')
+    if isinstance(spawns, list):
+        for other in spawns:
+            od, os_ = bullet_estimate_dps(other, depth + 1)
+            d += od
+            sp += os_
+
+    if btype == 'LightningBulletType':
+        k = max(num(bullet.get('lightningLength'), 5.0) / 10.0, 1.0)
+        d *= k
+        sp *= k
+    elif btype == 'LaserBulletType':
+        d *= 3.0
+        sp *= 3.0
+    elif btype == 'PointLaserBulletType':
+        di = num(bullet.get('damageInterval'), 5.0) or 5.0
+        d = num(bullet.get('damage'), 0.0) * 100.0 / di * 3.0
+        sp = 0.0
+    elif btype == 'MultiBulletType':
+        d = sp = 0.0
+        for b in (bullet.get('bullets') or []):
+            bd, bs = bullet_estimate_dps(b, depth + 1)
+            d += bd
+            sp += bs
+
+    return d, sp
+
+
 def compute_weapon_dps(w, unit_is_projectile=False):
     """返回单个武器的 DPS 明细。
 
@@ -398,6 +472,14 @@ def compute_weapon_dps(w, unit_is_projectile=False):
     btype = type_of(bullet, 'BulletType')
     wtype = type_of(w, 'Weapon')
     role = WEAPON_ROLE.get(wtype, 'damage')
+
+    # 点防御武器：解析器把构造名统一成了 'Weapon'，认不出 PointDefenseWeapon，
+    # 于是玄武/电鳗/天赐的点防御炮被当成输出来源（玄武因此显示 450 DPS）。
+    # 按武器名兜底 —— 已核对 navanax 的 plasma-laser-mount 是普通 Weapon，
+    # 不会被误伤。
+    if role == 'damage' and re.search(r'point[-_ ]?defense',
+                                      str(w.get('name') or ''), re.I):
+        role = 'pointDefense'
 
     reload_raw = w.get('reload')
     reload_explicit = reload_raw is not None
@@ -433,27 +515,28 @@ def compute_weapon_dps(w, unit_is_projectile=False):
     splash = num(bullet.get('splashDamage'), 0.0)
     splash_r = num(bullet.get('splashDamageRadius'), -1.0)
 
-    # 含分裂子母弹的完整单发伤害
-    prof_direct, prof_splash = bullet_profile(bullet)
+    # 单发估算：走游戏内置公式（溅射 x0.75、分裂 /2、穿透倍率、弹种覆写）
+    prof_direct, prof_splash = bullet_estimate_dps(bullet)
     frag_n = int(num(bullet.get('fragBullets'), 0) or 0)
     frag_bullet = bullet.get('fragBullet') if isinstance(bullet.get('fragBullet'), dict) else None
     frag_direct = frag_splash = 0.0
     if frag_n and frag_bullet:
-        frag_direct, frag_splash = bullet_profile(frag_bullet, 1)
-        frag_direct *= frag_n
-        frag_splash *= frag_n
+        frag_direct, frag_splash = bullet_estimate_dps(frag_bullet, 1)
+        frag_direct *= frag_n / 2.0
+        frag_splash *= frag_n / 2.0
 
     continuous = bool(w.get('continuous')) or btype in LASER_TYPES
 
     if btype in ('PointLaserBulletType', 'ContinuousLaserBulletType',
-                 'ContinuousFlameBulletType'):
+                 'ContinuousFlameBulletType', 'SapBulletType'):
+        # 持续光束不吃 reload，按 damageInterval 结算（continuousDamage()）。
+        # 注意**不能**用 BulletType.estimateDPS() —— 那是给「单发」用的，
+        # PointLaserBulletType 覆写成了 damage*100/damageInterval*3，
+        # 再套 Weapon.dps() 的 /reload*60 会算出 9771 这种荒谬值（merui 中过招）。
         di = num(bullet.get('damageInterval'), 5.0) or 5.0
         dps = damage / di * TICKS
-        shots_eff = 1
-        mode = 'continuous'
-    elif btype == 'SapBulletType':
-        di = num(bullet.get('damageInterval'), 5.0) or 5.0
-        dps = damage / di * TICKS
+        prof_direct = damage
+        prof_splash = 0.0
         shots_eff = 1
         mode = 'continuous'
     else:
@@ -462,7 +545,9 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         # 也就是「没有直伤就拿溅射顶替」，结果纯溅射武器（conquer-shockwave
         # 是 damage=0 / splashDamage=440）被算进单体榜，越靠后虚高越离谱。
         # 现在溅射单独统计，另立榜单。
-        dps = shots * prof_direct * TICKS / reload
+        # 游戏口径：Weapon.dps() = (单发估算 / reload) * shots * 60
+        # 单发估算已含按 0.75 折算的溅射
+        dps = shots * (prof_direct + prof_splash) * TICKS / reload
         shots_eff = shots
         mode = 'burst'
 
@@ -507,8 +592,18 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         bullet_range = num(range_override)
 
     splash_dps = None
-    if prof_splash and reload_explicit and reload_known and role == 'damage':
-        splash_dps = round(shots_eff * prof_splash * TICKS / reload, 2)
+    direct_dps = None
+    if role == 'damage':
+        if mode == 'continuous':
+            # 持续型：dps 就是每秒伤害，没有 reload 折算
+            direct_dps = round(dps, 2) if dps is not None else None
+        elif reload_explicit and reload_known:
+            direct_dps = round(shots_eff * prof_direct * TICKS / reload, 2)
+            if prof_splash:
+                splash_dps = round(shots_eff * prof_splash * TICKS / reload, 2)
+
+    # 殉爆：killShooter 的武器不产生持续输出
+    kill_shooter = bool(bullet.get('killShooter'))
 
     return dict(
         name=w.get('name') or '(未命名)',
@@ -534,6 +629,8 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         dps=round(dps, 2) if dps is not None else None,
         perShot=round(per_shot, 2),
         splashDps=splash_dps,
+        directDps=direct_dps,
+        killShooter=kill_shooter,
         collidesAir=collides_air,
         collidesGround=collides_ground,
         bulletRange=round(bullet_range, 1) if bullet_range else None,
@@ -555,13 +652,18 @@ def unit_dps(unit):
     details = [compute_weapon_dps(w) for w in ws if isinstance(w, dict)]
     if not details:
         return dict(weapons=[], direct=0.0, splash=0.0, total=0.0,
-                    air=0.0, ground=0.0, suicide=False, airGroundOnly=False)
+                    air=0.0, ground=0.0, suicide=False, suicideDamage=0.0,
+                    airGroundOnly=False)
 
     target_air = unit.get('targetAir', True) is not False
     target_ground = unit.get('targetGround', True) is not False
 
     def v(d):
+        # 游戏口径的武器 DPS（= 直伤 + 按 0.75 折算的溅射）
         return d['dps'] if isinstance(d['dps'], (int, float)) else 0.0
+
+    def dv(d):
+        return d['directDps'] if isinstance(d.get('directDps'), (int, float)) else 0.0
 
     def sp(d):
         return d['splashDps'] if isinstance(d['splashDps'], (int, float)) else 0.0
@@ -570,7 +672,15 @@ def unit_dps(unit):
     suicide = bool(details) and all(
         d['role'] in ('warhead', 'support', 'pointDefense') for d in details)
 
-    direct = sum(v(d) for d in details)
+    # 殉爆单位没有「每秒输出」可言，显示为 0 没有意义。按 up 的要求，
+    # 改用**单次造成的总伤害**（含分裂子母弹）作为它的 DPS 数值。
+    suicide_damage = 0.0
+    if suicide:
+        for d in details:
+            if d['role'] == 'warhead':
+                suicide_damage += (d.get('perShotDirect') or 0) + (d.get('perShotSplash') or 0)
+
+    direct = sum(dv(d) for d in details)
     splash = sum(sp(d) for d in details)
     air = sum(v(d) for d in details if d['collidesAir']) if target_air else 0.0
     ground = sum(v(d) for d in details if d['collidesGround']) if target_ground else 0.0
@@ -579,8 +689,14 @@ def unit_dps(unit):
         d['canHitAir'] = bool(target_air and d['collidesAir'])
         d['canHitGround'] = bool(target_ground and d['collidesGround'])
 
+    if suicide:
+        direct = suicide_damage
+        splash = 0.0
+        air = ground = suicide_damage
+
     return dict(
         weapons=details,
+        suicideDamage=round(suicide_damage, 2),
         # 单体 DPS（直伤，含分裂弹全命中）
         direct=round(direct, 2),
         # 范围 DPS（溅射，含分裂弹的溅射）
