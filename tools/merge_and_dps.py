@@ -342,7 +342,8 @@ def bullet_profile(bullet, depth=0):
     if not isinstance(bullet, dict) or depth > MAX_FRAG_DEPTH:
         return 0.0, 0.0
 
-    direct = num(bullet.get('damage'), 0.0)
+    own = num(bullet.get('damage'), 0.0)
+    direct = own
     splash = num(bullet.get('splashDamage'), 0.0)
 
     n = int(num(bullet.get('fragBullets'), 0) or 0)
@@ -351,6 +352,30 @@ def bullet_profile(bullet, depth=0):
         fd, fs = bullet_profile(frag, depth + 1)
         direct += n * fd
         splash += n * fs
+
+    # 电弧：BulletType.hit() 里 `for(i < lightning) Lightning.create(...)`，
+    # 每次命中派生 lightning 条电弧，每条造成 lightningDamage；字段为负值时
+    # 取主弹伤害。电弧沿路径会同时命中多个目标，所以归到「范围」而不是单体。
+    lb = int(num(bullet.get('lightning'), 0) or 0)
+    if lb > 0:
+        ld = num(bullet.get('lightningDamage'), -1.0)
+        if ld < 0:
+            ld = own
+        splash += lb * ld
+
+    # 间隔弹：BulletType.updateBulletInterval() 在子弹飞行期间每隔
+    # bulletInterval（默认 20 tick）生成 intervalBullets 枚间隔弹，
+    # 数量 = floor(lifetime / bulletInterval)，各自还有自己的直伤与溅射。
+    iv = bullet.get('intervalBullet')
+    if isinstance(iv, dict):
+        cnt = int(num(bullet.get('intervalBullets'), 1) or 1)
+        gap = num(bullet.get('bulletInterval'), 20.0) or 20.0
+        life = num(bullet.get('lifetime'), 0.0)
+        events = int(life // gap) if (life > 0 and gap > 0) else 0
+        if cnt > 0 and events > 0:
+            idd, iss = bullet_profile(iv, depth + 1)
+            direct += cnt * events * idd
+            splash += cnt * events * iss
 
     return direct, splash
 

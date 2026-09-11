@@ -21,21 +21,21 @@
      "item": "(默认弹种)",
      "damage": 800.0,
      "splashDamage": 0.0,
-     "perShot": 1800.0,
-     "direct": 240.0,
-     "splash": 0.0,
+     "perShot": 3940.0,
+     "direct": 525.33,
+     "splash": 260.0,
      "mode": "burst"
     }
    ],
    "best": {
     "item": "(默认弹种)",
-    "direct": 240.0,
-    "splash": 0.0,
-    "total": 240.0
+    "direct": 525.33,
+    "splash": 260.0,
+    "total": 785.33
    },
-   "directMax": 240.0,
-   "splashMax": 0.0,
-   "totalMax": 240.0
+   "directMax": 525.33,
+   "splashMax": 260.0,
+   "totalMax": 785.33
   },
   "raw": {
    "reload": 450,
@@ -674,7 +674,7 @@
      "splashDamage": 75.0,
      "perShot": 13.0,
      "direct": 78.0,
-     "splash": 450.0,
+     "splash": 606.0,
      "mode": "burst"
     }
    ],
@@ -685,7 +685,7 @@
     "total": 705.0
    },
    "directMax": 480.0,
-   "splashMax": 450.0,
+   "splashMax": 606.0,
    "totalMax": 705.0
   },
   "raw": {
@@ -967,19 +967,19 @@
      "splashDamage": 0.0,
      "perShot": 260.0,
      "direct": 1733.33,
-     "splash": 0.0,
+     "splash": 5706.67,
      "mode": "burst"
     }
    ],
    "best": {
-    "item": "thorium",
-    "direct": 2400.0,
-    "splash": 0.0,
-    "total": 2400.0
+    "item": "surgeAlloy",
+    "direct": 1733.33,
+    "splash": 5706.67,
+    "total": 7440.0
    },
    "directMax": 2400.0,
-   "splashMax": 0.0,
-   "totalMax": 2400.0
+   "splashMax": 5706.67,
+   "totalMax": 7440.0
   },
   "raw": {
    "ammoTypes": {
@@ -2358,19 +2358,19 @@
      "splashDamage": 0.0,
      "perShot": 260.0,
      "direct": 251.61,
-     "splash": 0.0,
+     "splash": 46.45,
      "mode": "burst"
     }
    ],
    "best": {
     "item": "(默认弹种)",
     "direct": 251.61,
-    "splash": 0.0,
-    "total": 251.61
+    "splash": 46.45,
+    "total": 298.06
    },
    "directMax": 251.61,
-   "splashMax": 0.0,
-   "totalMax": 251.61
+   "splashMax": 46.45,
+   "totalMax": 298.06
   },
   "raw": {
    "shootType": {
@@ -2523,21 +2523,21 @@
      "item": "(默认弹种)",
      "damage": 250.0,
      "splashDamage": 0.0,
-     "perShot": 250.0,
-     "direct": 4285.71,
+     "perShot": 1330.0,
+     "direct": 22800.0,
      "splash": 0.0,
      "mode": "burst"
     }
    ],
    "best": {
     "item": "(默认弹种)",
-    "direct": 4285.71,
+    "direct": 22800.0,
     "splash": 0.0,
-    "total": 4285.71
+    "total": 22800.0
    },
-   "directMax": 4285.71,
+   "directMax": 22800.0,
    "splashMax": 0.0,
-   "totalMax": 4285.71
+   "totalMax": 22800.0
   },
   "raw": {
    "maxHeatEfficiency": 5.0,
@@ -4856,19 +4856,19 @@
      "splashDamage": 35.0,
      "perShot": 72.0,
      "direct": 126.0,
-     "splash": 245.0,
+     "splash": 385.0,
      "mode": "burst"
     }
    ],
    "best": {
-    "item": "pyratite",
-    "direct": 84.0,
-    "splash": 315.0,
-    "total": 399.0
+    "item": "surgeAlloy",
+    "direct": 126.0,
+    "splash": 385.0,
+    "total": 511.0
    },
    "directMax": 126.0,
-   "splashMax": 315.0,
-   "totalMax": 399.0
+   "splashMax": 385.0,
+   "totalMax": 511.0
   },
   "raw": {
    "ammoTypes": {
@@ -4999,7 +4999,7 @@
      "splashDamage": 180.0,
      "perShot": 300.0,
      "direct": 130.43,
-     "splash": 78.26,
+     "splash": 123.91,
      "mode": "burst"
     }
    ],

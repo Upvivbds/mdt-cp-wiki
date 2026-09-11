@@ -41,9 +41,24 @@ DPS = damage / damageInterval × 60
 - **溅射伤害（`splashDamage`）不计入单体 DPS**，单独列出。
 - **对空 DPS** 只累加 `collidesAir` 为真的武器，**对地 DPS** 同理。
 
+单发伤害不只有主弹，还包含这些派生伤害（递归累加，深度上限 3 层）：
+
+| 来源 | 规则 | 归入 |
+| --- | --- | --- |
+| 分裂子母弹 `fragBullet` | `fragBullets` × 子弹出伤 | 按子弹出伤性质 |
+| 电弧 `lightning` | `lightning` × `lightningDamage`；该字段为负时取主弹伤害 | 范围 |
+| 间隔弹 `intervalBullet` | `intervalBullets` × ⌊`lifetime` / `bulletInterval`⌋ × 间隔弹出伤 | 按间隔弹出伤性质 |
+
+- **电弧会同时命中多个目标**，所以计入范围而非单体。它按原版的
+  `BulletType.hit()` 逻辑在命中点派生，条数即 `lightning`。
+- **间隔弹按「寿命内全部生成且全部命中」计**，是理论上限；实战中子弹可能
+  在生成出全部间隔弹之前就打空了。`bulletInterval` 缺省 20 tick。
+- **穿透（`pierce` / `pierceCap`）不计入 DPS** —— 它让同一发子弹命中更多
+  目标，不增加对单个目标的伤害。
+
 以下不计入 DPS，只列单发伤害：
 
-- 死亡触发的爆炸弹头（`shootOnDeath`）
+- 死亡触发的爆炸弹头（`shootOnDeath`），即「殉爆」类单位（爬虫等）
 - 导弹本体等副单位（`MissileUnitType`）
 - 点防御武器、维修 / 建造 / 采矿武器
 
