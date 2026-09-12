@@ -11,7 +11,7 @@ const all = computed(() => (Array.isArray(indexData.units) ? indexData.units : [
 
 const star = ref('all')
 const author = ref('all')
-const mode = ref('total') // total | air | ground
+const mode = ref('total') // total | air | ground | group
 
 /**
  * 按当前口径取出一个单位的 DPS 值。
@@ -24,6 +24,7 @@ function pickOf(u) {
   if (mode.value === 'ground') return u.ground
   if (mode.value === 'direct') return u.direct
   if (mode.value === 'splash') return u.splash
+  if (mode.value === 'group') return u.grpDps
   return u.dps
 }
 
@@ -42,7 +43,7 @@ const rows = computed(() =>
 )
 
 const modeLabel = computed(
-  () => ({ air: '对空', ground: '对地', total: '总', direct: '单体', splash: '范围' })[mode.value] || '总'
+  () => ({ air: '对空', ground: '对地', total: '总（对单）', direct: '单体', splash: '范围', group: '群体（含穿透）' })[mode.value] || '总'
 )
 
 const max = computed(() => {
@@ -71,7 +72,8 @@ const max = computed(() => {
       <label class="rank-field">
         <span>口径</span>
         <select v-model="mode">
-          <option value="total">总 DPS（单体 + 范围）</option>
+          <option value="total">总 DPS（单体 + 范围，对单口径）</option>
+          <option value="group">群体 DPS（游戏模型，含穿透/激光倍率）</option>
           <option value="direct">单体 DPS</option>
           <option value="splash">范围 DPS</option>
           <option value="air">对空 DPS</option>

@@ -426,7 +426,7 @@ def bullet_profile(bullet, depth=0):
     return direct, splash
 
 
-def bullet_estimate_dps(bullet, depth=0):
+def bullet_estimate_dps(bullet, depth=0, group=False):
     """移植游戏内置的 BulletType.estimateDPS()（BulletType.java:410）。
 
     这是**游戏内显示的 DPS** 所用的单发估算值，wiki 对齐它才能和游戏对上。
@@ -456,46 +456,55 @@ def bullet_estimate_dps(bullet, depth=0):
 
     btype = type_of(bullet, 'BulletType')
     dmg = num(bullet.get('damage'), 0.0)
-    # 溅射取全额。游戏 estimateDPS() 里是 splashDamage * 0.75f，但实测对不上：
-    # 龙王去掉倍率后是 4207，而 up 确认正确的 4824 需要溅射按全额算。
-    sp = num(bullet.get('splashDamage'), 0.0)
+    # group=False（对单口径）：溅射取全额 —— 龙王要回到 up 实测的 4824 就得按全额
+    # group=True （游戏模型）：splashDamage * 0.75f，照搬源码
+    sp = num(bullet.get('splashDamage'), 0.0) * (0.75 if group else 1.0)
 
-    # 穿透倍率**不采用**。游戏 estimateDPS() 里有
+    # 穿透倍率：只在 group（游戏模型）口径下采用。
     #   (pierce ? pierceCap == -1 ? 2 : clamp(pierceCap,1,2) : 1f)
-    # 但它把「一发子弹能打多个目标」当成对单目标 DPS 的加成，实测对不上：
-    #   龙王 reload=0.5 / pierceCap=-1 的那门炮被 ×2，总量从 4824 虚高到 7987
-    #   （up 确认 4824 才是对的）；战锤 74 被抬成 148，up 也说「不该乘 2」。
-    # 单目标 DPS 就该按单目标算，穿透只作信息展示。
-    d, sp = dmg, sp
+    # 它把「一发子弹能打多个目标」当成对单目标 DPS 的加成 —— 对单口径下
+    # 实测对不上（龙王 reload=0.5/pierceCap=-1 的炮被 ×2，4824 虚高到 7987；
+    # 战锤 74 抬成 148）。所以两个口径分开算，页面并排展示。
+    mult = 1.0
+    if group and bullet.get('pierce'):
+        cap_raw = bullet.get('pierceCap')
+        cap = -1 if cap_raw is None else int(num(cap_raw, -1))
+        mult = 2.0 if cap == -1 else min(max(cap, 1), 2)
+    d, sp = dmg * mult, sp * mult
 
     frag = bullet.get('fragBullet')
     n = int(num(bullet.get('fragBullets'), 0) or 0)
     if n > 0 and isinstance(frag, dict) and frag is not bullet:
-        fd, fs = bullet_estimate_dps(frag, depth + 1)
+        fd, fs = bullet_estimate_dps(frag, depth + 1, group)
         d += fd * n / 2.0
         sp += fs * n / 2.0
 
     spawns = bullet.get('spawnBullets')
     if isinstance(spawns, list):
         for other in spawns:
-            od, os_ = bullet_estimate_dps(other, depth + 1)
+            od, os_ = bullet_estimate_dps(other, depth + 1, group)
             d += od
             sp += os_
 
-    # 注意：这里**故意不采用**游戏的两个多目标假设：
+    # 游戏的两个多目标假设同样只在 group 口径下采用：
     #   LaserBulletType     estimateDPS() = super * 3f
-    #       源码注释自己写着 "assume it pierces at least 3 blocks"
+    #       源码注释："assume it pierces at least 3 blocks"
     #   LightningBulletType estimateDPS() = super * max(lightningLength/10, 1)
-    # 它们和穿透倍率一样，把「一发打多个目标」塞进对单目标的估算里，
-    # up 已确认这类放大不对（循迹 495 -> 165）。
-    if btype == 'PointLaserBulletType':
+    if group and btype == 'LightningBulletType':
+        k = max(num(bullet.get('lightningLength'), 5.0) / 10.0, 1.0)
+        d *= k
+        sp *= k
+    elif group and btype == 'LaserBulletType':
+        d *= 3.0
+        sp *= 3.0
+    elif btype == 'PointLaserBulletType':
         di = num(bullet.get('damageInterval'), 5.0) or 5.0
         d = num(bullet.get('damage'), 0.0) * 100.0 / di * 3.0
         sp = 0.0
     elif btype == 'MultiBulletType':
         d = sp = 0.0
         for b in (bullet.get('bullets') or []):
-            bd, bs = bullet_estimate_dps(b, depth + 1)
+            bd, bs = bullet_estimate_dps(b, depth + 1, group)
             d += bd
             sp += bs
 
@@ -556,8 +565,11 @@ def compute_weapon_dps(w, unit_is_projectile=False):
     splash = num(bullet.get('splashDamage'), 0.0)
     splash_r = num(bullet.get('splashDamageRadius'), -1.0)
 
-    # 单发估算：走游戏内置公式（溅射 x0.75、分裂 /2、穿透倍率、弹种覆写）
+    # 两个口径各算一遍：
+    #   对单（group=False）—— 不含穿透/激光/闪电等「打多目标」的倍率
+    #   群体（group=True） —— 完整照搬游戏 estimateDPS()，含上述倍率与溅射 x0.75
     prof_direct, prof_splash = bullet_estimate_dps(bullet)
+    grp_direct, grp_splash = bullet_estimate_dps(bullet, group=True)
     frag_n = int(num(bullet.get('fragBullets'), 0) or 0)
     frag_bullet = bullet.get('fragBullet') if isinstance(bullet.get('fragBullet'), dict) else None
     frag_direct = frag_splash = 0.0
@@ -578,6 +590,9 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         dps = damage / di * TICKS
         prof_direct = damage
         prof_splash = 0.0
+        grp_direct = damage
+        grp_splash = 0.0
+        grp_dps = dps
         shots_eff = 1
         mode = 'continuous'
     else:
@@ -589,6 +604,7 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         # 游戏口径：Weapon.dps() = (单发估算 / reload) * shots * 60
         # 单发估算已含按 0.75 折算的溅射
         dps = shots * (prof_direct + prof_splash) * TICKS / reload
+        grp_dps = shots * (grp_direct + grp_splash) * TICKS / reload
         shots_eff = shots
         mode = 'burst'
 
@@ -614,8 +630,10 @@ def compute_weapon_dps(w, unit_is_projectile=False):
 
     if role != 'damage':
         dps = None
+        grp_dps = None
     elif not reload_explicit or not reload_known:
         dps = None
+        grp_dps = None
         mode = 'oneshot'
 
     # 弹种对空/对地
@@ -634,14 +652,20 @@ def compute_weapon_dps(w, unit_is_projectile=False):
 
     splash_dps = None
     direct_dps = None
+    grp_splash_dps = None
+    grp_direct_dps = None
     if role == 'damage':
         if mode == 'continuous':
             # 持续型：dps 就是每秒伤害，没有 reload 折算
             direct_dps = round(dps, 2) if dps is not None else None
+            grp_direct_dps = direct_dps
         elif reload_explicit and reload_known:
             direct_dps = round(shots_eff * prof_direct * TICKS / reload, 2)
+            grp_direct_dps = round(shots_eff * grp_direct * TICKS / reload, 2)
             if prof_splash:
                 splash_dps = round(shots_eff * prof_splash * TICKS / reload, 2)
+            if grp_splash:
+                grp_splash_dps = round(shots_eff * grp_splash * TICKS / reload, 2)
 
     # 殉爆：killShooter 的武器不产生持续输出
     kill_shooter = bool(bullet.get('killShooter'))
@@ -671,6 +695,9 @@ def compute_weapon_dps(w, unit_is_projectile=False):
         perShot=round(per_shot, 2),
         splashDps=splash_dps,
         directDps=direct_dps,
+        grpDps=round(grp_dps, 2) if grp_dps is not None else None,
+        grpDirectDps=grp_direct_dps,
+        grpSplashDps=grp_splash_dps,
         killShooter=kill_shooter,
         collidesAir=collides_air,
         collidesGround=collides_ground,
@@ -737,7 +764,7 @@ def unit_dps(unit):
     if not details:
         return dict(weapons=[], direct=0.0, splash=0.0, total=0.0,
                     air=0.0, ground=0.0, suicide=False, suicideDamage=0.0,
-                    manual=None, airGroundOnly=False)
+                    grpTotal=0.0, manual=None, airGroundOnly=False)
 
     target_air = unit.get('targetAir', True) is not False
     target_ground = unit.get('targetGround', True) is not False
@@ -748,6 +775,10 @@ def unit_dps(unit):
 
     def dv(d):
         return d['directDps'] if isinstance(d.get('directDps'), (int, float)) else 0.0
+
+    def gv(d):
+        # 群体口径（完整游戏模型）
+        return d['grpDps'] if isinstance(d.get('grpDps'), (int, float)) else 0.0
 
     def sp(d):
         return d['splashDps'] if isinstance(d['splashDps'], (int, float)) else 0.0
@@ -770,6 +801,7 @@ def unit_dps(unit):
 
     direct = sum(dv(d) for d in details)
     splash = sum(sp(d) for d in details)
+    grp_total = sum(gv(d) for d in details)
     air = sum(v(d) for d in details if d['collidesAir']) if target_air else 0.0
     ground = sum(v(d) for d in details if d['collidesGround']) if target_ground else 0.0
 
@@ -781,6 +813,7 @@ def unit_dps(unit):
         direct = suicide_damage
         splash = 0.0
         air = ground = suicide_damage
+        grp_total = suicide_damage
 
     total = direct + splash
 
@@ -792,9 +825,11 @@ def unit_dps(unit):
         if cal.get('fixed') is not None:
             total = float(cal['fixed'])
             direct, splash, air, ground = total, 0.0, total, total
+            grp_total = total
         if cal.get('scale') is not None:
             k = float(cal['scale'])
             total, direct, splash = total * k, direct * k, splash * k
+            grp_total = grp_total * k
             air, ground = air * k, ground * k
 
     return dict(
@@ -806,6 +841,8 @@ def unit_dps(unit):
         splash=round(splash, 2),
         # 理论总量 = 单体 + 范围
         total=round(direct + splash, 2),
+        # 群体口径：完整照搬游戏 estimateDPS()（含穿透/激光/闪电倍率、溅射 x0.75）
+        grpTotal=round(grp_total, 2),
         air=round(air, 2),
         ground=round(ground, 2),
         manual=cal_note,
@@ -1042,6 +1079,7 @@ def main():
                 maxRange=pick(vbase, 'maxRange'),
             ),
             dps=dict(direct=dps['direct'], splash=dps['splash'], total=dps['total'],
+                     grpTotal=dps.get('grpTotal', dps['total']),
                      air=dps['air'], ground=dps['ground'],
                      suicide=dps.get('suicide', False),
                      targetAir=dps.get('targetAir', True),
@@ -1072,6 +1110,8 @@ def main():
         tgt['dps']['air'] = round(tgt['dps']['air'] + add, 2)
         tgt['dps']['ground'] = round(tgt['dps']['ground'] + add, 2)
         tgt['dps']['absorbed'] = add
+        gt = tgt['dps'].get('grpTotal', 0) + add
+        tgt['dps']['grpTotal'] = round(gt, 2)
 
     # 建筑
     blocks_out = []
@@ -1114,6 +1154,7 @@ def main():
     top_total = sorted(ranked, key=lambda x: -x['dps']['total'])[:15]
     top_direct = sorted(ranked, key=lambda x: -x['dps']['direct'])[:15]
     top_splash = sorted(ranked, key=lambda x: -x['dps']['splash'])[:15]
+    top_grp = sorted(ranked, key=lambda x: -x['dps'].get('grpTotal', 0))[:15]
     idx = dict(
         unitCount=len(units_out),
         blockCount=len(blocks_out),
@@ -1128,11 +1169,16 @@ def main():
                    for x in top_direct],
         topSplash=[dict(id=x['id'], name=x['nameZh'], dps=x['dps']['splash'])
                    for x in top_splash],
+        # 群体口径排行（完整游戏模型）
+        topGroup=[dict(id=x['id'], name=x['nameZh'],
+                       dps=x['dps'].get('grpTotal', x['dps']['total']))
+                  for x in top_grp],
         units=[dict(id=u['id'], nameZh=u['nameZh'], star=u['star'], author=u['author'],
                     category=u['categoryLabel'], tier=u['tier'],
                     dps=u['dps']['total'], air=u['dps']['air'],
                     ground=u['dps']['ground'],
                     direct=u['dps']['direct'], splash=u['dps']['splash'],
+                    grpDps=u['dps'].get('grpTotal', u['dps']['total']),
                     isSubUnit=u.get('isSubUnit', False),
                     suicide=u['dps'].get('suicide', False),
                     health=u['stats']['health']) for u in units_out],

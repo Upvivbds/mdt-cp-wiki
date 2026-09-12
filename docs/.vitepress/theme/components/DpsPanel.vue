@@ -145,7 +145,20 @@ const origVanillaSplash = computed(() => toNum(vanillaDps.value.splash))
 const origVanillaAir = computed(() => toNum(vanillaDps.value.air))
 const origVanillaGround = computed(() => toNum(vanillaDps.value.ground))
 
+const origGrp = computed(() => toNum(dps.value && dps.value.grpTotal))
+const origSingleTotal = computed(() => toNum(dps.value && dps.value.total))
+
 const bigCards = computed(() => [
+  {
+    label: '群体 DPS',
+    value: dirty.value ? calcTotal.value : origGrp.value || calcTotal.value,
+    hint: '完整游戏模型：含穿透 / 激光 / 闪电的多目标倍率、溅射按 0.75 折算',
+    sub: [
+      origGrp.value && origSingleTotal.value
+        ? `对单口径 ${fmtNum(origSingleTotal.value)}`
+        : null
+    ].filter(Boolean)
+  },
   {
     label: '单体 DPS',
     value: dirty.value ? calcTotal.value : origDirect.value !== null ? origDirect.value : calcTotal.value,
