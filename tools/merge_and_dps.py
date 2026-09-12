@@ -666,7 +666,8 @@ MANUAL_DPS = {
     # 特殊攻击方式，静态算不出，up 要求 x5
     'quell':         dict(scale=5.0,   note='特殊攻击方式，按 up 要求 x5'),
     # 悲怆：导弹战斗部的伤害应并入本体
-    'disrupt':       dict(absorb='disrupt-missile', note='并入导弹战斗部伤害'),
+    'disrupt':       dict(absorb='disrupt-missile', absorb_scale=3.0,
+                          note='并入导弹战斗部伤害（导弹是三连发，x3）'),
 }
 
 
@@ -1004,7 +1005,7 @@ def main():
         src = by_id.get(sub)
         if not src:
             continue
-        add = src['dps']['total']
+        add = src['dps']['total'] * float(cal.get('absorb_scale', 1.0))
         tgt['dps']['total'] = round(tgt['dps']['total'] + add, 2)
         tgt['dps']['direct'] = round(tgt['dps']['direct'] + add, 2)
         tgt['dps']['air'] = round(tgt['dps']['air'] + add, 2)

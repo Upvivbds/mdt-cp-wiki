@@ -5788,15 +5788,15 @@
    "maxRange": null
   },
   "dps": {
-   "direct": 784.52,
+   "direct": 1584.52,
    "splash": 46.88,
-   "total": 831.4,
-   "air": 690.77,
-   "ground": 690.77,
+   "total": 1631.4,
+   "air": 1490.77,
+   "ground": 1490.77,
    "suicide": false,
    "targetAir": true,
    "targetGround": true,
-   "absorbed": 400.0
+   "absorbed": 1200.0
   },
   "vanillaDps": {
    "direct": 0.0,

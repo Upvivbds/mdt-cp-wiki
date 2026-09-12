@@ -107,6 +107,11 @@
    "dps": 1769.79
   },
   {
+   "id": "disrupt",
+   "name": "悲怆",
+   "dps": 1631.4
+  },
+  {
    "id": "sei",
    "name": "蛟龙",
    "dps": 1627.75
@@ -130,11 +135,6 @@
    "id": "vanquish",
    "name": "征服",
    "dps": 1053.85
-  },
-  {
-   "id": "disrupt",
-   "name": "悲怆",
-   "dps": 831.4
   },
   {
    "id": "cleroi",
@@ -174,6 +174,11 @@
    "dps": 2341.68
   },
   {
+   "id": "disrupt",
+   "name": "悲怆",
+   "dps": 1584.52
+  },
+  {
    "id": "arkyid",
    "name": "毒蛊",
    "dps": 1468.5
@@ -207,11 +212,6 @@
    "id": "vanquish",
    "name": "征服",
    "dps": 805.28
-  },
-  {
-   "id": "disrupt",
-   "name": "悲怆",
-   "dps": 784.52
   },
   {
    "id": "cleroi",
@@ -596,10 +596,10 @@
    "author": "UP",
    "category": "飞船（埃里克尔）",
    "tier": 5,
-   "dps": 831.4,
-   "air": 690.77,
-   "ground": 690.77,
-   "direct": 784.52,
+   "dps": 1631.4,
+   "air": 1490.77,
+   "ground": 1490.77,
+   "direct": 1584.52,
    "splash": 46.88,
    "isSubUnit": false,
    "suicide": false,
