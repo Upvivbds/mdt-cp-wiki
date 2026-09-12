@@ -706,6 +706,19 @@ MANUAL_DPS = {
     # 悲怆：导弹战斗部的伤害应并入本体
     'disrupt':       dict(absorb='disrupt-missile', absorb_scale=3.0,
                           note='并入导弹战斗部伤害（导弹是三连发，x3）'),
+
+    # ---- T2 单位：静态解析仍偏高，按 up 给的实测值固定 ----
+    # 这几个的共同点是「一个主武器 + 溅射/弹药」，把 damage 与 splashDamage
+    # 相加后明显高于游戏内表现。模型层面还没找到干净的判据，
+    # 先按实测值固定，等 up 有空再回来核。
+    'locus':         dict(fixed=120.0, note='T2，按 up 实测固定（模型算出 165）'),
+    'cleroi':        dict(fixed=180.0, note='T2，按 up 实测固定（模型算出 308）'),
+    'horizon':       dict(fixed=100.0, note='按 up 实测固定（模型算出 390）'),
+    'zenith':        dict(fixed=100.0, note='按 up 实测固定（模型算出 330）'),
+    # 飞鲨是大头在 FlakBulletType 防空炮的破片溅射（486/761）。up 只说
+    # 「很多伤害都是对空的、伤害没那么高」，没给具体数值，暂按直伤固定，
+    # **待 up 确认后改这个数**。
+    'minke':         dict(fixed=116.0, note='暂按直伤固定，待 up 确认'),
 }
 
 

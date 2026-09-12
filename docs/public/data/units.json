@@ -3166,21 +3166,21 @@
    "maxRange": null
   },
   "dps": {
-   "direct": 262.73,
-   "splash": 45.45,
-   "total": 308.18,
-   "air": 78.18,
-   "ground": 308.18,
+   "direct": 180.0,
+   "splash": 0.0,
+   "total": 180.0,
+   "air": 180.0,
+   "ground": 180.0,
    "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
   "vanillaDps": {
-   "direct": 54.55,
-   "splash": 78.18,
-   "total": 132.73,
-   "air": 132.73,
-   "ground": 132.73
+   "direct": 180.0,
+   "splash": 0.0,
+   "total": 180.0,
+   "air": 180.0,
+   "ground": 180.0
   },
   "weapons": [
    {
@@ -8760,21 +8760,21 @@
    "maxRange": null
   },
   "dps": {
-   "direct": 130.0,
-   "splash": 260.0,
-   "total": 390.0,
-   "air": 0.0,
-   "ground": 390.0,
+   "direct": 100.0,
+   "splash": 0.0,
+   "total": 100.0,
+   "air": 100.0,
+   "ground": 100.0,
    "suicide": false,
    "targetAir": false,
    "targetGround": true
   },
   "vanillaDps": {
-   "direct": 67.5,
-   "splash": 135.0,
-   "total": 202.5,
-   "air": 0.0,
-   "ground": 202.5
+   "direct": 100.0,
+   "splash": 0.0,
+   "total": 100.0,
+   "air": 100.0,
+   "ground": 100.0
   },
   "weapons": [
    {
@@ -9271,21 +9271,21 @@
    "maxRange": null
   },
   "dps": {
-   "direct": 165.0,
+   "direct": 120.0,
    "splash": 0.0,
-   "total": 165.0,
-   "air": 165.0,
-   "ground": 165.0,
+   "total": 120.0,
+   "air": 120.0,
+   "ground": 120.0,
    "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
   "vanillaDps": {
-   "direct": 160.0,
+   "direct": 120.0,
    "splash": 0.0,
-   "total": 160.0,
-   "air": 160.0,
-   "ground": 160.0
+   "total": 120.0,
+   "air": 120.0,
+   "ground": 120.0
   },
   "weapons": [
    {
@@ -10146,21 +10146,21 @@
    "maxRange": null
   },
   "dps": {
-   "direct": 118.0,
-   "splash": 643.0,
-   "total": 761.0,
-   "air": 761.0,
-   "ground": 761.0,
+   "direct": 116.0,
+   "splash": 0.0,
+   "total": 116.0,
+   "air": 116.0,
+   "ground": 116.0,
    "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
   "vanillaDps": {
-   "direct": 58.0,
-   "splash": 323.0,
-   "total": 381.0,
-   "air": 381.0,
-   "ground": 381.0
+   "direct": 116.0,
+   "splash": 0.0,
+   "total": 116.0,
+   "air": 116.0,
+   "ground": 116.0
   },
   "weapons": [
    {
@@ -18513,21 +18513,21 @@
    "maxRange": null
   },
   "dps": {
-   "direct": 240.0,
-   "splash": 90.0,
-   "total": 330.0,
-   "air": 330.0,
-   "ground": 330.0,
+   "direct": 100.0,
+   "splash": 0.0,
+   "total": 100.0,
+   "air": 100.0,
+   "ground": 100.0,
    "suicide": false,
    "targetAir": true,
    "targetGround": true
   },
   "vanillaDps": {
-   "direct": 21.0,
-   "splash": 22.5,
-   "total": 43.5,
-   "air": 43.5,
-   "ground": 43.5
+   "direct": 100.0,
+   "splash": 0.0,
+   "total": 100.0,
+   "air": 100.0,
+   "ground": 100.0
   },
   "weapons": [
    {
