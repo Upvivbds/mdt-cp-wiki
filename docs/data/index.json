@@ -94,7 +94,7 @@
   {
    "id": "toxopid",
    "name": "天蝎",
-   "dps": 3030.42
+   "dps": 2233.12
   },
   {
    "id": "reign",
@@ -104,7 +104,7 @@
   {
    "id": "eclipse",
    "name": "日蚀",
-   "dps": 1769.79
+   "dps": 1882.31
   },
   {
    "id": "disrupt",
@@ -129,17 +129,12 @@
   {
    "id": "tecta",
    "name": "天理",
-   "dps": 1107.0
+   "dps": 961.29
   },
   {
    "id": "vanquish",
    "name": "征服",
-   "dps": 1053.85
-  },
-  {
-   "id": "cleroi",
-   "name": "天赐",
-   "dps": 814.84
+   "dps": 848.14
   },
   {
    "id": "corvus",
@@ -149,7 +144,7 @@
   {
    "id": "minke",
    "name": "飞鲨",
-   "dps": 762.0
+   "dps": 761.0
   },
   {
    "id": "quad",
@@ -160,6 +155,11 @@
    "id": "spiroct",
    "name": "血蛭",
    "dps": 570.0
+  },
+  {
+   "id": "antumbra",
+   "name": "月影",
+   "dps": 555.12
   }
  ],
  "topDirect": [
@@ -171,7 +171,7 @@
   {
    "id": "toxopid",
    "name": "天蝎",
-   "dps": 2341.68
+   "dps": 2006.45
   },
   {
    "id": "disrupt",
@@ -191,7 +191,7 @@
   {
    "id": "eclipse",
    "name": "日蚀",
-   "dps": 1287.45
+   "dps": 1308.54
   },
   {
    "id": "collaris",
@@ -201,7 +201,7 @@
   {
    "id": "tecta",
    "name": "天理",
-   "dps": 1004.14
+   "dps": 858.43
   },
   {
    "id": "sei",
@@ -211,12 +211,7 @@
   {
    "id": "vanquish",
    "name": "征服",
-   "dps": 805.28
-  },
-  {
-   "id": "cleroi",
-   "name": "天赐",
-   "dps": 769.39
+   "dps": 599.57
   },
   {
    "id": "spiroct",
@@ -237,6 +232,11 @@
    "id": "locus",
    "name": "循迹",
    "dps": 495.0
+  },
+  {
+   "id": "scepter",
+   "name": "权杖",
+   "dps": 434.24
   }
  ],
  "topSplash": [
@@ -261,24 +261,19 @@
    "dps": 720.0
   },
   {
-   "id": "toxopid",
-   "name": "天蝎",
-   "dps": 688.74
-  },
-  {
    "id": "minke",
    "name": "飞鲨",
-   "dps": 646.0
+   "dps": 643.0
+  },
+  {
+   "id": "eclipse",
+   "name": "日蚀",
+   "dps": 573.77
   },
   {
    "id": "collaris",
    "name": "天帝",
    "dps": 485.12
-  },
-  {
-   "id": "eclipse",
-   "name": "日蚀",
-   "dps": 482.34
   },
   {
    "id": "corvus",
@@ -294,6 +289,11 @@
    "id": "vanquish",
    "name": "征服",
    "dps": 248.57
+  },
+  {
+   "id": "toxopid",
+   "name": "天蝎",
+   "dps": 226.67
   },
   {
    "id": "bryde",
@@ -420,10 +420,10 @@
    "author": "UT",
    "category": "爬行（赛普罗）",
    "tier": null,
-   "dps": 101.54,
-   "air": 101.54,
-   "ground": 101.54,
-   "direct": 101.54,
+   "dps": 50.77,
+   "air": 50.77,
+   "ground": 50.77,
+   "direct": 50.77,
    "splash": 0.0,
    "isSubUnit": false,
    "suicide": false,
@@ -484,10 +484,10 @@
    "author": "UP",
    "category": "机甲（埃里克尔）",
    "tier": 2,
-   "dps": 814.84,
-   "air": 584.84,
-   "ground": 814.84,
-   "direct": 769.39,
+   "dps": 308.18,
+   "air": 78.18,
+   "ground": 308.18,
+   "direct": 262.73,
    "splash": 45.45,
    "isSubUnit": false,
    "suicide": false,
@@ -628,11 +628,11 @@
    "author": "UT",
    "category": "飞机（赛普罗）",
    "tier": null,
-   "dps": 1769.79,
-   "air": 1769.78,
-   "ground": 1769.78,
-   "direct": 1287.45,
-   "splash": 482.34,
+   "dps": 1882.31,
+   "air": 1882.3,
+   "ground": 1882.3,
+   "direct": 1308.54,
+   "splash": 573.77,
    "isSubUnit": false,
    "suicide": false,
    "health": 22000.0
@@ -644,10 +644,10 @@
    "author": "UP",
    "category": "飞船（埃里克尔）",
    "tier": 1,
-   "dps": 96.0,
-   "air": 96.0,
-   "ground": 96.0,
-   "direct": 96.0,
+   "dps": 54.86,
+   "air": 54.86,
+   "ground": 54.86,
+   "direct": 54.86,
    "splash": 0.0,
    "isSubUnit": false,
    "suicide": false,
@@ -836,11 +836,11 @@
    "author": "UT",
    "category": "海军（赛普罗）",
    "tier": null,
-   "dps": 762.0,
-   "air": 762.0,
-   "ground": 762.0,
-   "direct": 116.0,
-   "splash": 646.0,
+   "dps": 761.0,
+   "air": 761.0,
+   "ground": 761.0,
+   "direct": 118.0,
+   "splash": 643.0,
    "isSubUnit": false,
    "suicide": false,
    "health": 600.0
@@ -1092,11 +1092,11 @@
    "author": "UT",
    "category": "海辅（赛普罗）",
    "tier": null,
-   "dps": 59.4,
+   "dps": 64.4,
    "air": 32.73,
-   "ground": 59.4,
+   "ground": 64.4,
    "direct": 32.73,
-   "splash": 26.67,
+   "splash": 31.67,
    "isSubUnit": false,
    "suicide": false,
    "health": 270.0
@@ -1108,11 +1108,11 @@
    "author": "UT",
    "category": "海军（赛普罗）",
    "tier": null,
-   "dps": 188.68,
-   "air": 188.68,
-   "ground": 188.68,
-   "direct": 140.68,
-   "splash": 48.0,
+   "dps": 135.88,
+   "air": 135.88,
+   "ground": 135.88,
+   "direct": 111.88,
+   "splash": 24.0,
    "isSubUnit": false,
    "suicide": false,
    "health": 280.0
@@ -1124,10 +1124,10 @@
    "author": "UT",
    "category": "陆军（赛普罗）",
    "tier": null,
-   "dps": 395.15,
-   "air": 395.15,
-   "ground": 395.15,
-   "direct": 395.15,
+   "dps": 434.24,
+   "air": 434.24,
+   "ground": 434.24,
+   "direct": 434.24,
    "splash": 0.0,
    "isSubUnit": false,
    "suicide": false,
@@ -1188,10 +1188,10 @@
    "author": "UP",
    "category": "机甲（埃里克尔）",
    "tier": 4,
-   "dps": 1107.0,
-   "air": 1107.0,
-   "ground": 1107.0,
-   "direct": 1004.14,
+   "dps": 961.29,
+   "air": 961.29,
+   "ground": 961.29,
+   "direct": 858.43,
    "splash": 102.86,
    "isSubUnit": false,
    "suicide": false,
@@ -1204,11 +1204,11 @@
    "author": "UT",
    "category": "爬行（赛普罗）",
    "tier": null,
-   "dps": 3030.42,
-   "air": 3030.42,
-   "ground": 3030.42,
-   "direct": 2341.68,
-   "splash": 688.74,
+   "dps": 2233.12,
+   "air": 2233.13,
+   "ground": 2233.13,
+   "direct": 2006.45,
+   "splash": 226.67,
    "isSubUnit": false,
    "suicide": false,
    "health": 22000.0
@@ -1220,10 +1220,10 @@
    "author": "UP",
    "category": "坦克（埃里克尔）",
    "tier": 4,
-   "dps": 1053.85,
-   "air": 1053.85,
-   "ground": 1053.85,
-   "direct": 805.28,
+   "dps": 848.14,
+   "air": 848.14,
+   "ground": 848.14,
+   "direct": 599.57,
    "splash": 248.57,
    "isSubUnit": false,
    "suicide": false,

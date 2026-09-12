@@ -208,6 +208,45 @@ def set_path(root, segs, value):
     return False
 
 
+def expand_mirrors(unit):
+    """把 weapons 数组展开成游戏 init() 之后的形态。
+
+    UnitType.init()（UnitType.java:1047-1068）会对每个 mirror=true（默认）
+    的武器复制一份翻转副本，并把**两边**的 reload 都 x2：
+
+        if(w.mirror){ mapped.add(w.copy().flip());
+                      w.reload *= 2f; copy.reload *= 2f; }
+
+    对 DPS 是中性的（2 门 × reload 翻倍 = 原本 1 门），但**下标全变了**。
+    数据包的 `weapons.N` 打的正是展开后的数组 ——
+      天赐原版 2 门炮、包内写到 weapons.3
+      权杖原版 3 门炮、包内写到 weapons.5
+      龙王原版 4 门炮、包内写到 weapons.6
+    都是「原版门数 x2 - 1」以内的下标，未展开就必然越界，
+    于是造出一堆「未命名武器」（天赐多出两门各贡献 253 DPS）。
+    """
+    ws = unit.get('weapons')
+    if not isinstance(ws, list):
+        return
+    out = []
+    for w in ws:
+        if not isinstance(w, dict):
+            out.append(w)
+            continue
+        if w.get('mirror') is False:
+            out.append(w)
+            continue
+        copy = json.loads(json.dumps(w))
+        copy['mirror'] = False
+        copy['_mirrorCopy'] = True
+        # **不**复制游戏那份 reload x2：因为计 DPS 时副本会被跳过，
+        # 若再把原件的 reload 也翻倍就抵消了两次（战锤 201.8 -> 100.9）。
+        # 副本只用于对齐数据包的 weapons.N 下标。
+        out.append(w)
+        out.append(copy)
+    unit['weapons'] = out
+
+
 def apply_patch(unit, bucket):
     """把数据包 bucket（{path_str: value}）应用到 unit 字典。
 
@@ -674,7 +713,15 @@ MANUAL_DPS = {
 def unit_dps(unit):
     """单位的总 DPS / 对空 DPS / 对地 DPS。"""
     ws = unit.get('weapons') or []
-    details = [compute_weapon_dps(w) for w in ws if isinstance(w, dict)]
+    # 镜像副本不单独计 DPS：
+    #   - 常规武器：游戏把两边 reload 都 x2，所以「2 门 x reload 翻倍」= 原本 1 门，
+    #     跳过副本与计入两门的结果相同（中性）
+    #   - 持续光束（SapBulletType 等）：它们**不看 reload**，上面的抵消不成立，
+    #     计入两门会凭空翻倍 —— 血蛭 570 -> 1062 就是这么来的。
+    #     up 也确认这类单位是交替发射、只有一边开火。
+    # 副本仍保留在数据里（数据包的 weapons.N 下标依赖展开后的数组）。
+    details = [compute_weapon_dps(w) for w in ws
+               if isinstance(w, dict) and not w.get('_mirrorCopy')]
     if not details:
         return dict(weapons=[], direct=0.0, splash=0.0, total=0.0,
                     air=0.0, ground=0.0, suicide=False, suicideDamage=0.0,
@@ -925,6 +972,8 @@ def main():
         if not base:
             base = {}
         base['id'] = uid
+        # 必须先展开镜像，数据包的 weapons.N 下标才是对的
+        expand_mirrors(base)
         apply_patch(base, bucket)
 
         meta = UNIT_META.get(uid, {})
