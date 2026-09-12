@@ -482,14 +482,13 @@ def bullet_estimate_dps(bullet, depth=0):
             d += od
             sp += os_
 
-    if btype == 'LightningBulletType':
-        k = max(num(bullet.get('lightningLength'), 5.0) / 10.0, 1.0)
-        d *= k
-        sp *= k
-    elif btype == 'LaserBulletType':
-        d *= 3.0
-        sp *= 3.0
-    elif btype == 'PointLaserBulletType':
+    # 注意：这里**故意不采用**游戏的两个多目标假设：
+    #   LaserBulletType     estimateDPS() = super * 3f
+    #       源码注释自己写着 "assume it pierces at least 3 blocks"
+    #   LightningBulletType estimateDPS() = super * max(lightningLength/10, 1)
+    # 它们和穿透倍率一样，把「一发打多个目标」塞进对单目标的估算里，
+    # up 已确认这类放大不对（循迹 495 -> 165）。
+    if btype == 'PointLaserBulletType':
         di = num(bullet.get('damageInterval'), 5.0) or 5.0
         d = num(bullet.get('damage'), 0.0) * 100.0 / di * 3.0
         sp = 0.0

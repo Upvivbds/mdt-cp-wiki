@@ -102,11 +102,6 @@
    "dps": 2134.62
   },
   {
-   "id": "eclipse",
-   "name": "日蚀",
-   "dps": 1882.31
-  },
-  {
    "id": "disrupt",
    "name": "悲怆",
    "dps": 1631.4
@@ -127,9 +122,9 @@
    "dps": 1555.17
   },
   {
-   "id": "tecta",
-   "name": "天理",
-   "dps": 961.29
+   "id": "eclipse",
+   "name": "日蚀",
+   "dps": 1219.45
   },
   {
    "id": "vanquish",
@@ -137,14 +132,14 @@
    "dps": 848.14
   },
   {
-   "id": "corvus",
-   "name": "死星",
-   "dps": 799.44
-  },
-  {
    "id": "minke",
    "name": "飞鲨",
    "dps": 761.0
+  },
+  {
+   "id": "tecta",
+   "name": "天理",
+   "dps": 751.29
   },
   {
    "id": "quad",
@@ -155,6 +150,11 @@
    "id": "spiroct",
    "name": "血蛭",
    "dps": 570.0
+  },
+  {
+   "id": "corvus",
+   "name": "死星",
+   "dps": 567.71
   },
   {
    "id": "antumbra",
@@ -189,24 +189,24 @@
    "dps": 1391.29
   },
   {
-   "id": "eclipse",
-   "name": "日蚀",
-   "dps": 1308.54
-  },
-  {
    "id": "collaris",
    "name": "天帝",
    "dps": 1107.72
   },
   {
-   "id": "tecta",
-   "name": "天理",
-   "dps": 858.43
-  },
-  {
    "id": "sei",
    "name": "蛟龙",
    "dps": 810.25
+  },
+  {
+   "id": "tecta",
+   "name": "天理",
+   "dps": 648.43
+  },
+  {
+   "id": "eclipse",
+   "name": "日蚀",
+   "dps": 645.68
   },
   {
    "id": "vanquish",
@@ -224,19 +224,19 @@
    "dps": 540.0
   },
   {
-   "id": "corvus",
-   "name": "死星",
-   "dps": 534.69
-  },
-  {
-   "id": "locus",
-   "name": "循迹",
-   "dps": 495.0
-  },
-  {
    "id": "scepter",
    "name": "权杖",
    "dps": 434.24
+  },
+  {
+   "id": "quell",
+   "name": "遏止",
+   "dps": 381.8
+  },
+  {
+   "id": "antumbra",
+   "name": "月影",
+   "dps": 367.36
   }
  ],
  "topSplash": [
@@ -532,10 +532,10 @@
    "author": "UT",
    "category": "陆辅（赛普罗）",
    "tier": null,
-   "dps": 799.44,
-   "air": 799.44,
-   "ground": 799.44,
-   "direct": 534.69,
+   "dps": 567.71,
+   "air": 567.71,
+   "ground": 567.71,
+   "direct": 302.96,
    "splash": 264.75,
    "isSubUnit": false,
    "suicide": false,
@@ -628,10 +628,10 @@
    "author": "UT",
    "category": "飞机（赛普罗）",
    "tier": null,
-   "dps": 1882.31,
-   "air": 1882.3,
-   "ground": 1882.3,
-   "direct": 1308.54,
+   "dps": 1219.45,
+   "air": 1219.44,
+   "ground": 1219.44,
+   "direct": 645.68,
    "splash": 573.77,
    "isSubUnit": false,
    "suicide": false,
@@ -772,10 +772,10 @@
    "author": "UP",
    "category": "坦克（埃里克尔）",
    "tier": 2,
-   "dps": 495.0,
-   "air": 495.0,
-   "ground": 495.0,
-   "direct": 495.0,
+   "dps": 165.0,
+   "air": 165.0,
+   "ground": 165.0,
+   "direct": 165.0,
    "splash": 0.0,
    "isSubUnit": false,
    "suicide": false,
@@ -1028,10 +1028,10 @@
    "author": "UT",
    "category": "陆辅（赛普罗）",
    "tier": null,
-   "dps": 147.27,
-   "air": 147.27,
-   "ground": 147.27,
-   "direct": 147.27,
+   "dps": 49.09,
+   "air": 49.09,
+   "ground": 49.09,
+   "direct": 49.09,
    "splash": 0.0,
    "isSubUnit": false,
    "suicide": false,
@@ -1188,10 +1188,10 @@
    "author": "UP",
    "category": "机甲（埃里克尔）",
    "tier": 4,
-   "dps": 961.29,
-   "air": 961.29,
-   "ground": 961.29,
-   "direct": 858.43,
+   "dps": 751.29,
+   "air": 751.29,
+   "ground": 751.29,
+   "direct": 648.43,
    "splash": 102.86,
    "isSubUnit": false,
    "suicide": false,
