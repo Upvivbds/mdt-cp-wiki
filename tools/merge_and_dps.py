@@ -417,14 +417,17 @@ def bullet_estimate_dps(bullet, depth=0):
 
     btype = type_of(bullet, 'BulletType')
     dmg = num(bullet.get('damage'), 0.0)
-    sp = num(bullet.get('splashDamage'), 0.0) * 0.75
+    # 溅射取全额。游戏 estimateDPS() 里是 splashDamage * 0.75f，但实测对不上：
+    # 龙王去掉倍率后是 4207，而 up 确认正确的 4824 需要溅射按全额算。
+    sp = num(bullet.get('splashDamage'), 0.0)
 
-    mult = 1.0
-    if bullet.get('pierce'):
-        cap_raw = bullet.get('pierceCap')
-        cap = -1 if cap_raw is None else int(num(cap_raw, -1))
-        mult = 2.0 if cap == -1 else min(max(cap, 1), 2)
-    d, sp = dmg * mult, sp * mult
+    # 穿透倍率**不采用**。游戏 estimateDPS() 里有
+    #   (pierce ? pierceCap == -1 ? 2 : clamp(pierceCap,1,2) : 1f)
+    # 但它把「一发子弹能打多个目标」当成对单目标 DPS 的加成，实测对不上：
+    #   龙王 reload=0.5 / pierceCap=-1 的那门炮被 ×2，总量从 4824 虚高到 7987
+    #   （up 确认 4824 才是对的）；战锤 74 被抬成 148，up 也说「不该乘 2」。
+    # 单目标 DPS 就该按单目标算，穿透只作信息展示。
+    d, sp = dmg, sp
 
     frag = bullet.get('fragBullet')
     n = int(num(bullet.get('fragBullets'), 0) or 0)
@@ -646,6 +649,27 @@ def compute_weapon_dps(w, unit_is_projectile=False):
     )
 
 
+# ============================================================
+# 人工校准
+# ============================================================
+# 少数单位的游戏内表现无法由静态解析得到（特殊攻击方式、点防御、弹体战斗部），
+# 由 up 给出实测值/倍率后在此固定。键是 unit id。
+#
+#   fixed   —— 直接固定该单位的总 DPS
+#   scale   —— 在算出来的基础上乘一个倍率
+#   absorb  —— 把某个副单位的伤害并入本体（悲怆的导弹战斗部）
+MANUAL_DPS = {
+    # 点防御炮不产生输出，能量场群体伤害极低且算不进「对单输出」，直接固定
+    'aegires':       dict(fixed=165.0, note='点防御炮无输出，按实测固定'),
+    # 弹体战斗部（MissileUnitType），up 给出固定值
+    'quell-missile': dict(fixed=180.0, note='导弹战斗部，按实测固定'),
+    # 特殊攻击方式，静态算不出，up 要求 x5
+    'quell':         dict(scale=5.0,   note='特殊攻击方式，按 up 要求 x5'),
+    # 悲怆：导弹战斗部的伤害应并入本体
+    'disrupt':       dict(absorb='disrupt-missile', note='并入导弹战斗部伤害'),
+}
+
+
 def unit_dps(unit):
     """单位的总 DPS / 对空 DPS / 对地 DPS。"""
     ws = unit.get('weapons') or []
@@ -653,7 +677,7 @@ def unit_dps(unit):
     if not details:
         return dict(weapons=[], direct=0.0, splash=0.0, total=0.0,
                     air=0.0, ground=0.0, suicide=False, suicideDamage=0.0,
-                    airGroundOnly=False)
+                    manual=None, airGroundOnly=False)
 
     target_air = unit.get('targetAir', True) is not False
     target_ground = unit.get('targetGround', True) is not False
@@ -668,14 +692,18 @@ def unit_dps(unit):
     def sp(d):
         return d['splashDps'] if isinstance(d['splashDps'], (int, float)) else 0.0
 
-    # 一门持续输出武器都没有、只能靠死亡爆炸造成伤害的单位（如 crawler）
-    suicide = bool(details) and all(
-        d['role'] in ('warhead', 'support', 'pointDefense') for d in details)
+    # 殉爆判定只看 killShooter（子弹杀死发射者），**不能**用「所有武器都不是
+    # 输出来源」代替 —— 玄武只有一门点防御炮，那样会被误判成殉爆单位，
+    # 页面上显示「殉爆 DPS 0」，up 已经指出过这个错误。
+    suicide = any(d.get('killShooter') for d in details)
 
     # 殉爆单位没有「每秒输出」可言，显示为 0 没有意义。按 up 的要求，
     # 改用**单次造成的总伤害**（含分裂子母弹）作为它的 DPS 数值。
+    # 弹体战斗部（xxx-missile）与殉爆一样：没有「每秒输出」，按单次总伤害计
+    is_warhead_unit = suicide or str(unit.get('id') or '').endswith('-missile')
+
     suicide_damage = 0.0
-    if suicide:
+    if is_warhead_unit:
         for d in details:
             if d['role'] == 'warhead':
                 suicide_damage += (d.get('perShotDirect') or 0) + (d.get('perShotSplash') or 0)
@@ -689,10 +717,25 @@ def unit_dps(unit):
         d['canHitAir'] = bool(target_air and d['collidesAir'])
         d['canHitGround'] = bool(target_ground and d['collidesGround'])
 
-    if suicide:
+    if is_warhead_unit:
         direct = suicide_damage
         splash = 0.0
         air = ground = suicide_damage
+
+    total = direct + splash
+
+    # 人工校准
+    cal = MANUAL_DPS.get(unit.get('id'))
+    cal_note = None
+    if cal:
+        cal_note = cal.get('note')
+        if cal.get('fixed') is not None:
+            total = float(cal['fixed'])
+            direct, splash, air, ground = total, 0.0, total, total
+        if cal.get('scale') is not None:
+            k = float(cal['scale'])
+            total, direct, splash = total * k, direct * k, splash * k
+            air, ground = air * k, ground * k
 
     return dict(
         weapons=details,
@@ -705,6 +748,7 @@ def unit_dps(unit):
         total=round(direct + splash, 2),
         air=round(air, 2),
         ground=round(ground, 2),
+        manual=cal_note,
         suicide=suicide,
         targetAir=target_air,
         targetGround=target_ground,
@@ -949,6 +993,23 @@ def main():
             raw=base,
         )
         units_out.append(rec)
+
+    # 并入副单位伤害（悲怆的导弹战斗部排名不该比本体高，应合并）
+    by_id = {u['id']: u for u in units_out}
+    for uid, cal in MANUAL_DPS.items():
+        tgt = by_id.get(uid)
+        sub = cal.get('absorb')
+        if not tgt or not sub:
+            continue
+        src = by_id.get(sub)
+        if not src:
+            continue
+        add = src['dps']['total']
+        tgt['dps']['total'] = round(tgt['dps']['total'] + add, 2)
+        tgt['dps']['direct'] = round(tgt['dps']['direct'] + add, 2)
+        tgt['dps']['air'] = round(tgt['dps']['air'] + add, 2)
+        tgt['dps']['ground'] = round(tgt['dps']['ground'] + add, 2)
+        tgt['dps']['absorbed'] = add
 
     # 建筑
     blocks_out = []
