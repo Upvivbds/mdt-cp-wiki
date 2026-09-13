@@ -486,6 +486,20 @@ def bullet_estimate_dps(bullet, depth=0, group=False):
             d += od
             sp += os_
 
+    # 电弧（lightning 字段）：BulletType.hit() 里
+    #     for(i < lightning) Lightning.create(..., lightningDamage < 0 ? damage : lightningDamage, ...)
+    # 每次命中派生 lightning 条电弧，每条造成 lightningDamage。
+    # **游戏的 estimateDPS() 完全不看这个字段**（只有 LightningBulletType 那个类
+    # 有覆写），所以纯靠 lightning 打伤害的武器会被算成 0。
+    # 海神就是这种情况：31 发闪电子弹 × lightning 31 × damage 20。
+    # 电弧会同时命中多个目标，归入「范围」。
+    lb = int(num(bullet.get('lightning'), 0) or 0)
+    if lb > 0:
+        ld = num(bullet.get('lightningDamage'), -1.0)
+        if ld < 0:
+            ld = num(bullet.get('damage'), 0.0)
+        sp += lb * ld
+
     # 游戏的两个多目标假设同样只在 group 口径下采用：
     #   LaserBulletType     estimateDPS() = super * 3f
     #       源码注释："assume it pierces at least 3 blocks"
