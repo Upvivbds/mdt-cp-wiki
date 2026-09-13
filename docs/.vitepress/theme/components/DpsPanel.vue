@@ -31,6 +31,8 @@ const dirty = computed(
 const weapons = computed(() => (Array.isArray(props.unit && props.unit.weapons) ? props.unit.weapons : []))
 const dps = computed(() => (props.unit && props.unit.dps) || {})
 const isSuicide = computed(() => !!(props.unit && props.unit.dps && props.unit.dps.suicide))
+// 人工校准备注：静态解析算不出的单位，值由 up 手测给出
+const manualNote = computed(() => (props.unit && props.unit.dps && props.unit.dps.manual) || '')
 const vanillaDps = computed(() => (props.unit && props.unit.vanillaDps) || {})
 
 const canAir = (w) =>
@@ -206,6 +208,9 @@ const bigCards = computed(() => [
 
 <template>
   <div class="dps-panel">
+    <p v-if="manualNote" class="dps-manual-note">
+      <strong>手测值</strong> —— {{ manualNote }}
+    </p>
     <p v-if="isSuicide" class="dps-suicide-note">
       殉爆单位：伤害来自单位死亡时的爆炸，没有持续输出的概念，因此不计 DPS。
       单发爆炸伤害见下方武器明细。
@@ -535,6 +540,16 @@ const bigCards = computed(() => [
   .dps-big {
     grid-template-columns: 1fr;
   }
+}
+
+.dps-manual-note {
+  margin: 0 0 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-left: 3px solid var(--mz-accent-2, #ffa53d);
+  background: rgba(255, 165, 61, 0.10);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.85rem;
+  color: var(--vp-c-text-2);
 }
 
 .dps-suicide-note {

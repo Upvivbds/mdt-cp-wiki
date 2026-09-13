@@ -760,6 +760,16 @@ MANUAL_DPS = {
     # 「很多伤害都是对空的、伤害没那么高」，没给具体数值，暂按直伤固定，
     # **待 up 确认后改这个数**。
     'minke':         dict(fixed=116.0, note='暂按直伤固定，待 up 确认'),
+
+    # ---- T5 海军海神：up 手测 ----
+    # 对单：10 秒打 4360 -> 436 DPS
+    # 对群：穿透衰减后能穿 10 个建筑/单位，但只有前 5 个有伤害；
+    #       单次对群总伤害 7500，10 秒 24000 -> 2400 DPS
+    # 模型算出来只有 294 / 541.5，因为 (16) 的 fragBullets:31 没有配对的
+    # fragBullet，那 31 发在游戏里不生成；但实测对群伤害确实存在，
+    # 说明作者是靠别的方式实现的，静态解析拿不到。
+    'omura':         dict(fixed=436.0, grp_fixed=2400.0,
+                          note='T5 海军，up 手测：对单 436 / 对群 2400（单次对群 7500）'),
 }
 
 
@@ -840,6 +850,8 @@ def unit_dps(unit):
             total = float(cal['fixed'])
             direct, splash, air, ground = total, 0.0, total, total
             grp_total = total
+        if cal.get('grp_fixed') is not None:
+            grp_total = float(cal['grp_fixed'])
         if cal.get('scale') is not None:
             k = float(cal['scale'])
             total, direct, splash = total * k, direct * k, splash * k
@@ -1094,6 +1106,7 @@ def main():
             ),
             dps=dict(direct=dps['direct'], splash=dps['splash'], total=dps['total'],
                      grpTotal=dps.get('grpTotal', dps['total']),
+                     manual=dps.get('manual'),
                      air=dps['air'], ground=dps['ground'],
                      suicide=dps.get('suicide', False),
                      targetAir=dps.get('targetAir', True),
