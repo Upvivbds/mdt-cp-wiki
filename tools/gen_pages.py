@@ -237,7 +237,7 @@ def sync_shared():
     一直是上次运行留下的旧值 —— 排行榜、首页目录、单位卡片读的都是它。
     """
     synced = []
-    for name in ('index.json', 'sprites.json', 'effects.json'):
+    for name in ('index.json', 'sprites.json', 'effects.json', 'items.json'):
         src = os.path.join(PUB, name)
         if not os.path.exists(src):
             continue

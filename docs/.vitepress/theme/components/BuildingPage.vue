@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import spriteManifest from '../../../data/sprites.json'
+import itemNames from '../../../data/items.json'
 import { buildingSprite, fmtAny, loadBuildings, starLabel, toNum } from '../composables/useRemoteData'
 
 const props = defineProps({
@@ -102,6 +103,12 @@ const arrayRows = computed(() =>
     .map((k) => ({ key: k, label: SCALAR_LABELS[k] || k, value: raw.value[k] }))
 )
 
+/** 资源 id -> 中文名；查不到就原样返回（数据包可能用了原版没有的资源） */
+function zhOf(key) {
+  const k = String(key == null ? '' : key).replace(/^["']|["']$/g, '').split('.').pop()
+  return itemNames[k] || k
+}
+
 /** ammoTypes：键可能是带引号的 \"silicon\"，显示时剥掉引号 */
 const ammoRows = computed(() => {
   const at = raw.value.ammoTypes
@@ -111,7 +118,8 @@ const ammoRows = computed(() => {
     const inner = isPlainObject(v) ? v : {}
     return {
       key: k,
-      label: String(k).replace(/^["']|["']$/g, ''),
+      label: zhOf(k),
+      labelEn: String(k).replace(/^["']|["']$/g, ''),
       type: inner.type || '',
       fields: Object.keys(inner)
         .filter((f) => isScalar(inner[f]))
@@ -226,6 +234,7 @@ const turretHint = computed(() => {
           <div v-for="a in ammoRows" :key="a.key" class="bp-ammo">
             <div class="bp-ammo-head">
               <span class="bp-ammo-name">{{ a.label }}</span>
+              <code v-if="a.labelEn && a.labelEn !== a.label" class="bp-ammo-en">{{ a.labelEn }}</code>
               <code v-if="a.type" class="bp-ammo-type">{{ a.type }}</code>
             </div>
             <table v-if="a.fields.length" class="bp-ammo-table">
@@ -257,12 +266,12 @@ const turretHint = computed(() => {
           <div class="bp-dps-card">
             <div class="bp-dps-label">单体 DPS（最佳弹药）</div>
             <div class="bp-dps-val">{{ dps.best.direct.toFixed(1) }}</div>
-            <div class="bp-dps-sub">{{ dps.best.item }}</div>
+            <div class="bp-dps-sub">{{ zhOf(dps.best.item) }} <code class="bp-ammo-en">{{ dps.best.item }}</code></div>
           </div>
           <div class="bp-dps-card">
             <div class="bp-dps-label">范围 DPS</div>
             <div class="bp-dps-val">{{ dps.best.splash.toFixed(1) }}</div>
-            <div class="bp-dps-sub">{{ dps.best.item }}</div>
+            <div class="bp-dps-sub">{{ zhOf(dps.best.item) }} <code class="bp-ammo-en">{{ dps.best.item }}</code></div>
           </div>
           <div class="bp-dps-card">
             <template v-if="dps.reload">
@@ -283,7 +292,10 @@ const turretHint = computed(() => {
           </thead>
           <tbody>
             <tr v-for="a in dps.ammo" :key="a.item">
-              <td>{{ a.item }}</td>
+              <td>
+                {{ a.itemZh || zhOf(a.item) }}
+                <code class="bp-ammo-en">{{ a.item }}</code>
+              </td>
               <td class="num">{{ a.damage }}</td>
               <td class="num">{{ a.splashDamage }}</td>
               <td class="num strong">{{ a.direct.toFixed(1) }}</td>
@@ -495,6 +507,15 @@ const turretHint = computed(() => {
   gap: 0.45rem;
   flex-wrap: wrap;
   margin-bottom: 0.45rem;
+}
+
+.bp-ammo-en {
+  margin-left: 0.4rem;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--vp-c-text-3);
+  opacity: 0.85;
 }
 
 .bp-ammo-name {

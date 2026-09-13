@@ -68,6 +68,33 @@ if os.path.exists(BUNDLE):
         if m:
             zh_block[m.group(1)] = m.group(2)
 
+# ---------------- 资源（item）中文名 ----------------
+# 炮塔弹药在数据里是英文 id（thorium / blastCompound），页面上要显示中文。
+# 注意 bundle 里是连字符（blast-compound），而数据包 hjson 写成驼峰
+# （blastCompound），所以两种写法都收进表里。
+def _camel(kebab):
+    parts = kebab.split('-')
+    return parts[0] + ''.join(p[:1].upper() + p[1:] for p in parts[1:])
+
+zh_item = {}
+if os.path.exists(BUNDLE):
+    for line in open(BUNDLE, encoding='utf-8'):
+        # 弹药不只有 item，还有液体（slag / cryofluid / water ...），
+        # 它们的中文名在 liquid.X.name 下，一并收进来
+        m = re.match(r'^(?:item|liquid)\.([a-z0-9\-]+)\.name\s*=\s*(.+)$',
+                     line.strip())
+        if m:
+            k, v = m.group(1), m.group(2).strip()
+            zh_item[k] = v
+            zh_item[_camel(k)] = v
+
+
+def item_zh(key):
+    """thorium / blastCompound / Items.silicon -> 中文名（查不到就原样返回）"""
+    k = str(key).strip().strip('"').split('.')[-1]
+    return zh_item.get(k, k)
+
+
 # ---------------- 从单文件目录取「分类 / 中文名 / 作者」 ----------------
 def scan_units_dir():
     """返回 {unit_id: {category, label, author, star}}"""
@@ -970,6 +997,7 @@ def building_dps(bid, patch, van_blocks):
         rd, rs, mode = calc
         rows.append(dict(
             item=key,
+            itemZh=item_zh(key),
             damage=round(num(merged.get('damage'), 0.0), 2),
             splashDamage=round(num(merged.get('splashDamage'), 0.0), 2),
             perShot=round(shots * d, 2),
@@ -989,6 +1017,7 @@ def building_dps(bid, patch, van_blocks):
         rd, rs, mode = calc
         rows.append(dict(
             item='(默认弹种)',
+            itemZh='(默认弹种)',
             damage=round(num(merged.get('damage'), 0.0), 2),
             splashDamage=round(num(merged.get('splashDamage'), 0.0), 2),
             perShot=round(shots * d, 2),
@@ -1163,6 +1192,9 @@ def main():
         ))
 
     os.makedirs(PUB, exist_ok=True)
+    # 资源中文名表：前端展示弹药时用
+    json.dump(zh_item, open(os.path.join(PUB, 'items.json'), 'w', encoding='utf-8'),
+              ensure_ascii=False, indent=1, sort_keys=True)
     json.dump(units_out, open(os.path.join(PUB, 'units.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
     json.dump(blocks_out, open(os.path.join(PUB, 'buildings.json'), 'w', encoding='utf-8'),

@@ -19,6 +19,7 @@
    "ammo": [
     {
      "item": "(默认弹种)",
+     "itemZh": "(默认弹种)",
      "damage": 800.0,
      "splashDamage": 0.0,
      "perShot": 3940.0,
@@ -323,6 +324,7 @@
    "ammo": [
     {
      "item": "(默认弹种)",
+     "itemZh": "(默认弹种)",
      "damage": 20.0,
      "splashDamage": 0.0,
      "perShot": 60.0,
@@ -420,6 +422,7 @@
    "ammo": [
     {
      "item": "beryllium",
+     "itemZh": "铍",
      "damage": 85.0,
      "splashDamage": 0.0,
      "perShot": 85.0,
@@ -429,6 +432,7 @@
     },
     {
      "item": "tungsten",
+     "itemZh": "钨",
      "damage": 95.0,
      "splashDamage": 0.0,
      "perShot": 95.0,
@@ -438,6 +442,7 @@
     },
     {
      "item": "carbide",
+     "itemZh": "碳化物",
      "damage": 433.33,
      "splashDamage": 0.0,
      "perShot": 1114.33,
@@ -643,6 +648,7 @@
    "ammo": [
     {
      "item": "metaglass",
+     "itemZh": "钢化玻璃",
      "damage": 6.0,
      "splashDamage": 45.0,
      "perShot": 54.0,
@@ -652,6 +658,7 @@
     },
     {
      "item": "blastCompound",
+     "itemZh": "爆炸混合物",
      "damage": 8.0,
      "splashDamage": 45.0,
      "perShot": 8.0,
@@ -661,6 +668,7 @@
     },
     {
      "item": "plastanium",
+     "itemZh": "塑钢",
      "damage": 8.0,
      "splashDamage": 37.5,
      "perShot": 80.0,
@@ -670,6 +678,7 @@
     },
     {
      "item": "surgeAlloy",
+     "itemZh": "巨浪合金",
      "damage": 13.0,
      "splashDamage": 75.0,
      "perShot": 13.0,
@@ -765,6 +774,7 @@
    "ammo": [
     {
      "item": "graphite",
+     "itemZh": "石墨",
      "damage": 41.0,
      "splashDamage": 0.0,
      "perShot": 615.0,
@@ -774,6 +784,7 @@
     },
     {
      "item": "oxide",
+     "itemZh": "氧化物",
      "damage": 90.0,
      "splashDamage": 0.0,
      "perShot": 1350.0,
@@ -783,6 +794,7 @@
     },
     {
      "item": "silicon",
+     "itemZh": "硅",
      "damage": 35.0,
      "splashDamage": 0.0,
      "perShot": 525.0,
@@ -936,6 +948,7 @@
    "ammo": [
     {
      "item": "tungsten",
+     "itemZh": "钨",
      "damage": 65.0,
      "splashDamage": 0.0,
      "perShot": 260.0,
@@ -945,6 +958,7 @@
     },
     {
      "item": "thorium",
+     "itemZh": "钍",
      "damage": 90.0,
      "splashDamage": 0.0,
      "perShot": 360.0,
@@ -954,6 +968,7 @@
     },
     {
      "item": "silicon",
+     "itemZh": "硅",
      "damage": 37.0,
      "splashDamage": 0.0,
      "perShot": 148.0,
@@ -963,6 +978,7 @@
     },
     {
      "item": "surgeAlloy",
+     "itemZh": "巨浪合金",
      "damage": 65.0,
      "splashDamage": 0.0,
      "perShot": 260.0,
@@ -1262,6 +1278,7 @@
    "ammo": [
     {
      "item": "copper",
+     "itemZh": "铜",
      "damage": 9.0,
      "splashDamage": 0.0,
      "perShot": 9.0,
@@ -1271,6 +1288,7 @@
     },
     {
      "item": "graphite",
+     "itemZh": "石墨",
      "damage": 18.0,
      "splashDamage": 0.0,
      "perShot": 18.0,
@@ -1280,6 +1298,7 @@
     },
     {
      "item": "silicon",
+     "itemZh": "硅",
      "damage": 12.0,
      "splashDamage": 0.0,
      "perShot": 12.0,
@@ -2064,6 +2083,7 @@
    "ammo": [
     {
      "item": "surgeAlloy",
+     "itemZh": "巨浪合金",
      "damage": 1350.0,
      "splashDamage": 0.0,
      "perShot": 1350.0,
@@ -2198,6 +2218,7 @@
    "ammo": [
     {
      "item": "titanium",
+     "itemZh": "钛",
      "damage": 66.0,
      "splashDamage": 0.0,
      "perShot": 198.0,
@@ -2207,6 +2228,7 @@
     },
     {
      "item": "thorium",
+     "itemZh": "钍",
      "damage": 105.0,
      "splashDamage": 0.0,
      "perShot": 315.0,
@@ -2269,6 +2291,7 @@
    "ammo": [
     {
      "item": "graphite",
+     "itemZh": "石墨",
      "damage": 20.0,
      "splashDamage": 33.0,
      "perShot": 20.0,
@@ -2278,6 +2301,7 @@
     },
     {
      "item": "silicon",
+     "itemZh": "硅",
      "damage": 20.0,
      "splashDamage": 33.0,
      "perShot": 20.0,
@@ -2287,6 +2311,7 @@
     },
     {
      "item": "pyratite",
+     "itemZh": "硫化物",
      "damage": 25.0,
      "splashDamage": 45.0,
      "perShot": 25.0,
@@ -2354,6 +2379,7 @@
    "ammo": [
     {
      "item": "(默认弹种)",
+     "itemZh": "(默认弹种)",
      "damage": 260.0,
      "splashDamage": 0.0,
      "perShot": 260.0,
@@ -2427,6 +2453,7 @@
    "ammo": [
     {
      "item": "(默认弹种)",
+     "itemZh": "(默认弹种)",
      "damage": 550.0,
      "splashDamage": 0.0,
      "perShot": 550.0,
@@ -2521,6 +2548,7 @@
    "ammo": [
     {
      "item": "(默认弹种)",
+     "itemZh": "(默认弹种)",
      "damage": 250.0,
      "splashDamage": 0.0,
      "perShot": 1330.0,
@@ -2581,6 +2609,7 @@
    "ammo": [
     {
      "item": "(默认弹种)",
+     "itemZh": "(默认弹种)",
      "damage": 78.0,
      "splashDamage": 0.0,
      "perShot": 365.0,
@@ -2771,6 +2800,7 @@
    "ammo": [
     {
      "item": "graphite",
+     "itemZh": "石墨",
      "damage": 40.0,
      "splashDamage": 70.0,
      "perShot": 40.0,
@@ -2780,6 +2810,7 @@
     },
     {
      "item": "silicon",
+     "itemZh": "硅",
      "damage": 40.0,
      "splashDamage": 70.0,
      "perShot": 40.0,
@@ -2789,6 +2820,7 @@
     },
     {
      "item": "pyratite",
+     "itemZh": "硫化物",
      "damage": 48.0,
      "splashDamage": 90.0,
      "perShot": 48.0,
@@ -2798,6 +2830,7 @@
     },
     {
      "item": "blastCompound",
+     "itemZh": "爆炸混合物",
      "damage": 40.0,
      "splashDamage": 90.0,
      "perShot": 40.0,
@@ -2807,6 +2840,7 @@
     },
     {
      "item": "plastanium",
+     "itemZh": "塑钢",
      "damage": 40.0,
      "splashDamage": 90.0,
      "perShot": 250.0,
@@ -3036,6 +3070,7 @@
    "ammo": [
     {
      "item": "copper",
+     "itemZh": "铜",
      "damage": 15.0,
      "splashDamage": 0.0,
      "perShot": 15.0,
@@ -3045,6 +3080,7 @@
     },
     {
      "item": "graphite",
+     "itemZh": "石墨",
      "damage": 31.0,
      "splashDamage": 0.0,
      "perShot": 31.0,
@@ -3054,6 +3090,7 @@
     },
     {
      "item": "pyratite",
+     "itemZh": "硫化物",
      "damage": 25.0,
      "splashDamage": 15.0,
      "perShot": 25.0,
@@ -3063,6 +3100,7 @@
     },
     {
      "item": "silicon",
+     "itemZh": "硅",
      "damage": 23.0,
      "splashDamage": 0.0,
      "perShot": 23.0,
@@ -3072,6 +3110,7 @@
     },
     {
      "item": "thorium",
+     "itemZh": "钍",
      "damage": 28.0,
      "splashDamage": 0.0,
      "perShot": 28.0,
@@ -3136,6 +3175,7 @@
    "ammo": [
     {
      "item": "carbide",
+     "itemZh": "碳化物",
      "damage": 0.0,
      "splashDamage": 0.0,
      "perShot": 0.0,
@@ -3145,6 +3185,7 @@
     },
     {
      "item": "phaseFabric",
+     "itemZh": "相织布",
      "damage": 0.0,
      "splashDamage": 0.0,
      "perShot": 0.0,
@@ -3154,6 +3195,7 @@
     },
     {
      "item": "surgeAlloy",
+     "itemZh": "巨浪合金",
      "damage": 0.0,
      "splashDamage": 0.0,
      "perShot": 0.0,
@@ -3274,6 +3316,7 @@
    "ammo": [
     {
      "item": "scrap",
+     "itemZh": "废料",
      "damage": 3.0,
      "splashDamage": 33.0,
      "perShot": 3.0,
@@ -3283,6 +3326,7 @@
     },
     {
      "item": "lead",
+     "itemZh": "铅",
      "damage": 3.0,
      "splashDamage": 40.5,
      "perShot": 3.0,
@@ -3292,6 +3336,7 @@
     },
     {
      "item": "metaglass",
+     "itemZh": "钢化玻璃",
      "damage": 3.0,
      "splashDamage": 45.0,
      "perShot": 33.0,
@@ -3438,6 +3483,7 @@
    "ammo": [
     {
      "item": "coal",
+     "itemZh": "煤炭",
      "damage": 17.0,
      "splashDamage": 0.0,
      "perShot": 17.0,
@@ -3447,6 +3493,7 @@
     },
     {
      "item": "pyratite",
+     "itemZh": "硫化物",
      "damage": 30.0,
      "splashDamage": 0.0,
      "perShot": 86.0,
@@ -3665,6 +3712,7 @@
    "ammo": [
     {
      "item": "surgeAlloy",
+     "itemZh": "巨浪合金",
      "damage": 250.0,
      "splashDamage": 0.0,
      "perShot": 250.0,
@@ -4231,6 +4279,7 @@
    "ammo": [
     {
      "item": "graphite",
+     "itemZh": "石墨",
      "damage": 50.0,
      "splashDamage": 0.0,
      "perShot": 50.0,
@@ -4240,6 +4289,7 @@
     },
     {
      "item": "thorium",
+     "itemZh": "钍",
      "damage": 80.0,
      "splashDamage": 0.0,
      "perShot": 80.0,
@@ -4249,6 +4299,7 @@
     },
     {
      "item": "pyratite",
+     "itemZh": "硫化物",
      "damage": 70.0,
      "splashDamage": 20.0,
      "perShot": 70.0,
@@ -4551,6 +4602,7 @@
    "ammo": [
     {
      "item": "ozone",
+     "itemZh": "臭氧",
      "damage": 60.0,
      "splashDamage": 0.0,
      "perShot": 60.0,
@@ -4560,6 +4612,7 @@
     },
     {
      "item": "cyanogen",
+     "itemZh": "氰气",
      "damage": 130.0,
      "splashDamage": 0.0,
      "perShot": 130.0,
@@ -4848,6 +4901,7 @@
    "ammo": [
     {
      "item": "blastCompound",
+     "itemZh": "爆炸混合物",
      "damage": 10.0,
      "splashDamage": 45.0,
      "perShot": 40.0,
@@ -4857,6 +4911,7 @@
     },
     {
      "item": "pyratite",
+     "itemZh": "硫化物",
      "damage": 12.0,
      "splashDamage": 45.0,
      "perShot": 48.0,
@@ -4866,6 +4921,7 @@
     },
     {
      "item": "surgeAlloy",
+     "itemZh": "巨浪合金",
      "damage": 18.0,
      "splashDamage": 35.0,
      "perShot": 72.0,
@@ -4991,6 +5047,7 @@
    "ammo": [
     {
      "item": "thorium",
+     "itemZh": "钍",
      "damage": 350.0,
      "splashDamage": 350.0,
      "perShot": 350.0,
@@ -5000,6 +5057,7 @@
     },
     {
      "item": "carbide",
+     "itemZh": "碳化物",
      "damage": 700.0,
      "splashDamage": 750.0,
      "perShot": 1300.0,
@@ -5009,6 +5067,7 @@
     },
     {
      "item": "oxide",
+     "itemZh": "氧化物",
      "damage": 300.0,
      "splashDamage": 180.0,
      "perShot": 300.0,
@@ -5324,6 +5383,7 @@
    "ammo": [
     {
      "item": "water",
+     "itemZh": "水",
      "damage": 0.2,
      "splashDamage": 0.0,
      "perShot": 0.2,
@@ -5333,6 +5393,7 @@
     },
     {
      "item": "slag",
+     "itemZh": "矿渣",
      "damage": 4.75,
      "splashDamage": 0.0,
      "perShot": 4.75,
@@ -5342,6 +5403,7 @@
     },
     {
      "item": "cryofluid",
+     "itemZh": "冷冻液",
      "damage": 0.2,
      "splashDamage": 0.0,
      "perShot": 0.2,
@@ -5351,6 +5413,7 @@
     },
     {
      "item": "oil",
+     "itemZh": "石油",
      "damage": 0.2,
      "splashDamage": 0.0,
      "perShot": 0.2,
@@ -5449,6 +5512,7 @@
    "ammo": [
     {
      "item": "water",
+     "itemZh": "水",
      "damage": 0.0,
      "splashDamage": 0.0,
      "perShot": 0.0,
@@ -5458,6 +5522,7 @@
     },
     {
      "item": "slag",
+     "itemZh": "矿渣",
      "damage": 4.0,
      "splashDamage": 0.0,
      "perShot": 4.0,
@@ -5467,6 +5532,7 @@
     },
     {
      "item": "cryofluid",
+     "itemZh": "冷冻液",
      "damage": 0.0,
      "splashDamage": 0.0,
      "perShot": 0.0,
@@ -5476,6 +5542,7 @@
     },
     {
      "item": "oil",
+     "itemZh": "石油",
      "damage": 0.0,
      "splashDamage": 0.0,
      "perShot": 0.0,
